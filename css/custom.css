@@ -1,0 +1,365 @@
+
+/************** Include the material icons by google ****************/
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+    url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/********* end of including the material icons by google ************/
+
+body {
+    color: #ffffff;
+    font-size: 1.1rem;
+    background-color: #535a92;
+    margin-top: 4em;
+}
+
+a, a:visited, a:hover, a:active {
+    color: #90bf60;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    text-shadow: 3px 3px 2px #000;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+	padding: 2px;
+	
+}
+
+img, video {
+    max-width: 100%;
+    max-height: auto;
+}
+.info {
+		font-size: 0.75em;
+}
+.center-buttons {
+	display: table;
+	background-color: #313975;
+	width: 100%;
+	text-align: center;
+	margin-top: 0.5em;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/* hide an element!!! */
+
+.hidden {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+    padding: 0;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+}
+
+.direntry {
+	padding-left: 0.5em;
+	color: #fff;
+	background-color: #182058;
+	border-top: 0.1rem solid #535a92;
+    text-shadow: 1px 1px 2px #000;
+}
+.direntry a {
+	color: #8d93c0;
+}
+
+.direntry:hover, .direntry a:hover {
+    color: #182058;
+    background-color: #913959;
+    cursor: pointer;
+}
+
+.folder {
+	padding-left: 0.5em;
+	background-color: #313975;
+	border-top: 0.1rem solid #535a92;
+	text-shadow: 1px 1px 1px #000;
+}
+
+.padding-start {
+    padding-top: 2rem;
+}
+
+.bg-dark {
+    background-color: #182058!important;
+}
+
+/***********************************************************************/
+/* Style a file input form element as described in:
+ * https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ */
+ 
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+    padding: 0;
+}
+
+#upload {
+	margin: auto;
+	text-align: center;
+	width: 99%;
+}
+
+.filebuttlabel {
+    display: block-inline;
+    text-align: center;
+    color: #7d83b0;
+    background-color: #182058;
+    text-shadow: 3px 3px 3px #040719;
+    text-align: center;
+    border-radius: 6px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    padding: 10px 10px 10px 10px;
+}
+.filebuttlabel:hover {
+    color: #fff;
+    background-color: #913959;
+    cursor: pointer;
+}
+/* kill space under label */
+label {
+    margin-bottom: 0;
+}
+/* new flex layout for list rows */
+.row-container {
+    width:100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.box-40px {
+    width: 40px;
+    height: 32px;
+}
+
+.box-short {
+    flex: 1;
+    -webkit-flex: 1;
+}
+.box-long {
+    flex: 5;
+    -webkit-flex: 5;
+    vertical-align: baseline;
+    line-height: 2.5;
+}
+
+/***********************************************************************/
+/* divs belonging to message box */
+
+#darkendiv{
+	position: fixed;
+    width: 100vw;
+    height: 100vh;
+    min-height:100vh;
+    min-width:100vw;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background: rgba(0,0,0,0.65);
+    visibility: hidden;
+}
+#messagediv {
+    position:fixed;
+    margin: auto;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    visibility: hidden;
+    padding: 5px 5px;
+    color: #182058;
+    background-color: #7d83b0;
+    border-radius: 6px;
+}
+
+.indent-border-top {
+	border-top: 2px solid #313975;
+	box-shadow: 2px 1px white;
+	margin-top: 0.5em;
+	width: 100%;
+}
+
+.input {
+	margin: auto;
+	width: 100%;
+}
+
+#messagetitel {
+    background-color: #080e3a;
+    color: #bdb;
+    font-weight: 700;
+    font-size: 150%; 
+    text-align: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    /*padding: 5px 5px;*/
+}
+#messagetext {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    padding: 5px 5px;
+    font-size: 130%;
+}
+
+#okbutton, #closebutton {
+
+	margin: 0.5em;
+
+}
+
+/***********************************************************************/
+
+.footer {
+	padding-top: 5px;
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+    background-color: #080e3a;
+    color: #7d83b0;
+}
+
+/***********************************************************************/
+
+/* Some color definitions */
+
+.green {
+	color: #679933;
+}
+
+.red {
+	color: #b55b81;
+}
+
+.red:hover {
+	cursor: pointer;
+}	
+
+.white {
+	color: #ffffff;
+}
+
+/*--------------------*/
+
+.blue1 {
+	color: #080e3a;
+}
+.blue2 {
+	color: #182058;
+}
+.blue3 {
+	color: #313975;
+}
+.blue4 {
+	color: #535a92;
+}
+.blue5 {
+	color: #7d83b0;
+}
+
+/*--------------------*/
+
+.red1 {
+	color: #48001e;
+}
+.red2 {
+	color: #6d1238;
+}
+.red3 {
+	color: #913059;
+}
+.red4 {
+	color: #b55b81;
+}
+.red5 {
+	color: #d991b0;
+}
+
+/*--------------------*/
+
+.green1 {
+	color: #274d00;
+}
+.green2 {
+	color: #437313;
+}
+.green3 {
+	color: #679933;
+}
+.green4 {
+	color: #90bf60;
+}
+.green5 {
+	color: #c0e699;
+}
+
+.center {
+	text-align: center;
+}
+.left {
+	text-align: left;
+}
+.right {
+	text-align: right;
+}
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>File Browser</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark fixed-top bg-dark">
+
+    <!-- ++++++++++++++++++ the 'message box' +++++++++++++++++ -->
+    <!-- if placed here the messagebox will always be on top!!! -->
+    <div id="darkendiv">
+        <div id="messagediv">
+            <div id="messagetitel">Hallo!</div>
+            <div id="messagetext" ></div>
+            <div class="center"><input type="text" id="inputval" name="foldername" value="Ordnername"></div>
+            
+		<!-- section for the upload -->
+		<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 
+			<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
+                	<!-- label MUST follow file input immediately to work! -->
+                	<label id="filebuttlabel" class="filebuttlabel" for="fileinput">Datei(en) ausw&auml;hlen...</label>
+                	<!-- hidden value for upload directory -->
+                	<input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
+		</form>
+				
+            <!-- the window buttons -->
+            <div class="center-buttons">
+                <a id="okbutton" class="material-icons btn btn-primary btn-lg" role="button">done</a>
+                <a id="closebutton" class="material-icons btn btn-primary btn-lg" role="button">clear</a>
+            </div>
+        </div>
+    </div>
+    <!-- ------------- end of the 'message box' ------------ -->
+
+	<!-- the dropdown main menu -->
+	<div class="dropdown show">
+	    <a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span class="material-icons">build</span>
+		Aktionen
+	    </a>
+    	    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+		<div class="dropdown-item" onclick='createFolder()'>
+			<span class="material-icons">create_new_folder</span>
+			&nbsp;Neuen Ordner anlegen
+		</div>
+		<div class="dropdown-item" onclick="uploadDialog(' Hochladen! ')">
+			<span class="material-icons">cloud_upload</span>
+			&nbsp;Datei(en) hochladen
+		</div>
+		<div class="dropdown-divider"></div>
+		<div class="dropdown-item" onclick="downloadFiles()">
+			<span class="material-icons">cloud_download</span>
+			&nbsp;Dateien als ZIP runterladen
+		</div>
+		<div class="dropdown-item" onclick="deleteFiles()">
+			<span class="material-icons">delete_forever</span>
+			&nbsp;Markierte Dateien l&ouml;schen
+		</div>
+
+		<div class="dropdown-divider"></div>
+
+		<div class="dropdown-item" onclick="infoDialog()">
+			<span class="material-icons">info</span>
+			&nbsp; Info &uuml;ber dieses Programm..
+		</div>
+	<!--	<div class="dropdown-item" onclick="phpInfo()">
+			<span class="material-icons">info</span>
+			&nbsp; PHP-Info
+		</div> -->
+	    </div>
+	</div>
+    
+    <!-- Link to documents main folder -->
+	<a class="filebuttlabel navbar-brand" href="/"><i class='material-icons'>library_books</i>Dokumente</a>
+
+</nav>
+  
+<div class="container">
+  <div class="row">
+	<div class="col-sm-12">
+		<div id="app">
+
+		</div>
+	</div>
+  </div>
+</div>
+
+<!-- the footer -->
+<!--
+<footer class="footer">
+    <div id="footer" class="container" style="margin-bottom:0">
+    - (C) Gert-Uwe Hoffmann 2018 -
+    </div>
+</footer>
+-->
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/router.js"></script>
+
+</body>
+</html>
