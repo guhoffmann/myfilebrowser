@@ -1,2 +1,2 @@
 # myfilebrowser
-Simple HTML file browsing application for easy use
+Simple HTML file browsing application easy to use.
