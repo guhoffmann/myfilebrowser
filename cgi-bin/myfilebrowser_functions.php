@@ -7,17 +7,10 @@
                          (C) guhoffmann 2018 -
 */
 
-// Determine base data dirs depending on used system
-
-$systemOs = "local";
-
-if ($systemOs == "Android") {
-    $baseDir ="/data/data/com.termux/files/home/myfilebrowser/docs";
-} elseif ($systemOs == "Pi") {
-    $baseDir = "/home/pi/extern/data/proftpd/files/docs";
-} elseif ($systemOs == "local") {
-    $baseDir = "/home/uwe";
-}
+// $baseDir must be the symbolic link 'docs' to the file exchange directory!
+// If it doesn't exist, you must manually create the link in the
+// websites main directory.
+$baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
 
 // Remove path or files recursively
 
