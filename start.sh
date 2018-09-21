@@ -5,6 +5,7 @@
 
 HOSTNAME=$(uname -n)
 SYSTEM=$(uname -o)
+DOCS=$(file docs)
 PAR=$1
 
 if echo "$SYSTEM"|grep "GNU/Linux"
@@ -18,6 +19,10 @@ then
 elif echo "$SYSTEM"|grep "Android"
 then	
 	CONF="conf/$SYSTEM.conf"
+	if ! echo "$DOCS"|grep "storage"
+	then
+		ln -s /data/data/com.termux/files/home/storage docs
+	fi
 fi
 
 echo "Starting server $HOSTNAME with OS $SYSTEM with config file $CONF ..."
