@@ -176,7 +176,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
     };
     if (closeFunction !== undefined) {
 		
-		//document.getElementById("closebutton").style.width = "auto";
+	//document.getElementById("closebutton").style.width = "auto";
         document.getElementById("closebutton").style.visibility = "visible";
         document.getElementById("closebutton").onclick = function () {
 			
@@ -386,23 +386,23 @@ function deleteFiles() {
 
 function downloadFiles() {
 
-	var filesData = new FormData();
+	var filesData = [];
 
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
-		filesData.append(filename,"");
+		filesData.push(filename);
 	});
 
 	// Display the key/value pairs
-	//for (var pair of filesData.entries()) {
-    	//	console.log(pair[0]+ ', ' + pair[1]); 
+	//for (var i in filesData ) {
+    	//	console.log(filesData[i]); 
 	//}
 
 	$.ajax({
+		type: "POST",
        		url: "cgi-bin/downloadFiles.php",
         	data: filesData,
 		processData: false, // necessary to supress processing error!
-               	type: "POST",
 		success: function(data){
 			console.log(data);
 			//location.reload(true);

@@ -46,6 +46,7 @@ then
 fi
 
 echo "Starting server $HOSTNAME with OS $SYSTEM and config file $CONF ..."
+
 $SERVERCMD -f $(pwd)/$CONF
 
 
