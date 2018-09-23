@@ -390,7 +390,7 @@ function downloadFiles() {
 
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
-		filesData.push(filename);
+		filesData.push("\""+filename+"\"");
 	});
 
 	// Display the key/value pairs
