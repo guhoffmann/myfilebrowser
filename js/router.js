@@ -7,7 +7,13 @@ initFileSelector();
 function basename(path) {
    return path.split(/[\\/]/).pop();
 }
-// Assign event listeners to the buttons of the message box!
+
+function dirname(path) {
+	return path.match('/.*\/');
+}
+
+/** Assign event listeners to the buttons of the message box! *****************
+ */
 
 // Get the input field
 var input = document.getElementById("inputval");
@@ -29,14 +35,14 @@ input.addEventListener("keyup", function(event) {
 });
 
 
-/** spa router *****************************************************************
+/** spa router ****************************************************************
  */
  
 // domEntryPoint = start of app (see id in HTM file)
 
 const startingPoint = document.getElementById('app');
 
-/** create new router object ***************************************************
+/** create new router object **************************************************
  */
 
 const myrouter = function () {
@@ -290,7 +296,7 @@ function deleteFile(filename) {
  
 function createFolder() {
 
-    inputDialog("Neuer Ordner:",
+	inputDialog("Neuer Ordner:",
                 function() {
                     var folder = globalAktMediaPath +"/" + $("input#inputval").val();
                     $.ajax({
@@ -302,7 +308,8 @@ function createFolder() {
                             }
                     });
                 },
-                function(){}); // declared to see cancel button
+                function(){}
+	); // declared to see cancel button
 
 } // of function createFolder(path)
 
@@ -390,24 +397,32 @@ function downloadFiles() {
 
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
-		filesData.push("\""+filename+"\"");
+		filesData.push(filename);
+
 	});
 
-	// Display the key/value pairs
-	//for (var i in filesData ) {
-    	//	console.log(filesData[i]); 
-	//}
-
-	$.ajax({
-		type: "POST",
-       		url: "cgi-bin/downloadFiles.php",
-        	data: filesData,
-		processData: false, // necessary to supress processing error!
-		success: function(data){
-			console.log(data);
-			//location.reload(true);
-		}
-	});
+	console.log("In Javascript:");
+	console.log(filesData);
+	
+	$("input#inputval").val(basename(filesData[0])+".zip");
+	
+	inputDialog("Runterladen als...",
+                function() {
+                    var folder = globalAktMediaPath +"/" + $("input#inputval").val();
+                    $.ajax({
+			type: "POST",
+       			url: "cgi-bin/downloadFiles.php",
+        		data: { postData : filesData, filename: $("input#inputval").val() },
+			processData: true, // necessary to send JSON array!
+			success: function(data){
+				console.log(data);
+				//location.reload(true);
+			}
+                    });
+                },
+                function(){}
+	); // declared to see cancel button
 
 }
+
 

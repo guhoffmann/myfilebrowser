@@ -2,13 +2,21 @@
 
 include 'myfilebrowser_functions.php';
 
-$receivedData = trim(array_keys($_POST)[0],"\"");
-$array = explode("\",\"", $receivedData); //split string into array seperated by ","
+$postData = $_POST['postData'];
+//var_dump($postData);
+$filename = $_POST['filename'];
+echo("In PHP:".PHP_EOL);
+echo($filename.PHP_EOL);
+$command = "7z a ".$baseDir.dirname($postData[0])."/".$filename;
 
-foreach($array as $value) //loop over values
-{
-    echo $value . PHP_EOL; //print value
+foreach($postData as $value) { //loop over values
+
+	//echo $value . PHP_EOL; //print value
+	$command .= " ".$baseDir.$value;
 }
+
+echo $command;
+exec($command);
 
 ?>
 

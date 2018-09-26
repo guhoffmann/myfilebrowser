@@ -36,4 +36,21 @@ function formatSize($bytes, $decimals = 2) {
     return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . @$sz[$factor - 1] . 'B';
 }
 
+// Make my own URL decoding helper function due to problems with automatic PHP conversion!
+// Necessary for my own URI enc/dec cause of the bad auto conversion
+// of PHP when I post file lists!
+
+function myUriDecode($input) {
+
+	$codeList = Array(
+ 		'2E'=> '.',
+	);
+
+	$retStr = $input;
+	foreach( $codeList as $key => $value ) { 
+		$retStr = str_replace("#!".$key."!#",$value,$retStr);
+	}
+	return $retStr;
+}
+
 ?>
