@@ -362,4 +362,8 @@ label {
 .right {
 	text-align: right;
 }
+/*--- change some dropdown menu style ---*/
 
+.dropdown-item:hover { 
+    cursor: pointer;
+}

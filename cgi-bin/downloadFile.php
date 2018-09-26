@@ -14,7 +14,6 @@ if (file_exists($baseDir.$filename)) {
 	flush();
 	readfile($baseDir.$filename);
 	fclose($baseDir.$filename);
-	
 }
 
 ?>

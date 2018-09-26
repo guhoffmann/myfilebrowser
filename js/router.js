@@ -411,19 +411,19 @@ function downloadFiles() {
                     var folder = globalAktMediaPath +"/" + $("input#inputval").val();
                     $.ajax({
 			type: "POST",
-       			url: "cgi-bin/zipFiles.php",
+       			url: "cgi-bin/zipFiles.php",  // first zip files on server
         		data: { postData : filesData, filename: $("input#inputval").val() },
 			processData: true, // necessary to send JSON array!
 			success: function(response) {
 				console.log("Response: "+response);
+				// after zipping start download script (which deletes zip file afterwards)
 				window.location.href = "/cgi-bin/downloadAndDelete.php?filename="+
 						 globalAktMediaPath +"/" + $("input#inputval").val();
 			}
                     });
                 },
-                function(){}
-	); // declared to see cancel button
-
+                function(){}  // declared to see cancel button
+	);
 }
 
 
