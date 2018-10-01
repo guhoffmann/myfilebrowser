@@ -215,6 +215,7 @@ function inputDialog(message, okFunction, closeFunction) {
             if (okFunction !== undefined) {
                 okFunction();
             }
+	    location.reload(true);
     };
     if (closeFunction !== undefined) {
 		
@@ -398,32 +399,45 @@ function downloadFiles() {
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
 		filesData.push(filename);
-
 	});
 
 	console.log("In Javascript:");
 	console.log(filesData);
 	
-	$("input#inputval").val(basename(filesData[0])+".zip");
-	
-	inputDialog("Runterladen als...",
-                function() {
-                    var folder = globalAktMediaPath +"/" + $("input#inputval").val();
-                    $.ajax({
-			type: "POST",
-       			url: "cgi-bin/zipFiles.php",  // first zip files on server
-        		data: { postData : filesData, filename: $("input#inputval").val() },
-			processData: true, // necessary to send JSON array!
-			success: function(response) {
-				console.log("Response: "+response);
-				// after zipping start download script (which deletes zip file afterwards)
-				window.location.href = "/cgi-bin/downloadAndDelete.php?filename="+
-						 globalAktMediaPath +"/" + $("input#inputval").val();
-			}
-                    });
-                },
-                function(){}  // declared to see cancel button
-	);
+	var zipFileName =  basename(filesData[0]);
+	//confirmDialog("Dateien zippen!","Erstelle "+zipFileName+" für Download");
+        $.ajax({
+		type: "POST",
+      		url: "cgi-bin/zipFiles.php",  // first zip files on server
+       		data: { postData : filesData, filename: zipFileName },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		processData: true, // must be true to send JSON array!
+		success: function(response) {
+			//alert("SUCCESS: See response!\n"+response);
+			// after zipping start download script (which deletes zip file afterwards)
+			window.location.href = "/cgi-bin/downloadAndDelete.php?filename=/zipfiles/" + response;
+		},
+		error: function(response) {
+			alert("zipFiles: Puh, Why this?\n"+response);
+		}
+       });
 }
 
+function testAjaxPhp(parameter) {
+
+	$.ajax({
+		type: "POST",
+       		url: "cgi-bin/testAjaxPhp.php",  // first zip files on server
+        	data: { parameter: parameter },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		processData: true, // must be true to send JSON array!
+		success: function(response) {
+			alert("SUCCESS: testAjaxPhp.php!\n"+response);
+		},
+		error: function(response) {
+			alert("ERROR: testAjaxPhp > Puh, Why this?\n"+response);
+		}
+        });
+
+}
 

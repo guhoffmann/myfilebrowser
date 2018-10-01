@@ -1,23 +1,27 @@
 <?php
 
+set_time_limit(0);
+
 include 'myfilebrowser_functions.php';
 
+$dateStr = "_".date('y-m-d_H-i-s');
 $postData = $_POST['postData'];
-//var_dump($postData);
-$filename = $_POST['filename'];
-$realFile = $baseDir.dirname($postData[0])."/".$filename;
-echo("In PHP:".PHP_EOL);
-echo($filename.PHP_EOL);
-$command = "7z a ".$realFile;
+$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/".$_POST['filename'].$dateStr.".zip";
+$command = "7z a \"".$zipFileName."\"";
+
+//echo "\n*** zipFiles.php, before Loop!".PHP_EOL;
 
 foreach($postData as $value) { //loop over values
 
-	//echo $value . PHP_EOL; //print value
-	$command .= " ".$baseDir.$value;
+	$fileToAdd = $baseDir.$value;
+	$command .= " \"".$fileToAdd."\"";
+	//echo $fileToAdd.PHP_EOL;
+	
 }
 
-echo $command;
-exec($command);
+$response = shell_exec($command);
+
+echo basename($zipFileName);
 
 ?>
 
