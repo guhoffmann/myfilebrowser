@@ -171,18 +171,24 @@ function confirmDialog(title, message, okFunction, closeFunction) {
     document.getElementById("inputval").style.visibility = "hidden";
     document.getElementById("darkendiv").style.visibility = "visible";
     document.getElementById("messagediv").style.visibility = "visible";
-    document.getElementById("okbutton").onclick = function () {
-		
+    
+    if (okFunction !== undefined) {
+
+	document.getElementById("okbutton").style.visibility = "visible";
+  	document.getElementById("okbutton").onclick = function () {
 		document.getElementById("darkendiv").style.visibility = "hidden";
 		document.getElementById("messagediv").style.visibility = "hidden";
 		if (okFunction !== undefined) {
 			okFunction();
 		}
 		location.reload(true);
-    };
+    	};
+    }  else {
+	document.getElementById("okbutton").classList.add("hidden");
+    }
+
     if (closeFunction !== undefined) {
 		
-	//document.getElementById("closebutton").style.width = "auto";
         document.getElementById("closebutton").style.visibility = "visible";
         document.getElementById("closebutton").onclick = function () {
 			
@@ -192,7 +198,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
             location.reload(true);
         };
     } else {
-		document.getElementById("closebutton").classList.add("hidden");
+	document.getElementById("closebutton").classList.add("hidden");
     }
     
 } // of function confirmDialog(message, okFunction, closeFunction)
@@ -350,14 +356,6 @@ function phpInfo() {
 
 } // of function phpInfo(path)
 
-
-/** Get back from upload dialog to file list ****************************
- */
-
-function getBackFromUpload() {
-	location.replace(globalAktMediaPath);
-}
-
 /** Delete marked files to from remote machine **************************
  */
 
@@ -405,7 +403,7 @@ function downloadFiles() {
 	console.log(filesData);
 	
 	var zipFileName =  basename(filesData[0]);
-	//confirmDialog("Dateien zippen!","Erstelle "+zipFileName+" für Download");
+	confirmDialog("Bitte warten...","Erstelle Zip-Datei für Download...");
         $.ajax({
 		type: "POST",
       		url: "cgi-bin/zipFiles.php",  // first zip files on server
@@ -413,8 +411,10 @@ function downloadFiles() {
 		dataType: "text",  // must be sent for browser to get response correctly!
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
-			//alert("SUCCESS: See response!\n"+response);
-			// after zipping start download script (which deletes zip file afterwards)
+			// after zipping hide the message div...
+			document.getElementById("messagediv").style.visibility = "hidden";
+			document.getElementById("darkendiv").style.visibility = "hidden";
+			// and start download script (which deletes zip file from server afterwards)
 			window.location.href = "/cgi-bin/downloadAndDelete.php?filename=/zipfiles/" + response;
 		},
 		error: function(response) {
