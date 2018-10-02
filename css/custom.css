@@ -70,7 +70,8 @@ img, video {
     max-height: auto;
 }
 .info {
-		font-size: 0.75em;
+	color: #000000;
+	font-size: 1rem;
 }
 .center-buttons {
 	display: table;
@@ -270,14 +271,14 @@ label {
 
 .footer {
 	padding-top: 5px;
-    position:fixed;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 50px;
-    background-color: #080e3a;
-    color: #7d83b0;
-}
+	position:fixed;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 50px;
+	background-color: #080e3a;
+	color: #7d83b0;
+	}
 
 /***********************************************************************/
 
@@ -362,6 +363,7 @@ label {
 .right {
 	text-align: right;
 }
+
 /*--- change some dropdown menu style ---*/
 
 .dropdown-item:hover { 

@@ -329,11 +329,18 @@ function infoDialog() {
         	url: "cgi-bin/info.php",
                 dataType: "text", // NOT!!! text/html to get response correctly!!!!
                 success: function(data){
+				/*
  				confirmDialog("Dateimanager Info!",
 						data,
 						function() {}  // declared to see ok button only
                 		);
-				console.log(data); 
+				console.log(data);
+				*/
+				$("#ModalClose").hide();
+				$("#ModalTitle").text("Über Dateibrowser");
+				$("#ModalContent").html(data);
+				$("#ModalMessage").modal();
+
                 }
         });
 
