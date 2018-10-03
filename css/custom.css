@@ -70,7 +70,7 @@ img, video {
     max-height: auto;
 }
 .info {
-	color: #000000;
+	color: #535a92;
 	font-size: 1rem;
 }
 .center-buttons {
@@ -368,4 +368,24 @@ label {
 
 .dropdown-item:hover { 
     cursor: pointer;
+}
+
+/* Bootstrap modal message */
+
+.modal-header {
+	background-color: #7d83b0;
+	border-bottom: 1px solid #000000;
+
+}
+
+.modal-footer {
+	border-top: 1px solid #7d83b0;
+}
+
+.dropdown-divider {
+	border-top: 1px solid #7d83b0;
+}
+
+#inputval {
+	margin: 1rem;
 }

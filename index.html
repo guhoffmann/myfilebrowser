@@ -15,11 +15,12 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-		<h5 class="modal-title blue3" id="ModalTitle">Nachricht</h5>
+		<h5 class="modal-title" id="ModalTitle">Nachricht</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		  <span aria-hidden="true">&times;</span>
 		</button>
 	      </div>
+	      <input class="hidden" type="text" id="inputval" name="foldername" value="">
 	      <div class="modal-body" id="ModalContent">
 		...
 	      </div>
@@ -41,7 +42,7 @@
         <div id="messagediv">
             <div id="messagetitel">Hallo!</div>
             <div id="messagetext" ></div>
-            <div class="center"><input type="text" id="inputval" name="foldername" value=""></div>
+<!--            <div class="center"><input type="text" id="inputval" name="foldername" value=""></div> -->
             
 		<!-- section for the upload -->
 		<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 

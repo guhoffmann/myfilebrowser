@@ -27,10 +27,10 @@ input.addEventListener("keyup", function(event) {
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
     	// Trigger the button element with a click
-    	document.getElementById("okbutton").click();
+    	document.getElementById("ModalOk").click();
     } else if (event.keyCode === 27) {
     	// Trigger the button element with a click
-    	document.getElementById("closebutton").click();
+    	document.getElementById("ModalClose").click();
     }
 });
 
@@ -208,37 +208,29 @@ function confirmDialog(title, message, okFunction, closeFunction) {
  
 function inputDialog(message, okFunction, closeFunction) {
    
-    document.getElementById("upload").classList.add("hidden");
-    document.getElementById("inputval").classList.remove("hidden");
-    document.getElementById("messagetitel").innerHTML = message;
-    document.getElementById("darkendiv").style.visibility = "visible";
-    document.getElementById("messagediv").style.visibility = "visible";
-    document.getElementById("inputval").style.visibility = "visible";
-    document.getElementById("okbutton").onclick = function () {
-            document.getElementById("darkendiv").style.visibility = "hidden";
-            document.getElementById("inputval").style.visibility = "hidden";
-            document.getElementById("messagediv").style.visibility = "hidden";
-            if (okFunction !== undefined) {
-                okFunction();
-            }
-	    location.reload(true);
-    };
-    if (closeFunction !== undefined) {
-		
-        document.getElementById("closebutton").style.visibility = "visible";
-        document.getElementById("closebutton").onclick = function () {
-			
-            document.getElementById("darkendiv").style.visibility = "hidden";
-            document.getElementById("inputval").style.visibility = "hidden";
-            document.getElementById("messagediv").style.visibility = "hidden";
-            closeFunction();
-            location.reload(true);
-        };
-    } else {
-        document.getElementById("closebutton").style.visibility = "hidden";
-    }
-    document.getElementById("inputval").focus();    
-    
+	//$("#ModalMessage").modal();
+	$("#ModalTitle").text(message);
+	$("#inputval").removeClass("hidden");
+	$("#inputval").val("Eingabetext");
+	$("#ModalMessage").modal();
+	$("#ModalContent").text(""); // erase old text content!
+
+	document.getElementById("ModalOk").onclick = function () {
+		if (okFunction !== undefined) {
+			okFunction();
+		}
+		location.reload(true);
+	};
+	if (closeFunction !== undefined) {
+		document.getElementById("ModalClose").style.visibility = "visible";
+		document.getElementById("ModalClose").onclick = function () {
+			closeFunction();
+			location.reload(true);
+		};
+	} else {
+		document.getElementById("ModalClose").style.visibility = "hidden";
+	}
+  
 } // of function inputDialog(message, okFunction, closeFunction)
 
 
@@ -303,6 +295,7 @@ function deleteFile(filename) {
  
 function createFolder() {
 
+	
 	inputDialog("Neuer Ordner:",
                 function() {
                     var folder = globalAktMediaPath +"/" + $("input#inputval").val();
@@ -329,18 +322,12 @@ function infoDialog() {
         	url: "cgi-bin/info.php",
                 dataType: "text", // NOT!!! text/html to get response correctly!!!!
                 success: function(data){
-				/*
- 				confirmDialog("Dateimanager Info!",
-						data,
-						function() {}  // declared to see ok button only
-                		);
-				console.log(data);
-				*/
-				$("#ModalClose").hide();
-				$("#ModalTitle").text("Über Dateibrowser");
-				$("#ModalContent").html(data);
-				$("#ModalMessage").modal();
-
+			//console.log(data);
+			$("#ModalClose").hide();
+			$("#ModalTitle").text("Über Dateimanager");
+			$("#inputval").addClass("hidden");
+			$("#ModalContent").html(data);
+			$("#ModalMessage").modal();
                 }
         });
 
@@ -352,13 +339,13 @@ function infoDialog() {
 function phpInfo() {
 
     $.ajax({
-			url: "cgi-bin/phpInfo.php",
-			//data: { pathname: folder },
-			dataType: "text", // must be sent for browser to get response correctly!
-			success: function(data){
-				document.getElementById("app").innerHTML = data;
-				//location.reload(true);
-			}
+		url: "cgi-bin/phpInfo.php",
+		//data: { pathname: folder },
+		dataType: "text", // must be sent for browser to get response correctly!
+		success: function(data){
+			document.getElementById("app").innerHTML = data;
+			//location.reload(true);
+		}
 	}); 
 
 } // of function phpInfo(path)
