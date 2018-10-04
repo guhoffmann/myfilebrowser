@@ -208,9 +208,9 @@ function confirmDialog(title, message, okFunction, closeFunction) {
  
 function inputDialog(message, okFunction, closeFunction) {
    
-	//$("#ModalMessage").modal();
 	$("#ModalTitle").text(message);
 	$("#inputval").removeClass("hidden");
+	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
 	$("#ModalMessage").modal();
 	$("#ModalContent").text(""); // erase old text content!
@@ -219,16 +219,18 @@ function inputDialog(message, okFunction, closeFunction) {
 		if (okFunction !== undefined) {
 			okFunction();
 		}
+		$("#inputval").addClass("hidden");
 		location.reload(true);
 	};
 	if (closeFunction !== undefined) {
 		document.getElementById("ModalClose").style.visibility = "visible";
 		document.getElementById("ModalClose").onclick = function () {
 			closeFunction();
+			$("#inputval").addClass("hidden");
 			location.reload(true);
 		};
 	} else {
-		document.getElementById("ModalClose").style.visibility = "hidden";
+		//document.getElementById("ModalClose").style.visibility = "hidden";
 	}
   
 } // of function inputDialog(message, okFunction, closeFunction)
@@ -323,7 +325,7 @@ function infoDialog() {
                 dataType: "text", // NOT!!! text/html to get response correctly!!!!
                 success: function(data){
 			//console.log(data);
-			$("#ModalClose").hide();
+			$("#ModalClose").addClass("hidden");
 			$("#ModalTitle").text("Über Dateimanager");
 			$("#inputval").addClass("hidden");
 			$("#ModalContent").html(data);
