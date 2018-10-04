@@ -375,7 +375,7 @@ label {
 
 .modal-header {
 	background-color: #7d83b0;
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid black;
 
 }
 
@@ -388,6 +388,10 @@ label {
 }
 
 #inputval {
-	background-color: #313975;
+	background-color: #535a92;
+	color: white;
 	margin: 1rem;
+	border: 1px solid #080e3a;
+	border-radius: 4px;
+	padding: 0.5rem;
 }
