@@ -168,7 +168,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 
 	// Hide and show necessary window elements
 
-    	$("#ModalTitle").text(title);
+    	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
@@ -201,7 +201,7 @@ function inputDialog(message, okFunction, closeFunction) {
 
 	// Hide and show necessary window elements!
 
-	$("#ModalTitle").text(message);
+	$("#ModalTitle").html(message);
 	$("#inputval").removeClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
@@ -235,7 +235,7 @@ function inputDialog(message, okFunction, closeFunction) {
 function uploadDialog(message) {
 
    document.getElementById("upload").classList.remove("hidden");
-	$("#ModalTitle").text(message);
+	$("#ModalTitle").html("<span class='material-icons'>create_new_folder</span>&nbsp;" + message);
 	$("#inputval").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
@@ -260,7 +260,7 @@ function uploadDialog(message) {
  
 function createFolder() {
 	
-	inputDialog("Neuer Ordner:",
+	inputDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Neuer Ordner:",
                 function() {
                     var folder = globalAktMediaPath +"/" + $("input#inputval").val();
                     $.ajax({
@@ -289,7 +289,7 @@ function infoDialog() {
                 success: function(data){
 			//console.log(data);
 			$("#ModalClose").addClass("hidden");
-			$("#ModalTitle").text("Über Dateimanager");
+			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
 			$("#inputval").addClass("hidden");
 			$("#upload").addClass("hidden");
 			$("#ModalContent").html(data);
@@ -322,7 +322,7 @@ function phpInfo() {
 
 function deleteFiles() {
 
-    	confirmDialog("ACHTUNG!!!",
+    	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 			"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
 	                function() {
 
