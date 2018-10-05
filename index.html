@@ -20,7 +20,19 @@
 		  <span aria-hidden="true">&times;</span>
 		</button>
 	      </div>
+
+		<!-- Section for value input -->
 	      <input class="hidden" type="text" id="inputval" name="foldername" value="">
+
+		<!-- section for the upload -->
+		<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 
+			<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
+                	<!-- label MUST follow file input immediately to work! -->
+                	<label id="filebuttlabel" class="filebuttlabel" for="fileinput">Datei(en) ausw&auml;hlen...</label>
+                	<!-- hidden value for upload directory -->
+                	<input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
+		</form>
+
 	      <div class="modal-body" id="ModalContent">
 	      </div>
 	      <div class="modal-footer">
@@ -34,32 +46,6 @@
 
 
 <nav class="navbar navbar-dark fixed-top bg-dark">
-
-    <!-- ++++++++++++++++++ the 'message box' +++++++++++++++++ -->
-    <!-- if placed here the messagebox will always be on top!!! -->
-    <div id="darkendiv">
-        <div id="messagediv">
-            <div id="messagetitel">Hallo!</div>
-            <div id="messagetext" ></div>
-<!--            <div class="center"><input type="text" id="inputval" name="foldername" value=""></div> -->
-            
-		<!-- section for the upload -->
-		<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 
-			<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
-                	<!-- label MUST follow file input immediately to work! -->
-                	<label id="filebuttlabel" class="filebuttlabel" for="fileinput">Datei(en) ausw&auml;hlen...</label>
-                	<!-- hidden value for upload directory -->
-                	<input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
-		</form>
-				
-            <!-- the window buttons -->
-            <div class="center-buttons">
-                <a id="okbutton" class="material-icons btn btn-primary btn-lg" role="button">done</a>
-                <a id="closebutton" class="material-icons btn btn-primary btn-lg" role="button">clear</a>
-            </div>
-        </div>
-    </div>
-    <!-- ------------- end of the 'message box' ------------ -->
 
 	<!-- the dropdown main menu -->
 	<div class="dropdown show">

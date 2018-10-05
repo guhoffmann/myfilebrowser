@@ -166,12 +166,15 @@ function initFileSelector() {
  
 function confirmDialog(title, message, okFunction, closeFunction) {
 
+	// Hide and show necessary window elements
+
     	$("#ModalTitle").text(title);
 	$("#inputval").addClass("hidden");
+	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
-	$("#ModalMessage").modal();
 	$("#ModalContent").removeClass("hidden"); 
     	$("#ModalContent").html(message);
+	$("#ModalMessage").modal();
 
 	document.getElementById("ModalOk").onclick = function () {
 		if (okFunction !== undefined) {
@@ -195,13 +198,16 @@ function confirmDialog(title, message, okFunction, closeFunction) {
  */
  
 function inputDialog(message, okFunction, closeFunction) {
-   
+
+	// Hide and show necessary window elements!
+
 	$("#ModalTitle").text(message);
 	$("#inputval").removeClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
 	$("#ModalMessage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!
+	$("#upload").addClass("hidden");
 
 	document.getElementById("ModalOk").onclick = function () {
 		if (okFunction !== undefined) {
@@ -227,31 +233,24 @@ function inputDialog(message, okFunction, closeFunction) {
  */
  
 function uploadDialog(message) {
-   
-    document.getElementById("upload").classList.remove("hidden");
-    document.getElementById("inputval").classList.add("hidden");
-    document.getElementById("messagetitel").innerHTML = message;
-    document.getElementById("darkendiv").style.visibility = "visible";
-    document.getElementById("messagediv").style.visibility = "visible";
-    document.getElementById("okbutton").onclick = function () {
-            document.getElementById("darkendiv").style.visibility = "hidden";
-            document.getElementById("inputval").style.visibility = "hidden";
-            document.getElementById("messagediv").style.visibility = "hidden";
-            
-            document.getElementById("uploadDir").value=globalAktMediaPath;
-            
-            // trigger the upload form and execute uploadPOST.php!!!!
 
-            document.getElementById("upload").submit();
-            //location.reload(true);
-    }
+   document.getElementById("upload").classList.remove("hidden");
+	$("#ModalTitle").text(message);
+	$("#inputval").addClass("hidden");
+	$("#ModalClose").removeClass("hidden");
+	$("#inputval").val("Eingabetext");
+	$("#upload").removeClass("hidden");
+	$("#ModalContent").addClass("hidden"); // erase old text content!
+	$("#ModalMessage").modal();
 
-	document.getElementById("closebutton").style.visibility = "visible";
-	document.getElementById("closebutton").onclick = function () {
-		document.getElementById("darkendiv").style.visibility = "hidden";
-		document.getElementById("inputval").style.visibility = "hidden";
-		document.getElementById("closebutton").style.visibility = "hidden";
-		document.getElementById("messagediv").style.visibility = "hidden";
+	document.getElementById("ModalOk").onclick = function () {
+
+		document.getElementById("uploadDir").value=globalAktMediaPath;
+           
+		// trigger the upload form and execute uploadPOST.php!!!!
+
+		document.getElementById("upload").submit();
+		//location.reload(true);
 	}
 
 } // of function uploadDialog(message, okFunction, closeFunction)
@@ -292,6 +291,7 @@ function infoDialog() {
 			$("#ModalClose").addClass("hidden");
 			$("#ModalTitle").text("Über Dateimanager");
 			$("#inputval").addClass("hidden");
+			$("#upload").addClass("hidden");
 			$("#ModalContent").html(data);
 			$("#ModalContent").removeClass("hidden");
 			$("#ModalMessage").modal();
@@ -361,7 +361,7 @@ function downloadFiles() {
 	console.log(filesData);
 	
 	var zipFileName =  basename(filesData[0]);
-	confirmDialog("Bitte warten...","Erstelle Zip-Datei für Download...");
+	confirmDialog("Bitte warten...","<div class='info'>Erstelle Zip-Datei für Download...</div>");
         $.ajax({
 		type: "POST",
       		url: "cgi-bin/zipFiles.php",  // first zip files on server
@@ -371,9 +371,7 @@ function downloadFiles() {
 		success: function(response) {
 
 			// after zipping hide the message div...
-
-			document.getElementById("messagediv").style.visibility = "hidden";
-			document.getElementById("darkendiv").style.visibility = "hidden";
+			$("#ModalMessage .close").click();
 			// and start download script (which deletes zip file from server afterwards)
 			window.location.href = "/cgi-bin/downloadAndDelete.php?filename=/zipfiles/" + response;
 		},
