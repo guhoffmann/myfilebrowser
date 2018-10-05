@@ -101,7 +101,8 @@ img, video {
 }
 
 .navbar-brand {
-    font-size: 1.25rem;
+	font-size: 1.25rem;
+	background-color: #182058;
 }
 
 .direntry {
@@ -132,8 +133,8 @@ img, video {
     padding-top: 2rem;
 }
 
-.bg-dark {
-    background-color: #182058!important;
+.my-nav-bg {
+    background-color: #182058;
 }
 
 /***********************************************************************/
@@ -150,23 +151,14 @@ img, video {
     padding: 0;
 }
 
-#upload {
-	margin: auto;
-	text-align: center;
-	width: 99%;
-}
-
 .filebuttlabel {
-    display: block-inline;
-    text-align: center;
-    color: #7d83b0;
-    background-color: #182058;
-    text-shadow: 3px 3px 3px #040719;
-    text-align: center;
-    border-radius: 6px;
-    box-sizing: border-box;
-    vertical-align: middle;
-    padding: 10px 10px 10px 10px;
+
+	display: block;
+	color: white;
+	margin: 1rem;
+	background-color: #535a92;
+	border-radius: 4px;
+	padding: 0.5rem;
 }
 .filebuttlabel:hover {
     color: #fff;
