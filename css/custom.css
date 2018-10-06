@@ -53,7 +53,7 @@ a, a:visited, a:hover, a:active {
 }
 
 h1, h2, h3, h4 {
-    text-shadow: 3px 3px 2px #000;
+    text-shadow: 2px 3px 2px #000;
 }
 
 table {
@@ -110,7 +110,7 @@ img, video {
 	color: #fff;
 	background-color: #182058;
 	border-top: 0.1rem solid #535a92;
-    text-shadow: 1px 1px 2px #000;
+    	text-shadow: 1px 1px 2px #000;
 }
 .direntry a {
 	color: #8d93c0;
@@ -157,6 +157,7 @@ img, video {
 	color: white;
 	margin: 1rem;
 	background-color: #535a92;
+	border: 1px solid #080e3a;
 	border-radius: 4px;
 	padding: 0.5rem;
 }
@@ -369,6 +370,10 @@ label {
 	background-color: #7d83b0;
 	border-bottom: 1px solid black;
 
+}
+
+.modal-title {
+	text-shadow: 1px 1px 2px #000;
 }
 
 .modal-footer {
