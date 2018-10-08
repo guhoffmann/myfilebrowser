@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>File Browser</title>
+  <title>Dateimanager</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -66,9 +66,17 @@
 			<span class="material-icons">cloud_download</span>
 			&nbsp;Dateien als ZIP runterladen
 		</div>
+		<div class="dropdown-item" onclick="copyFiles()">
+			<span class="material-icons">library_add</span>
+			&nbsp;Markierte Dateien in Zwischenablage kopieren
+		</div>
 		<div class="dropdown-item" onclick="deleteFiles()">
 			<span class="material-icons">delete_forever</span>
 			&nbsp;Markierte Dateien l&ouml;schen
+		</div>
+		<div class="dropdown-item" onclick="pasteFiles()">
+			<span class="material-icons">restore_page</span>
+			&nbsp;Kopierte Dateien einf&uuml;gen
 		</div>
 
 		<div class="dropdown-divider"></div>
@@ -80,7 +88,7 @@
 
 		<div class="dropdown-item" onclick="infoDialog()">
 			<span class="material-icons">info</span>
-			&nbsp; Info &uuml;ber dieses Programm..
+			&nbsp; Info &uuml;ber Dateimanager
 		</div>
 	<!--	<div class="dropdown-item" onclick="phpInfo()">
 			<span class="material-icons">info</span>

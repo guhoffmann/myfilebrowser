@@ -2,6 +2,8 @@
 var globalAktMediaPath = "/"; 
 initFileSelector();
 
+var clipboard = []; // the clipboard for the app
+
 // just some functions for convenience... ;)
 
 function basename(path) {
@@ -161,14 +163,14 @@ function initFileSelector() {
         
 } // of function initFileSelector()
 
-/** A kind of simple message box for web interfaces
+/** Simple message box
  */
  
 function confirmDialog(title, message, okFunction, closeFunction) {
 
 	// Hide and show necessary window elements
 
-    	$("#ModalTitle").html(title);
+   	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
@@ -194,7 +196,26 @@ function confirmDialog(title, message, okFunction, closeFunction) {
  
 } // of function confirmDialog(message, okFunction, closeFunction)
 
-/** A kind of simple input box for web interfaces
+
+/** Simple message box without buttons
+ */
+ 
+function messageWindow(title, message) {
+
+	// Hide and show necessary window elements
+
+   	$("#ModalTitle").html(title);
+	$("#inputval").addClass("hidden");
+	$("#upload").addClass("hidden");
+	$("#ModalClose").addClass("hidden");
+	$("#ModalOk").addClass("hidden");
+	$("#ModalContent").removeClass("hidden"); 
+    	$("#ModalContent").html(message);
+	$("#ModalMessage").modal();
+ 
+} // of function confirmDialog(message, okFunction, closeFunction)
+
+/** Simple input box
  */
  
 function inputDialog(message, okFunction, closeFunction) {
@@ -229,7 +250,7 @@ function inputDialog(message, okFunction, closeFunction) {
   
 } // of function inputDialog(message, okFunction, closeFunction)
 
-/** A kind of simple input box for web interfaces
+/** Simple input box
  */
  
 function uploadDialog(message) {
@@ -324,7 +345,7 @@ function deleteFiles() {
 
     	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 			"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
-	                function() {
+	        function() {
 
 				// No matter what I do, can't erase last element in Firefox, strange...
 				// Chrome, Opera work without problem :(
@@ -341,8 +362,35 @@ function deleteFiles() {
                 			});
                			});
 			},
-                	function(){} // declared to see cancel button
+           	function(){} // declared to see cancel button
 	);
+}
+/** Copy marked files to clipboard **************************************
+ */
+
+function copyFiles() {
+	
+	clipboard = []; // clear clipboard
+
+	$('input[name="fileaction"]:checked').each(function() {
+		clipboard.push(this.value);
+	});
+
+	console.log(clipboard);
+}
+
+/** Paste clipboard to current location *********************************
+ */
+
+function pasteFiles() {
+	
+	clipboard = []; // clear clipboard
+
+	$('input[name="fileaction"]:checked').each(function() {
+		clipboard.push(this.value);
+	});
+
+	console.log(clipboard);
 }
 
 /** Zip and download marked files to local machine **************************
@@ -361,7 +409,7 @@ function downloadFiles() {
 	console.log(filesData);
 	
 	var zipFileName =  basename(filesData[0]);
-	confirmDialog("Bitte warten...","<div class='info'>Erstelle Zip-Datei für Download...</div>");
+	messageWindow("Bitte warten...","<div class='info'>Erstelle Zip-Datei für Download...</div>");
         $.ajax({
 		type: "POST",
       		url: "cgi-bin/zipFiles.php",  // first zip files on server
@@ -370,7 +418,7 @@ function downloadFiles() {
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
 
-			// after zipping hide the message div...
+			// after zipping hide the message div with click on unvisible close button...
 			$("#ModalMessage .close").click();
 			// and start download script (which deletes zip file from server afterwards)
 			window.location.href = "/cgi-bin/downloadAndDelete.php?filename=/zipfiles/" + response;
