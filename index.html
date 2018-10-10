@@ -10,7 +10,10 @@
 </head>
 
 <body>
-	<!-- Bootstrap Modal Window -->
+
+	<!-- ******************************************************* -->
+	<!-- Bootstrap Modal Window used for all messages in the app -->
+
 	<div class="modal fade" id="ModalMessage" tabindex="10" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
@@ -43,74 +46,79 @@
 	  </div>
 	</div>
 
+	<!-- ******************************************************* -->
+	<!--          The navbar for the whole HTML app              -->
 
+		<nav class="navbar navbar-dark fixed-top my-nav-bg">
 
-<nav class="navbar navbar-dark fixed-top my-nav-bg">
+			<!-- the dropdown main menu -->
+			<div class="dropdown show">
+				<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="material-icons">build</span>&nbsp;Aktionen
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-	<!-- the dropdown main menu -->
-	<div class="dropdown show">
-	    <a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		<span class="material-icons">build</span>&nbsp;Aktionen
-	    </a>
-    	    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-		<div class="dropdown-item" onclick='createFolder()'>
-			<span class="material-icons">create_new_folder</span>
-			&nbsp;Neuen Ordner anlegen
-		</div>
-		<div class="dropdown-item" onclick="uploadDialog('Hochladen!')">
-			<span class="material-icons">cloud_upload</span>
-			&nbsp;Datei(en) hochladen
-		</div>
-		<div class="dropdown-divider"></div>
-		<div class="dropdown-item" onclick="downloadFiles()">
-			<span class="material-icons">cloud_download</span>
-			&nbsp;Dateien als ZIP runterladen
-		</div>
-		<div class="dropdown-item" onclick="copyFiles()">
-			<span class="material-icons">library_add</span>
-			&nbsp;Markierte Dateien in Zwischenablage kopieren
-		</div>
-		<div class="dropdown-item" onclick="deleteFiles()">
-			<span class="material-icons">delete_forever</span>
-			&nbsp;Markierte Dateien l&ouml;schen
-		</div>
-		<div class="dropdown-item" onclick="pasteFiles()">
-			<span class="material-icons">restore_page</span>
-			&nbsp;Kopierte Dateien einf&uuml;gen
-		</div>
+						<div class="dropdown-item" onclick='createFolder()'>
+							<span class="material-icons">create_new_folder</span>
+							&nbsp;Neuen Ordner anlegen
+						</div>
+						<div class="dropdown-item" onclick="uploadDialog('Hochladen!')">
+							<span class="material-icons">cloud_upload</span>
+							&nbsp;Datei(en) hochladen
+						</div>
+						<div class="dropdown-divider"></div>
+						<div class="dropdown-item" onclick="downloadFiles()">
+							<span class="material-icons">cloud_download</span>
+							&nbsp;Dateien als ZIP runterladen
+						</div>
+						<div class="dropdown-item" onclick="copyFiles()">
+							<span class="material-icons">library_add</span>
+							&nbsp;Markierte Dateien in Zwischenablage kopieren
+						</div>
+						<div class="dropdown-item" onclick="deleteFiles()">
+							<span class="material-icons">delete_forever</span>
+							&nbsp;Markierte Dateien l&ouml;schen
+						</div>
+						<div class="dropdown-item" onclick="pasteFiles()">
+							<span class="material-icons">restore_page</span>
+							&nbsp;Kopierte Dateien einf&uuml;gen
+						</div>
 
-		<div class="dropdown-divider"></div>
-	<!--
-		<div class="dropdown-item" onclick="testAjaxPhp('Testausgabe!')">
-			<span class="material-icons">info</span>
-			&nbsp;testAjaxPhp!
-		</div> -->
+						<div class="dropdown-divider"></div>
+			<!--
+				<div class="dropdown-item" onclick="testAjaxPhp('Testausgabe!')">
+					<span class="material-icons">info</span>
+					&nbsp;testAjaxPhp!
+				</div> -->
 
-		<div class="dropdown-item" onclick="infoDialog()">
-			<span class="material-icons">info</span>
-			&nbsp; Info &uuml;ber Dateimanager
+						<div class="dropdown-item" onclick="infoDialog()">
+							<span class="material-icons">info</span>
+							&nbsp; Info &uuml;ber Dateimanager
+						</div>
+				<div class="dropdown-item" onclick="phpInfo()">
+					<span class="material-icons">info</span>
+					&nbsp; PHP-Info
+				</div>
+				</div>
+			</div>
+		
+			<!-- Link to documents main folder -->
+			<a class="navbar-brand" href="/"><i class='material-icons'>library_books</i>&nbsp;Dokumente</a>
+
+		</nav>
+
+  	<!-- ******************************************************* -->
+	<!--       The app contents are rendered to div id="app"     -->
+
+		<div class="container">
+		  <div class="row">
+			<div class="col-sm-12">
+				<div id="app">
+
+				</div>
+			</div>
+		  </div>
 		</div>
-	<!--	<div class="dropdown-item" onclick="phpInfo()">
-			<span class="material-icons">info</span>
-			&nbsp; PHP-Info
-		</div> -->
-	    </div>
-	</div>
-    
-    <!-- Link to documents main folder -->
-	<a class="navbar-brand" href="/"><i class='material-icons'>library_books</i>&nbsp;Dokumente</a>
-
-</nav>
-  
-<div class="container">
-  <div class="row">
-	<div class="col-sm-12">
-		<div id="app">
-
-		</div>
-	</div>
-  </div>
-</div>
 
 <!-- the footer -->
 <!--

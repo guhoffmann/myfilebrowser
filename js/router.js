@@ -2,8 +2,6 @@
 var globalAktMediaPath = "/"; 
 initFileSelector();
 
-var clipboard = []; // the clipboard for the app
-
 // just some functions for convenience... ;)
 
 function basename(path) {
@@ -364,20 +362,34 @@ function deleteFiles() {
 			},
            	function(){} // declared to see cancel button
 	);
-}
+
+} // of function deleteFiles() ...
+
 /** Copy marked files to clipboard **************************************
  */
 
 function copyFiles() {
-	
-	clipboard = []; // clear clipboard
+
+	var filesData = [];
 
 	$('input[name="fileaction"]:checked').each(function() {
-		clipboard.push(this.value);
+		var filename = this.value;
+		filesData.push(filename);
 	});
 
-	console.log(clipboard);
-}
+        $.ajax({
+		type: "POST",
+      		url: "cgi-bin/copyToClipboard.php",  // first zip files on server
+       		data: { postData : filesData },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		processData: true, // must be true to send JSON array!
+		success: function(response) {},
+		error: function(response) {
+			alert("copyToClipboard: Puh, Why this?\n"+response);
+		}
+       });
+
+} // of function copyFiles() ...
 
 /** Paste clipboard to current location *********************************
  */
@@ -391,7 +403,8 @@ function pasteFiles() {
 	});
 
 	console.log(clipboard);
-}
+
+} // of function pasteFiles() ...
 
 /** Zip and download marked files to local machine **************************
  */
@@ -405,10 +418,8 @@ function downloadFiles() {
 		filesData.push(filename);
 	});
 
-	console.log("In Javascript:");
-	console.log(filesData);
-	
 	var zipFileName =  basename(filesData[0]);
+	
 	messageWindow("Bitte warten...","<div class='info'>Erstelle Zip-Datei für Download...</div>");
         $.ajax({
 		type: "POST",
@@ -427,7 +438,8 @@ function downloadFiles() {
 			alert("zipFiles: Puh, Why this?\n"+response);
 		}
        });
-}
+
+} // of function downloadFiles() ...
 
 function testAjaxPhp(parameter) {
 
@@ -444,5 +456,6 @@ function testAjaxPhp(parameter) {
 			alert("ERROR: testAjaxPhp > Puh, Why this?\n"+response);
 		}
         });
-}
+
+} // of function testAjaxPhp(parameter) ...
 
