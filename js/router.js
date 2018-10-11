@@ -114,7 +114,7 @@ myrouter.addRoute('list', function () {
    
    $.ajax({
             url: "cgi-bin/dirlist.php",
-            data: { pathname: path},
+            data: { pathname: path },
             dataType: "text html", // must be sent for browser to get response correctly!
             success: function(data){
                 startingPoint.innerHTML = data;
@@ -126,7 +126,7 @@ myrouter.addRoute('*', function () {
    
    $.ajax({
             url: "cgi-bin/dirlist.php",
-            data: { pathname: '/'},
+            data: { pathname: '/' },
             dataType: "text html", // must be sent for browser to get response correctly!
             success: function(data){
                 startingPoint.innerHTML = data;
@@ -208,7 +208,7 @@ function messageWindow(title, message) {
 	$("#ModalClose").addClass("hidden");
 	$("#ModalOk").addClass("hidden");
 	$("#ModalContent").removeClass("hidden"); 
-    	$("#ModalContent").html(message);
+   	$("#ModalContent").html(message);
 	$("#ModalMessage").modal();
  
 } // of function confirmDialog(message, okFunction, closeFunction)
@@ -283,8 +283,8 @@ function createFolder() {
                 function() {
                     var folder = globalAktMediaPath +"/" + $("input#inputval").val();
                     $.ajax({
-                            url: "cgi-bin/createFolder.php",
-                            data: { pathname: folder },
+                            url: "cgi-bin/actions.php",
+                            data: { objectname: folder, action: "createFolder" },
                             dataType: "text", // must be sent for browser to get response correctly!
                             success: function(){
                                 location.reload(true);
@@ -303,19 +303,20 @@ function createFolder() {
 function infoDialog() {
 
 	$.ajax({
-        	url: "cgi-bin/info.php",
-                dataType: "text", // NOT!!! text/html to get response correctly!!!!
-                success: function(data){
-			//console.log(data);
-			$("#ModalClose").addClass("hidden");
-			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
-			$("#inputval").addClass("hidden");
-			$("#upload").addClass("hidden");
-			$("#ModalContent").html(data);
-			$("#ModalContent").removeClass("hidden");
-			$("#ModalMessage").modal();
-                }
-        });
+        	url: "cgi-bin/actions.php",
+			data: { action: "info" },
+			dataType: "text", // NOT!!! text/html to get response correctly!!!!
+			success: function(data){
+				//console.log(data);
+				$("#ModalClose").addClass("hidden");
+				$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
+				$("#inputval").addClass("hidden");
+				$("#upload").addClass("hidden");
+				$("#ModalContent").html(data);
+				$("#ModalContent").removeClass("hidden");
+				$("#ModalMessage").modal();
+			}
+	});
 
 } // of function infoDialog(path)
 
@@ -325,14 +326,14 @@ function infoDialog() {
 function phpInfo() {
 
     $.ajax({
-		url: "cgi-bin/phpInfo.php",
+		url: "cgi-bin/actions.php",
+		data: { action: "phpinfo" },
 		dataType: "text", // must be sent for browser to get response correctly!
 		success: function(data){
 			document.getElementById("app").innerHTML = data;
 			//location.reload(true);
 		}
 	}); 
-	$("#ModalContent").html(data);
 
 } // of function phpInfo(path)
 
@@ -351,12 +352,20 @@ function deleteFiles() {
  				$('input[name="fileaction"]:checked').each(function() {
 					var filename = this.value;
 					$.ajax({
-		                		url: "cgi-bin/deleteFile.php",
-                		        	data: { filename: filename },
+		                		url: "cgi-bin/actions.php",
+                		        	data: { objectname: filename, action: "deleteFile" },
 		                        	dataType: "text", // must be sent for browser to get response correctly!
-                		        	success: function(){
-						//location.reload(true);
-                        			}
+                		        	success: function(response) {
+										//alert("deleteFiles:"+response);
+										//location.reload(true);
+										console.log(response);
+                        			},
+									error: function(response) {
+										alert("deleteFiles ERROR, why this?"+response);
+										//location.reload(true);
+										console.log(response);
+									}
+
                 			});
                			});
 			},
@@ -379,11 +388,14 @@ function copyFiles() {
 
         $.ajax({
 		type: "POST",
-      		url: "cgi-bin/copyToClipboard.php",  // first zip files on server
-       		data: { postData : filesData },
+   		url: "cgi-bin/actions.php",  // first zip files on server
+   		data: { objectname: filesData, action: "copyToClipboard" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		processData: true, // must be true to send JSON array!
-		success: function(response) {},
+		success: function(response) {
+			//alert(response);
+			location.reload(true);
+		},
 		error: function(response) {
 			alert("copyToClipboard: Puh, Why this?\n"+response);
 		}
@@ -396,13 +408,22 @@ function copyFiles() {
 
 function pasteFiles() {
 	
-	clipboard = []; // clear clipboard
+	path = window.location.search.substr(1);
 
-	$('input[name="fileaction"]:checked').each(function() {
-		clipboard.push(this.value);
-	});
-
-	console.log(clipboard);
+		$.ajax({
+				type: "POST",
+				url: "cgi-bin/pasteFiles.php",  // first zip files on server
+				data: { uploadDir : path },
+				dataType: "text",  // must be sent for browser to get response correctly!
+				processData: true, // must be true to send JSON array!
+				success: function(response) {
+					console.log(response);
+					location.reload(true);
+				},
+				error: function(response) {
+					alert("pasteFiles: Puh, Why this?\n"+response);
+				}
+		});
 
 } // of function pasteFiles() ...
 
@@ -432,7 +453,7 @@ function downloadFiles() {
 			// after zipping hide the message div with click on unvisible close button...
 			$("#ModalMessage .close").click();
 			// and start download script (which deletes zip file from server afterwards)
-			window.location.href = "/cgi-bin/downloadAndDelete.php?filename=/zipfiles/" + response;
+			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response;
 		},
 		error: function(response) {
 			alert("zipFiles: Puh, Why this?\n"+response);

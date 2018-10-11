@@ -48,9 +48,7 @@ for ( $i = 0; $i < count($dirList); $i++ ) {
 				"</td><td class='direntry'>".
 				  "<a href='/cgi-bin/showFile.php?filename=".$relDirAktFile."'><span class='white'>".
 			  	$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >".
-				  "<a href='/cgi-bin/downloadFile.php?filename=".$relDirAktFile.
-				  "'><i class='material-icons green'>cloud_download</i></a></td>\n";
-			      
+				  "<a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons green'>cloud_download</i></a></td>\n";
 	}
 }
 
