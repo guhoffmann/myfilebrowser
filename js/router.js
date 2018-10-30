@@ -55,35 +55,20 @@ const startingPoint = document.getElementById('app');
 
 const myrouter = function () {
   
-   // Map object containing all possible routes
+   // object containing all possible routes
    
-   var routes = new Map();
-
-   // add a route to routes Map, containing hashUrl as key
-   // and handler function as value
-   
-   function addRoute(hashUrl, routeHandler) {
-      routes.set(hashUrl, routeHandler);
-   }
-
-   // make hashUrl the active hash part of current URL
-   
-   function navigateToHashUrl(hashUrl) {
-      location.hash = hashUrl;
-   }
-
-   // route handler, 
+	var routes = {};
    
    function handleRouting() {
-      defaultRouteIdentifier = '*';
+      defaultRoute = '*';
       currentHash = location.hash.slice(1); // cut hash from location
 
-      // if routes map conhttps://www.google.de/?gws_rd=ssltains key "currentHash": return correspondig routeHandler,
-      // else return defaultRouteIdentifier handler
-
-      routeHandler = routes.has(currentHash) ? routes.get(currentHash) : routes.get(defaultRouteIdentifier);
-
-      // if route handler is found, call it with parameter domEntryPoint!
+		if ( routes.hasOwnProperty(currentHash) ) {
+			routeHandler = routes[currentHash];
+		} else { 
+			routeHandler = routes[defaultRouteIdentifier];
+		}
+      // if route handler is found, call it!
 
       if (routeHandler) {
          routeHandler();
@@ -99,8 +84,16 @@ const myrouter = function () {
    }
    
    // return object containing adRoute, navigateToHashUrl
-   
-   return { addRoute, navigateToHashUrl };
+
+	return {
+		addRoute: function (hashUrl, routeHandler) {
+			routes[hashUrl] = routeHandler;
+   		}
+		,
+		navigateToHashUrl: function (hashUrl) {
+      		location.hash = hashUrl;
+   		}
+	};
    
 }(); // create and do the self-execution!
 
