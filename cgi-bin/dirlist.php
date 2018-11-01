@@ -6,6 +6,12 @@ $relDir = urldecode($_GET["pathname"]);
 
 header("Content-type: text/html");
 
+// Break if URL isn't allowed!
+
+if ( checkUrl($relDir) == 0 ) {
+	exit("Unzulässige URL!");
+}
+
 if ( $relDir=="" OR $relDir=="/" ) {
     echo("<h4 class='padding-start'>Hauptordner</h4>\r\n<table>\r\n");
 } else {
