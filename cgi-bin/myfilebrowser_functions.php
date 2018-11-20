@@ -36,4 +36,17 @@ function formatSize($bytes, $decimals = 2) {
     return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . @$sz[$factor - 1] . 'B';
 }
 
+// Check for unwanted URL!
+
+function checkUrl($url): int {
+
+	if ( preg_match("[\.\.]",$url) > 0 ) {
+
+		return 0; // URL not allowed!
+
+	} else {
+		return 1; // URL allowed
+	}
+}
+
 ?>

@@ -43,7 +43,17 @@ if ($mimeType == "image/jpeg" || $mimeType == "image/png" || $mimeType == "image
     echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
 	"</head><body><video controls><source src=\"/docs/".$filename."\" type=\"video/mp4\">".
 	"</video></body></html>\r\n");
+
+} elseif ($mimeType == "text/plain") {
 	
+    if (file_exists($baseDir.$filename)) {
+		header('Content-Type: text/plain');
+		ob_clean();
+		flush();
+		readfile($baseDir.$filename);
+		fclose($baseDir.$filename);
+    }
+
 } else {
 	
     echo("Datei ".$baseDir.$filename.": Weiss net...\n".$mimeType."???");
