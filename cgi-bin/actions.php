@@ -22,6 +22,7 @@ if ( $action == "createFolder" ) {
 
 	$filename = substr($_GET["objectname"],1);
 	if (file_exists($baseDir.$filename)) {
+<<<<<<< HEAD
 
 			$size=filesize($baseDir.$filename);
 			header('Content-Description: File Transfer');
@@ -30,14 +31,25 @@ if ( $action == "createFolder" ) {
 			header('Content-Transfer-Encoding: binary');
 			header('Accept-Ranges: bytes');
  
+=======
+	
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/force-download');
+			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+>>>>>>> 11896b4635996b8fbfc6e7ada38a5a57720ea6f2
 			ob_clean();
 			flush();
 			readfile($baseDir.$filename);
 			fclose($baseDir.$filename);
 	}
+<<<<<<< HEAD
 
 	exit; // MUST add this to prevent an x0a attached at the end of file!!!
 
+=======
+>>>>>>> 11896b4635996b8fbfc6e7ada38a5a57720ea6f2
 } elseif ( $action == "deleteFile" ) {
 
 	// delete file or dir

@@ -37,7 +37,7 @@ then
 
 elif echo "$SYSTEM"|grep "Android"
 then	
-	CONF="conf/$SYSTEM.conf"
+	CONF="conf/android.conf"
 	if ! echo "$DOCS"|grep "storage"
 	then
 		ln -s /data/data/com.termux/files/home/storage docs

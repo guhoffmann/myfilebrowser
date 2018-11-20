@@ -349,7 +349,11 @@ function downloadFiles() {
 			// after zipping hide the message div with 'click' on unvisible close button...
 			$("#ModalMessage .close").click();
 			// and start download script (which deletes zip file from server afterwards)
+<<<<<<< HEAD
 			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
+=======
+			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response;
+>>>>>>> 11896b4635996b8fbfc6e7ada38a5a57720ea6f2
 		},
 		error: function(response) {
 			alert("zipFiles: Puh, Why this?\n"+response);
