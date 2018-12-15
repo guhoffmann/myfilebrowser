@@ -33,6 +33,8 @@ if ( count($_FILES['file']['name']) > 0 ) {
 			
 			// upload files to temp dir, move to target and check if successful!
 			if (move_uploaded_file($tmpFile, $uploadfile)) {
+				// first change attributes to allow deletion etc. later on
+				chmod($uploadfile, 0757);
 				echo("<h3>+ Datei ".$_FILES['file']['name'][$i]." hochgeladen.</h3>");
 			} else {
 				echo("<h3>--- Upload von ".$_FILES['file']['name'][$i]." fehlerhaft!</h3>");

@@ -15,17 +15,20 @@ $baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
 // Remove path or files recursively
 
 function delete_files($target) {
-    if(is_dir($target)){
-        $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
 
-        foreach( $files as $file ){
-            delete_files( $file );      
-        }
-
-        rmdir( $target );
-    } elseif(is_file($target)) {
-        unlink( $target );  
-    }
+			if (is_file($target)) {
+				unlink($target);
+			} else if (is_dir($target)) {
+				$i = new DirectoryIterator($target);
+				foreach($i as $f) {
+					if($f->isFile()) {
+						unlink($f->getRealPath());
+					} else if(!$f->isDot() && $f->isDir()) {
+						delete_files($f->getRealPath());
+					}
+				}
+				rmdir($target);
+			} // of is_dir($target)...
 }
 
 // Human readable filesize

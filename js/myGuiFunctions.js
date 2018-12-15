@@ -80,7 +80,8 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 	document.getElementById("ModalOk").onclick = function () {
 		if (okFunction !== undefined) {
 			okFunction();
-			location.reload(true);
+			//location.reload(true);// should not be called here, but in okFunction to work with Firefox!!!!!!!
+
 		}
 	};
 	// make ModalClose visible if a function is defined and assign it!
@@ -135,7 +136,7 @@ function inputDialog(message, okFunction, closeFunction) {
 			okFunction();
 		}
 		$("#inputval").addClass("hidden");
-		location.reload(true);
+		//location.reload(true);// should not be called here, but in okFunction to work with Firefox!!!!!!!
 	};
 
 	if (closeFunction !== undefined) {
@@ -150,6 +151,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	}
   
 } // of function inputDialog(message, okFunction, closeFunction)
+					//location.reload(true);
 
 /** Upload dialog *************************************************************
  */
@@ -170,7 +172,7 @@ function uploadDialog(message) {
            
 		// trigger the upload form and execute uploadPOST.php!!!!
 		document.getElementById("upload").submit();
-		//location.reload(true);
+		location.reload(true);
 	}
 
 } // of function uploadDialog(message, okFunction, closeFunction)
@@ -183,12 +185,33 @@ function createFolder() {
 	inputDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Neuer Ordner:",
 		function() {
 			var folder = globalAktMediaPath +"/" + $("input#inputval").val();
+			//alert("Before: " + folder);
 			$.ajax({
 				url: "cgi-bin/actions.php",
 				data: { objectname: folder, action: "createFolder" },
-				dataType: "text", // must be sent for browser to get response correctly!
+				//dataType: "text", // must be sent for browser to get response correctly!
 				success: function(){
-					location.reload(true);
+					//alert("Success creating Folder!");
+					location.reload(true); // call it here and not in button click event to work with Firefox!!!
+				},
+				error: function (jqXHR, exception) {
+				  var msg = '';
+				  if (jqXHR.status === 0) {
+						msg = 'Not connect.\n Verify Network.';
+				  } else if (jqXHR.status == 404) {
+						msg = 'Requested page not found. [404]';
+				  } else if (jqXHR.status == 500) {
+						msg = 'Internal Server Error [500].';
+				  } else if (exception === 'parsererror') {
+						msg = 'Requested JSON parse failed.';
+				  } else if (exception === 'timeout') {
+						msg = 'Time out error.';
+				  } else if (exception === 'abort') {
+						msg = 'Ajax request aborted.';
+				  } else {
+						msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				  }
+					alert(msg);
 				}
 			});
 		},
@@ -205,9 +228,16 @@ function infoDialog() {
 		url: "cgi-bin/actions.php",
 		data: { action: "info" },
 		dataType: "text", // NOT!!! text/html to get response correctly!!!!
-		success: function(data){
+		success: function(data){			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
+			$("#inputval").addClass("hidden");
+			$("#upload").addClass("hidden");
+			$("#ModalContent").html(data);
+			$("#ModalContent").removeClass("hidden");
+			$("#ModalMessage").modal();
+
 			//console.log(data);
 			$("#ModalClose").addClass("hidden");
+					//location.reload(true);
 			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
 			$("#inputval").addClass("hidden");
 			$("#upload").addClass("hidden");
@@ -244,28 +274,31 @@ function deleteFiles() {
 	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 		"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
 		function() {
-
+			
 			// No matter what I do, can't erase last element in Firefox, strange...
 			// Chrome, Opera work without problem :(
+
 			$('input[name="fileaction"]:checked').each(function() {
 				var filename = this.value;
+				//alert("Delete: " + filename);
 				$.ajax({
 					url: "cgi-bin/actions.php",
 					data: { objectname: filename, action: "deleteFile" },
 					dataType: "text", // must be sent for browser to get response correctly!
 					success: function(response) {
 						//alert("deleteFiles:"+response);
-						//location.reload(true);
+						location.reload(true);
 						console.log(response);
 					},
 					error: function(response) {
-						alert("deleteFiles ERROR, why this?"+response);
-						//location.reload(true);
+						alert("deleteFiles ERROR, warum? Noch Unterverzeichnisse drin?");
+						location.reload(true);
 						console.log(response);
 					}
 
 				}); // of $.ajax(...
 			}); // of .each()..
+
 		}, // of function () ...
 		function(){} // declared to see cancel button
 	); // of confirmDialog(..
@@ -349,11 +382,7 @@ function downloadFiles() {
 			// after zipping hide the message div with 'click' on unvisible close button...
 			$("#ModalMessage .close").click();
 			// and start download script (which deletes zip file from server afterwards)
-<<<<<<< HEAD
 			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
-=======
-			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response;
->>>>>>> 11896b4635996b8fbfc6e7ada38a5a57720ea6f2
 		},
 		error: function(response) {
 			alert("zipFiles: Puh, Why this?\n"+response);
