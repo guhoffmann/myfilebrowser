@@ -95,7 +95,7 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "copyToClipboard" ) {
 
 		$postData = $_POST["objectname"];
-		$db = new PDO("sqlite:../myfilebrowser.db");
+		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
 		
 		if (!$db) {
 			  echo $db->lastErrorMsg();

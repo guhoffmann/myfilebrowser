@@ -24,15 +24,15 @@ then
 		SERVERCMD="sudo lighttpd"
 	else
 		# If there's no Pi working, then start
-		# a local server with link to $HOME dir.
+		# a local server with link to $HOME/Downloads dir.
 		CONF="conf/local.conf"
 		if echo "$DOCS"|grep "(No such file or directory)"
 		then
 			echo "No link 'docs' found!"
 			echo "Making link 'docs' to $HOME ..."
-			ln -s $HOME docs
+			ln -s $HOME/Downloads docs
 		fi
-		SERVERCMD="lighttpd"
+		SERVERCMD="/usr/sbin/lighttpd"
 	fi
 
 elif echo "$SYSTEM"|grep "Android"
