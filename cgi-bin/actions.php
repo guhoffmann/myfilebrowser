@@ -2,19 +2,32 @@
 
 include 'myfilebrowser_functions.php';
 
+/** Get the action parameter from the calling GET or POST request *************
+ */
+
 if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
 	$action =  $_POST["action"];
 } else {
 	$action =  urldecode($_GET["action"]);
 }
 
+//=============================================================================
+//=========== Now filter the actions and react as an event handler ============
+//=============================================================================
+
+/** Create a new folder in current directory **********************************
+ */
+
 if ( $action == "createFolder" ) {
 
 	// create new folder in current dir
-
 	$pathname = urldecode($_GET["objectname"]);
 	//header("Content-type: text/plain");
 	mkdir($baseDir."/".$pathname);
+
+/******************************************************************************
+ * Download file with the green cloud link on the right
+ */
 
 } elseif ( $action == "downloadFile" ) {
 
@@ -38,12 +51,19 @@ if ( $action == "createFolder" ) {
 
 	exit; // MUST add this to prevent an x0a attached at the end of file!!!
 
+/******************************************************************************
+ ** Delete one file, calls delete_files() from myfilebrowser_functions.php!
+ */
+ 
 } elseif ( $action == "deleteFile" ) {
 
 	// delete file or dir
-
 	$filename = urldecode($_GET["objectname"]);
 	delete_files($baseDir."/".$filename);
+
+/******************************************************************************
+ ** Show short page with some infos 'bout the server
+ */
 
 } elseif ( $action == "info" ) {
 
@@ -59,12 +79,22 @@ if ( $action == "createFolder" ) {
 		echo("<tr><td class='right info'>Client-IP:</td><td class='left info'>".$_SERVER['REMOTE_ADDR']."</td></tr>");
 		echo("<tr><td colspan='2' class='info'></br>(C) Gert-Uwe Hoffmann 2018</td></tr></table>");
 
+/******************************************************************************
+ ** Show php info pages
+ */
+
 } elseif ( $action == "phpinfo" ) {
 
 	// show the well known phpinfo page
 
 	header("Content-type: text/html");
 	phpinfo();
+
+/******************************************************************************
+ ** Download zipped file containig zipped files and folders from the
+ ** zipfiles folder (called from downloadiles() in myGuiFunctions.js
+ ** after the zip files were created)!
+ */
 
 } elseif ( $action == "downloadZipAndDelete" ) {
 
@@ -84,59 +114,100 @@ if ( $action == "createFolder" ) {
 	header('Content-Type: application/force-download');
 	header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 	header('Content-Transfer-Encoding: binary');
+
 	header('Accept-Ranges: bytes');
 	ob_clean();
 	flush();
 	readfile($downloadFile);
 	fclose($downloadFile);
 
+	// delete the file after transmission
 	delete_files($downloadFile);
+
+/******************************************************************************
+ ** Copy marked files/folders to the clipboard (sqlite db)
+ */
 
 } elseif ( $action == "copyToClipboard" ) {
 
-		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-		
-		if (!$db) {
-			echo $db->lastErrorMsg();
-		} else {
-			echo "Opened database successfully!\n";
-			$postData = $_POST["objectname"];
-			foreach($postData as $value) { //loop over values
-				$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
-				echo $value."\n";
-			}
-			$db = null;
-			echo "Inserting done!";
+	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+	
+	if (!$db) {
+		echo $db->lastErrorMsg();
+	} else {
+		echo "Kopiere in Zwischenablage:\n";
+		$postData = $_POST["objectname"];
+		foreach($postData as $value) { //loop over values
+			$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
+			echo $value."\n";
 		}
+		$db = null;
+		echo "Fertig!";
+	}
+
+/******************************************************************************
+ ** Clear the clipboard (sqlite db)
+ */
 
 } elseif ( $action == "clearClipboard" ) {
 
-		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-		
-		if (!$db) {
-			echo $db->lastErrorMsg();
-		} else {
-			echo "Opened database successfully!\n";
-			$db->exec("DELETE FROM clipboard;");
-			$db = null;
-			echo "Clearing done!";
-		}
+	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+	
+	if (!$db) {
+		echo $db->lastErrorMsg();
+	} else {
+		echo "<table><tr><td class='info'>Zwischenablage geleert!</td></tr></table>";
+		$db->exec("DELETE FROM clipboard;");
+		$db = null;
+	}
+
+/******************************************************************************
+ ** Show the contents of the clipboard (sqlite db)
+ */
 
 } elseif ( $action == "showClipboard" ) {
 
-		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-		
-		if (!$db) {
-			echo $db->lastErrorMsg();
-		} else {
-			echo "Opened database successfully!\n";
-			$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
-			while ($row = $result->fetch()) {
-				echo $row[0]."\n";
-			}
-			$db = null;
-			echo "Showing done!";
+	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+	
+	if (!$db) {
+		echo $db->lastErrorMsg();
+	} else {
+		$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
+		echo "<div class='info'>";
+		while ($row = $result->fetch()) {
+			echo $row[0]."</br>";
 		}
+		$db = null;
+		echo "</div>";
+	}
+
+/******************************************************************************
+ ** Paste files from clipboard to current location (sqlite db)
+ */
+
+} elseif ( $action == "pasteFiles" ) {
+
+	$uploaddir = urldecode($_GET["uploadDir"]);
+
+	echo "Einfügen nach: ".$uploaddir."\n";
+
+
+	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+	
+	if (!$db) {
+		echo $db->lastErrorMsg();
+	} else {
+		$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
+		while ($row = $result->fetch()) {
+			echo "kopiere ".$row[0]." -> ".$uploaddir."/".basename($row[0])."\n";
+			shell_exec("cp -r '".$baseDir.$row[0]."' '".$baseDir.$uploaddir."/".basename($row[0])."'" );
+		}
+		$db = null;
+	}
+
+/******************************************************************************
+ ** This is it!
+ */
 
 } else {
 	echo "No suited action found!";

@@ -12,7 +12,8 @@ function dirname(path) {
 	return path.match('/.*\/');
 }
 
-/** Assign event listeners to the buttons of the message box! *****************
+/******************************************************************************
+ ** Assign event listeners to the buttons of the message box!
  */
 
 input.addEventListener("keyup", function(event) {
@@ -22,19 +23,16 @@ input.addEventListener("keyup", function(event) {
 
 	// Number 13 is the "Enter" key on the keyboard
 	if (event.keyCode === 13) {
-
-	// Trigger the button element with a click
-	document.getElementById("ModalOk").click();
-
+		// Trigger the button element with a click
+		document.getElementById("ModalOk").click();
 	} else if (event.keyCode === 27) {
-
-	// Trigger the button element with a click
-
-	document.getElementById("ModalClose").click();
+		// Trigger the button element with a click
+		document.getElementById("ModalClose").click();
 	}
 });
 
-/** This code belongs to the "tuned" file input element as described in:
+/******************************************************************************
+ ** This code belongs to the "tuned" file input element as described in:
  * https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
  */
  
@@ -61,7 +59,8 @@ function initFileSelector() {
 
 } // of function initFileSelector()
 
-/** Simple message box ********************************************************
+/******************************************************************************
+ ** Simple message box
  */
  
 function confirmDialog(title, message, okFunction, closeFunction) {
@@ -97,8 +96,8 @@ function confirmDialog(title, message, okFunction, closeFunction) {
  
 } // of function confirmDialog(message, okFunction, closeFunction)
 
-
-/** Simple message box without buttons ****************************************
+/******************************************************************************
+ ** Simple message box without buttons
  */
  
 function messageWindow(title, message) {
@@ -110,13 +109,14 @@ function messageWindow(title, message) {
 	$("#upload").addClass("hidden");
 	$("#ModalClose").addClass("hidden");
 	$("#ModalOk").addClass("hidden");
-	$("#ModalContent").removeClass("hidden"); 
 	$("#ModalContent").html(message);
+	$("#ModalContent").removeClass("hidden"); 
 	$("#ModalMessage").modal();
  
 } // of function messageWindow(title, message)
 
-/** Simple input box **********************************************************
+/******************************************************************************
+ ** Simple input box
  */
  
 function inputDialog(message, okFunction, closeFunction) {
@@ -152,8 +152,8 @@ function inputDialog(message, okFunction, closeFunction) {
   
 } // of function inputDialog(message, okFunction, closeFunction)
 					//location.reload(true);
-
-/** Upload dialog *************************************************************
+/******************************************************************************
+ ** Upload dialog
  */
  
 function uploadDialog(message) {
@@ -177,7 +177,8 @@ function uploadDialog(message) {
 
 } // of function uploadDialog(message, okFunction, closeFunction)
 
-/** Create folder ****************************************************
+/******************************************************************************
+ ** Create folder
  */
  
 function createFolder() {
@@ -219,7 +220,8 @@ function createFolder() {
 	);
 } // of function createFolder(path)
 
-/** Show info dialog ****************************************************
+/******************************************************************************
+ ** Show info dialog
  */
  
 function infoDialog() {
@@ -228,28 +230,15 @@ function infoDialog() {
 		url: "cgi-bin/actions.php",
 		data: { action: "info" },
 		dataType: "text", // NOT!!! text/html to get response correctly!!!!
-		success: function(data){			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
-			$("#inputval").addClass("hidden");
-			$("#upload").addClass("hidden");
-			$("#ModalContent").html(data);
-			$("#ModalContent").removeClass("hidden");
-			$("#ModalMessage").modal();
-
-			//console.log(data);
-			$("#ModalClose").addClass("hidden");
-					//location.reload(true);
-			$("#ModalTitle").html("<span class='material-icons'>info</span>&nbsp;Über Dateimanager");
-			$("#inputval").addClass("hidden");
-			$("#upload").addClass("hidden");
-			$("#ModalContent").html(data);
-			$("#ModalContent").removeClass("hidden");
-			$("#ModalMessage").modal();
+		success: function(response){
+			messageWindow("<span class='material-icons'>info</span>&nbsp;Über Dateimanager", response);
 		}
 	});
 
 } // of function infoDialog(path)
 
-/** Show PHP info dialog ***********************************************
+/******************************************************************************
+ ** Show PHP info dialog
  */
  
 function phpInfo() {
@@ -266,7 +255,8 @@ function phpInfo() {
 
 } // of function phpInfo(path)
 
-/** Delete marked files to from remote machine **************************
+/******************************************************************************
+ ** Delete marked files to from remote machine
  */
 
 function deleteFiles() {
@@ -305,7 +295,8 @@ function deleteFiles() {
 
 } // of function deleteFiles() ...
 
-/** Copy marked files to clipboard **************************************
+/******************************************************************************
+ ** Copy marked files to clipboard
  */
 
 function copyFiles() {
@@ -335,7 +326,8 @@ function copyFiles() {
 
 } // of function copyFiles() ...
 
-/** Clear clipboard *****************************************************
+/******************************************************************************
+ ** Clear clipboard
  */
 
 function clearClipboard() {
@@ -345,8 +337,9 @@ function clearClipboard() {
 		data: { action: "clearClipboard" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
-			alert(response);
-			location.reload(true);
+			//alert(response);
+			messageWindow("<span class='material-icons'>info</span>&nbsp;Info!",response);		
+			//location.reload(true);
 		},
 		error: function(response) {
 			alert("clearClipboard: Puh, Why this?\n"+response);
@@ -355,7 +348,8 @@ function clearClipboard() {
 
 } // of function clearClipboard() ...
 
-/** Show clipboard ******************************************************
+/******************************************************************************
+ ** Show clipboard
  */
 
 function showClipboard() {
@@ -365,8 +359,8 @@ function showClipboard() {
 		data: { action: "showClipboard" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
-			alert(response);
-			location.reload(true);
+			messageWindow("Zwischenablage", response);
+			//location.reload(true);
 		},
 		error: function(response) {
 			alert("clearClipboard: Puh, Why this?\n"+response);
@@ -375,20 +369,19 @@ function showClipboard() {
 
 } // of function showClipboard() ...
 
-/** Paste clipboard to current location *********************************
+/******************************************************************************
+ ** Paste clipboard to current location
  */
 
 function pasteFiles() {
 	
 	path = window.location.search.substr(1);
 	$.ajax({
-		type: "POST",
-		url: "cgi-bin/pasteFiles.php",  // first zip files on server
-		data: { uploadDir : path },
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { uploadDir : globalAktMediaPath, action: "pasteFiles" },
 		dataType: "text",  // must be sent for browser to get response correctly!
-		processData: true, // must be true to send JSON array!
 		success: function(response) {
-			console.log(response);
+			//alert(response);
 			location.reload(true);
 		},
 		error: function(response) {
@@ -398,7 +391,8 @@ function pasteFiles() {
 
 } // of function pasteFiles() ...
 
-/** Zip and download marked files to local machine **************************
+/******************************************************************************
+ ** Zip and download marked files to local machine
  */
 
 function downloadFiles() {
