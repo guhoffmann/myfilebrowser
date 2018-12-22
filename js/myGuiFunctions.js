@@ -312,11 +312,12 @@ function copyFiles() {
 
 	var filesData = [];
 
+	//alert(filesData);
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
 		filesData.push(filename);
 	});
-	
+	//alert(filesData);
 	$.ajax({
 		type: "POST",
 		url: "cgi-bin/actions.php",  // first zip files on server
@@ -325,7 +326,7 @@ function copyFiles() {
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
 			alert(response);
-			//location.reload(true);
+			location.reload(true);
 		},
 		error: function(response) {
 			alert("copyToClipboard: Puh, Why this?\n"+response);
@@ -345,14 +346,34 @@ function clearClipboard() {
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
 			alert(response);
-			//location.reload(true);
+			location.reload(true);
 		},
 		error: function(response) {
 			alert("clearClipboard: Puh, Why this?\n"+response);
 		}
 	});
 
-} // of function copyFiles() ...
+} // of function clearClipboard() ...
+
+/** Show clipboard ******************************************************
+ */
+
+function showClipboard() {
+
+	$.ajax({
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "showClipboard" },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		success: function(response) {
+			alert(response);
+			location.reload(true);
+		},
+		error: function(response) {
+			alert("clearClipboard: Puh, Why this?\n"+response);
+		}
+	});
+
+} // of function showClipboard() ...
 
 /** Paste clipboard to current location *********************************
  */

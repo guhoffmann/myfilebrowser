@@ -103,6 +103,7 @@ if ( $action == "createFolder" ) {
 			$postData = $_POST["objectname"];
 			foreach($postData as $value) { //loop over values
 				$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
+				echo $value."\n";
 			}
 			$db = null;
 			echo "Inserting done!";
@@ -119,6 +120,22 @@ if ( $action == "createFolder" ) {
 			$db->exec("DELETE FROM clipboard;");
 			$db = null;
 			echo "Clearing done!";
+		}
+
+} elseif ( $action == "showClipboard" ) {
+
+		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+		
+		if (!$db) {
+			echo $db->lastErrorMsg();
+		} else {
+			echo "Opened database successfully!\n";
+			$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
+			while ($row = $result->fetch()) {
+				echo $row[0]."\n";
+			}
+			$db = null;
+			echo "Showing done!";
 		}
 
 } else {
