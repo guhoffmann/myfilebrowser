@@ -334,6 +334,26 @@ function copyFiles() {
 
 } // of function copyFiles() ...
 
+/** Clear clipboard *****************************************************
+ */
+
+function clearClipboard() {
+
+	$.ajax({
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "clearClipboard" },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		success: function(response) {
+			alert(response);
+			//location.reload(true);
+		},
+		error: function(response) {
+			alert("clearClipboard: Puh, Why this?\n"+response);
+		}
+	});
+
+} // of function copyFiles() ...
+
 /** Paste clipboard to current location *********************************
  */
 

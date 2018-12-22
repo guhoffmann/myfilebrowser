@@ -94,23 +94,33 @@ if ( $action == "createFolder" ) {
 
 } elseif ( $action == "copyToClipboard" ) {
 
-		$postData = $_POST["objectname"];
 		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
 		
 		if (!$db) {
-			  echo $db->lastErrorMsg();
+			echo $db->lastErrorMsg();
 		} else {
-			  echo "Opened database successfully\n";
+			echo "Opened database successfully!\n";
+			$postData = $_POST["objectname"];
+			foreach($postData as $value) { //loop over values
+				$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
+			}
+			$db = null;
+			echo "Inserting done!";
 		}
 
-		foreach($postData as $value) { //loop over values
+} elseif ( $action == "clearClipboard" ) {
 
-			$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
-
+		$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+		
+		if (!$db) {
+			echo $db->lastErrorMsg();
+		} else {
+			echo "Opened database successfully!\n";
+			$db->exec("DELETE FROM clipboard;");
+			$db = null;
+			echo "Clearing done!";
 		}
 
-		$db = null;
-		echo "I've done it!";
 } else {
 	echo "No suited action found!";
 }
