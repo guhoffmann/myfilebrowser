@@ -65,8 +65,8 @@ myrouter.addRoute('list', function () {
 	globalAktMediaPath = path;
 
 	$.ajax({
-				url: "cgi-bin/dirlist.php",
-				data: { pathname: path },
+				url: "cgi-bin/actions.php",
+				data: { action: "dirlist", pathname: path },
 				dataType: "text html", // must be sent for browser to get response correctly!
 				success: function(data){
 					 startingPoint.innerHTML = data;
@@ -78,8 +78,8 @@ myrouter.addRoute('list', function () {
 myrouter.addRoute('*', function () {
    
 	$.ajax({
-		url: "cgi-bin/dirlist.php",
-		data: { pathname: '/' },
+		url: "cgi-bin/actions.php",
+		data: { action: "dirlist", pathname: '/' },
 		dataType: "text html", // must be sent for browser to get response correctly!
 		success: function(data){
 			 startingPoint.innerHTML = data;
