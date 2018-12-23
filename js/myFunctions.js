@@ -1,3 +1,9 @@
+/** myFunctions.js ************************************************************
+ *
+ * GUI functions, ajax handlers etc. for the MyFileBrowser web app
+ *
+ */
+ 
 var globalAktMediaPath = "/"; 
 var input = document.getElementById("inputval");
 initFileSelector();
@@ -359,7 +365,7 @@ function showClipboard() {
 		data: { action: "showClipboard" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
-			messageWindow("Zwischenablage", response);
+			messageWindow("<span class='material-icons'>assignment</span>&nbsp;Zwischenablage", response);
 			//location.reload(true);
 		},
 		error: function(response) {

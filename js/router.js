@@ -1,4 +1,8 @@
-/** spa router ****************************************************************
+/** router.js *****************************************************************
+ *
+ * Single page app router taken from an old Heise article modernized
+ * to meet my suits. This is used to avoid expensive router frameworks.
+ *
  */
  
 // domEntryPoint = start of app (see id in HTM file)

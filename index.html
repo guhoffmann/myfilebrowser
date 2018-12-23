@@ -75,25 +75,28 @@
 							<span class="material-icons">cloud_upload</span>
 							&nbsp;Datei(en) hochladen
 						</div>
-						<div class="dropdown-divider"></div>
 						<div class="dropdown-item" onclick="downloadFiles()">
 							<span class="material-icons">cloud_download</span>
 							&nbsp;Dateien als ZIP runterladen
 						</div>
-						<div class="dropdown-item" onclick="copyFiles()">
-							<span class="material-icons">library_add</span>
-							&nbsp;Markierte Dateien in Zwischenablage kopieren
-						</div>
-						<div class="dropdown-item" onclick="deleteFiles()">
+							<div class="dropdown-item" onclick="deleteFiles()">
 							<span class="material-icons">delete_forever</span>
 							&nbsp;Markierte Dateien l&ouml;schen
 						</div>
+					
+
+						<div class="dropdown-divider"></div>
+
+						<div class="dropdown-item" onclick="copyFiles()">
+							<span class="material-icons">library_add</span>
+							&nbsp;Markierte in Zwischenablage kopieren
+						</div>
 						<div class="dropdown-item" onclick="pasteFiles()">
 							<span class="material-icons">assignment_returned</span>
-							&nbsp;Kopierte Dateien einf&uuml;gen
+							&nbsp;Zwischenablage hier einf&uuml;gen
 						</div>
 						<div class="dropdown-item" onclick="clearClipboard()">
-							<span class="material-icons">assignment_return</span>
+							<span class="material-icons">delete_forever</span>
 							&nbsp;Zwischenablage leeren
 						</div>
 						<div class="dropdown-item" onclick="showClipboard()">
