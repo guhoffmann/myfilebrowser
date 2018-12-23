@@ -11,7 +11,7 @@ if echo "$SYSTEM"|grep "GNU/Linux"
 then
 	if echo "$HOSTNAME"|grep "raspberrypi"
 	then
-		# There's a Pi working, so start server with link to docs dir.
+		# There's Pi working, so start server with link to docs dir.
 		# If docs link is not found, give message to
 		# make it MANUALLY and exit!
 		CONF="conf/$HOSTNAME.conf"
@@ -21,7 +21,22 @@ then
 			echo "Please create link 'docs' in $PWD!"
 			exit 1
 		fi
-		SERVERCMD="sudo lighttpd"
+		SERVERCMD="/usr/sbin/lighttpd"
+
+	elif echo "$HOSTNAME"|grep "gamepi"
+	then
+		# There's gamepi working, so start server with link to docs dir.
+		# If docs link is not found, give message to
+		# make it MANUALLY and exit!
+		CONF="conf/$HOSTNAME.conf"
+		if echo "$DOCS"|grep "(No such file or directory)"
+		then
+			echo "No link 'docs' found!"
+			echo "Please create link 'docs' in $PWD!"
+			exit 1
+		fi
+		SERVERCMD="sudo /usr/sbin/lighttpd"
+
 	else
 		# If there's no Pi working, then start
 		# a local server with link to $HOME/Downloads dir.
