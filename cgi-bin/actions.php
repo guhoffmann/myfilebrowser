@@ -25,6 +25,10 @@ if ( $action == "createFolder" ) {
 	//header("Content-type: text/plain");
 	mkdir($baseDir."/".$pathname);
 
+/******************************************************************************
+ * Make listing of the actual directory
+ */
+
 } elseif ( $action == "dirlist" ) {
 
 	$relDir = urldecode($_GET["pathname"]);
@@ -46,6 +50,7 @@ if ( $action == "createFolder" ) {
 			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( Verzeichnis zur&uuml;ck )</a></td></tr>\r\n");
 	}
 
+	echo "<section class='section1'>\r\n";
 	$dirs = "";
 	$files = "";
 	$dirList = scandir( $baseDir.$relDir );
@@ -62,7 +67,12 @@ if ( $action == "createFolder" ) {
 			// Now when it's a folder, do this...
 			
 			$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
-					"<input type='checkbox' name='fileaction' value='".$relDirAktFile."' />".
+					// For the new self styled checkbox
+					"<span class='checkcontainer'>".
+			      "<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>".
+					"<label for='checkbox-".$i."'><span class='checkbox'></span></label>".
+					"</span>".
+
 					"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
 						$relDirAktFile."#list'><i class='material-icons'>folder</i>\r\n".
 					 $dirList[$i]."</a></td>\n";
@@ -75,7 +85,14 @@ if ( $action == "createFolder" ) {
 						 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
 			
 			$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
-					"<input type='checkbox' name='fileaction' value='".$relDirAktFile."' />".
+
+					// For the new self styled checkbox
+					"<span class='checkcontainer'>".
+			      "<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>".
+					"<label for='checkbox-".$i."'><span class='checkbox'></span></label>".
+					"</span>".
+
+//					"<input type='checkbox' name='fileaction' value='".$relDirAktFile."' />".
 					"</td><td class='direntry'>".
 					  "<a href='/cgi-bin/showFile.php?filename=".$relDirAktFile."'><span class='white'>".
 					$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >".
@@ -85,6 +102,7 @@ if ( $action == "createFolder" ) {
 
 	echo($dirs);
 	echo($files);
+	echo "</section>";
 
 /******************************************************************************
  * Download file with the green cloud link on the right

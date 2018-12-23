@@ -126,6 +126,7 @@ img, video {
 	padding-left: 0.5em;
 	background-color: #313975;
 	border-top: 0.1rem solid #535a92;
+	height: 1px;
 	text-shadow: 1px 1px 1px #000;
 }
 
@@ -171,6 +172,7 @@ label {
     margin-bottom: 0;
 }
 /* new flex layout for list rows */
+	height: 1px;
 .row-container {
     width:100%;
     display: flex;
@@ -203,6 +205,7 @@ label {
     width: 100vw;
     height: 100vh;
     min-height:100vh;
+	height: 1px;
     min-width:100vw;
     left: 0;
     top: 0;
@@ -392,3 +395,23 @@ label {
 	border-radius: 4px;
 	padding: 0.5rem;
 }
+
+/* This belongs to the custom checkbox */
+
+.checkcontainer span.checkbox::after {
+	content: '\2588';
+	font-family: 'Arial';
+	left: -31px;
+	top: 2px;
+	color: #080e3a;
+	transition: color .2s;
+}
+input[type="checkbox"]:checked + label span.checkbox::after {
+  color: #66aaff;
+	text-shadow: 0 0 5px #99eeff;
+}
+
+.hidden_checkbox {
+  display: none;
+}
+
