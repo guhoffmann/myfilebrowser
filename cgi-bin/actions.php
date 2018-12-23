@@ -214,14 +214,14 @@ if ( $action == "createFolder" ) {
 	if (!$db) {
 		echo $db->lastErrorMsg();
 	} else {
-		echo "Kopiere in Zwischenablage:\n";
 		$postData = $_POST["objectname"];
+		$numResults=0;
 		foreach($postData as $value) { //loop over values
 			$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
-			echo $value."\n";
+			$numResults++;
 		}
 		$db = null;
-		echo "Fertig!";
+		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
 	}
 
 /******************************************************************************
@@ -235,7 +235,7 @@ if ( $action == "createFolder" ) {
 	if (!$db) {
 		echo $db->lastErrorMsg();
 	} else {
-		echo "<table><tr><td class='info'>Zwischenablage geleert!</td></tr></table>";
+		echo "<div class='info'>Zwischenablage geleert!</div>";
 		$db->exec("DELETE FROM clipboard;");
 		$db = null;
 	}
@@ -253,8 +253,13 @@ if ( $action == "createFolder" ) {
 	} else {
 		$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
 		echo "<div class='info'>";
+		$numResults=0;
 		while ($row = $result->fetch()) {
 			echo $row[0]."</br>";
+			$numResults++;
+		}
+		if ( $numResults == 0 ) {
+			echo "Die Zwischenablage ist leer.";
 		}
 		$db = null;
 		echo "</div>";

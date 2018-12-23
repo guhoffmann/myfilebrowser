@@ -322,8 +322,8 @@ function copyFiles() {
 		dataType: "text",  // must be sent for browser to get response correctly!
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
-			alert(response);
-			location.reload(true);
+			messageWindow("<span class='material-icons'>assignment</span>&nbsp;Zwischenablage", response);
+			//location.reload(true);
 		},
 		error: function(response) {
 			alert("copyToClipboard: Puh, Why this?\n"+response);
