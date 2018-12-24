@@ -24,138 +24,134 @@
 	<!-- Bootstrap Modal Window used for all messages in the app -->
 
 	<div class="modal fade" id="ModalMessage" tabindex="10" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-		<h5 class="modal-title" id="ModalTitle">Nachricht</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-	      </div>
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
 
-		<!-- Section for value input -->
-	      <input class="hidden" type="text" id="inputval" name="foldername" value="">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalTitle">Nachricht</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div> <!-- modal-header -->
 
-		<!-- section for the upload -->
-		<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 
-			<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
-                	<!-- label MUST follow file input immediately to work! -->
-                	<label id="filebuttlabel" class="filebuttlabel" for="fileinput">Datei(en) ausw&auml;hlen...</label>
-                	<!-- hidden value for upload directory -->
-                	<input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
-		</form>
+				<!-- section for value input -->
+				<input class="hidden" type="text" id="inputval" name="foldername" value="">
 
-	      <div class="modal-body" id="ModalContent">
-	      </div>
-	      <div class="modal-footer">
-		<button type="button" id="ModalOk" class="material-icons btn btn-primary" data-dismiss="modal">done</button>
-		<button type="button" id="ModalClose" class="material-icons btn btn-primary" data-dismiss="modal">clear</button>
-	      </div>
-	    </div>
-	  </div>
+				<!-- section for the upload -->
+				<form id="upload" action="cgi-bin/uploadPOST.php" method="post" enctype="multipart/form-data"> 
+					<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
+               <!-- label MUST follow file input immediately to work! -->
+               <label id="filebuttlabel" class="filebuttlabel" for="fileinput">Datei(en) ausw&auml;hlen...</label>
+               <!-- hidden value for upload directory -->
+               <input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
+				</form>
+
+				<!-- section for modal window content -->
+				<div class="modal-body" id="ModalContent">
+				</div>
+
+				<!-- section for the modal window footer -->
+				<div class="modal-footer">
+					<button type="button" id="ModalOk" class="material-icons btn btn-primary" data-dismiss="modal">done</button>
+					<button type="button" id="ModalClose" class="material-icons btn btn-primary" data-dismiss="modal">clear</button>
+				</div>
+				
+			</div>
+		</div>
 	</div>
 
 	<!-- ******************************************************* -->
 	<!--          The navbar for the whole HTML app              -->
 
-		<nav class="navbar navbar-dark fixed-top my-nav-bg">
+	<nav class="navbar navbar-dark fixed-top my-nav-bg">
 
-			<!-- the dropdown main menu -->
-			<div class="dropdown show">
-				<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="material-icons">build</span>&nbsp;Aktionen
-				</a>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-						<div class="dropdown-item" onclick='createFolder()'>
-							<span class="material-icons">create_new_folder</span>
-							&nbsp;Neuen Ordner anlegen
-						</div>
-						<div class="dropdown-item" onclick="uploadDialog('Hochladen!')">
-							<span class="material-icons">cloud_upload</span>
-							&nbsp;Datei(en) hochladen
-						</div>
-						<div class="dropdown-item" onclick="downloadFiles()">
-							<span class="material-icons">cloud_download</span>
-							&nbsp;Dateien als ZIP runterladen
-						</div>
-							<div class="dropdown-item" onclick="deleteFiles()">
-							<span class="material-icons">delete_forever</span>
-							&nbsp;Markierte Dateien l&ouml;schen
-						</div>
-					
-
-						<div class="dropdown-divider"></div>
-
-						<div class="dropdown-item" onclick="copyFiles()">
-							<span class="material-icons">library_add</span>
-							&nbsp;Zur Zwischenablage hinzuf&uuml;gen
-						</div>
-						<div class="dropdown-item" onclick="pasteFiles()">
-							<span class="material-icons">assignment_returned</span>
-							&nbsp;Zwischenablage hier einf&uuml;gen
-						</div>
-						<div class="dropdown-item" onclick="clearClipboard()">
-							<span class="material-icons">delete_forever</span>
-							&nbsp;Zwischenablage leeren
-						</div>
-						<div class="dropdown-item" onclick="showClipboard()">
-							<span class="material-icons">assignment</span>
-							&nbsp;Zwischenablage zeigen
-						</div>
-
-						<div class="dropdown-divider"></div>
+		<!-- the dropdown main menu -->
+		<div class="dropdown show">
+			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="material-icons">build</span>&nbsp;Aktionen
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<div class="dropdown-item" onclick='createFolder()'>
+					<span class="material-icons">create_new_folder</span>
+					&nbsp;Neuen Ordner anlegen
+				</div>
+				<div class="dropdown-item" onclick="uploadDialog('Hochladen!')">
+					<span class="material-icons">cloud_upload</span>
+					&nbsp;Datei(en) hochladen
+				</div>
+				<div class="dropdown-item" onclick="downloadFiles()">
+					<span class="material-icons">cloud_download</span>
+					&nbsp;Dateien als ZIP runterladen
+				</div>
+				<div class="dropdown-item" onclick="deleteFiles()">
+					<span class="material-icons">delete_forever</span>
+					&nbsp;Markierte Dateien l&ouml;schen
+				</div>
+				<div class="dropdown-divider"></div>
+				<div class="dropdown-item" onclick="copyFiles()">
+					<span class="material-icons">library_add</span>
+					&nbsp;Zur Zwischenablage hinzuf&uuml;gen
+				</div>
+				<div class="dropdown-item" onclick="pasteFiles()">
+					<span class="material-icons">assignment_returned</span>
+					&nbsp;Zwischenablage hier einf&uuml;gen
+				</div>
+				<div class="dropdown-item" onclick="clearClipboard()">
+					<span class="material-icons">delete_forever</span>
+					&nbsp;Zwischenablage leeren
+				</div>
+				<div class="dropdown-item" onclick="showClipboard()">
+					<span class="material-icons">assignment</span>
+					&nbsp;Zwischenablage zeigen
+				</div>
+				<div class="dropdown-divider"></div>
 			<!--
 				<div class="dropdown-item" onclick="testAjaxPhp('Testausgabe!')">
 					<span class="material-icons">info</span>
 					&nbsp;testAjaxPhp!
 				</div> -->
-
-						<div class="dropdown-item" onclick="infoDialog()">
-							<span class="material-icons">info</span>
-							&nbsp; Info &uuml;ber Dateimanager
-						</div>
+				<div class="dropdown-item" onclick="infoDialog()">
+					<span class="material-icons">info</span>
+					&nbsp; Info &uuml;ber Dateimanager
+				</div>
 				<!--
 				<div class="dropdown-item" onclick="phpInfo()">
 					<span class="material-icons">info</span>
 					&nbsp; PHP-Info
 				</div> -->
-
-				</div>
 			</div>
+		</div> <!-- dropdown show -->
 		
-			<!-- Link to documents main folder -->
-			<a class="navbar-brand" href="/"><i class='material-icons'>home</i>&nbsp;Home</a>
-
-		</nav>
+		<!-- Link to documents main folder -->
+		<a class="navbar-brand" href="/"><i class='material-icons'>home</i>&nbsp;Home</a>
+	</nav>
 
   	<!-- ******************************************************* -->
 	<!--       The app contents are rendered to div id="app"     -->
 
-		<div class="container">
-		  <div class="row">
-			<div class="col-sm-12">
-				<div id="app">
-
-				</div>
+	<div class="container">
+	  <div class="row">
+		<div class="col-sm-12">
+			<div id="app">
 			</div>
-		  </div>
 		</div>
+	  </div>
+	</div>
 
-<!-- the footer -->
-<!--
-<footer class="footer">
-    <div id="footer" class="container" style="margin-bottom:0">
-    - (C) Gert-Uwe Hoffmann 2018 -
-    </div>
-</footer>
+	<!-- the footer -->
+	<!--
+	<footer class="footer">
+		<div id="footer" class="container" style="margin-bottom:0">
+    		- (C) Gert-Uwe Hoffmann 2018 -
+    	</div>
+	</footer>
 -->
 
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/router.js"></script>
-<script src="js/myFunctions.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/router.js"></script>
+	<script src="js/myFunctions.js"></script>
 
 </body>
 </html>

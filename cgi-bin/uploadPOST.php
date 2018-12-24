@@ -28,7 +28,7 @@ if ( count($_FILES['file']['name']) > 0 ) {
 
 		// if we could make tempfile...
 		if($tmpFile != ""){
-	  
+
 			$uploadfile = $uploaddir.basename($_FILES['file']['name'][$i]);
 			
 			// upload files to temp dir, move to target and check if successful!
@@ -40,7 +40,7 @@ if ( count($_FILES['file']['name']) > 0 ) {
 				echo("<h3>--- Upload von ".$_FILES['file']['name'][$i]." fehlerhaft!</h3>");
 			}
 
-		  }
+		}
 	}
 }
 

@@ -12,10 +12,13 @@
 // websites main directory.
 $baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
 
-// Remove path or files recursively
+/******************************************************************************
+ ** Remove path or files recursively
+ */
 
 function delete_files($target) {
 
+/*
 			if (is_file($target)) {
 				unlink($target);
 			} else if (is_dir($target)) {
@@ -28,10 +31,14 @@ function delete_files($target) {
 					}
 				}
 				rmdir($target);
-			} // of is_dir($target)...
+			} // of is_dir($target)...*/
+	// dunno why everybody takes the complicated solution above??;)
+	// this one also works with soft links!
+	shell_exec("rm -r ".$target);
 }
-
-// Human readable filesize
+/******************************************************************************
+ ** Human readable filesize
+ */
 
 function formatSize($bytes, $decimals = 2) {
     $factor = floor((strlen($bytes) - 1) / 3);
@@ -39,7 +46,9 @@ function formatSize($bytes, $decimals = 2) {
     return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . @$sz[$factor - 1] . 'B';
 }
 
-// Check for unwanted URL!
+/******************************************************************************
+ ** Check for unwanted URL!
+ */
 
 function checkUrl($url): int {
 
