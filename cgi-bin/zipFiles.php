@@ -2,7 +2,7 @@
 
 set_time_limit(0);
 
-include 'myfilebrowser_functions.php';
+include 'myFunctions.php';
 
 $dateStr = "_".date('y-m-d_H-i-s');
 $postData = $_POST['postData'];

@@ -1,6 +1,6 @@
 <?php
 
-include 'myfilebrowser_functions.php';
+include 'myFunctions.php';
 
 /** Get the action parameter from the calling GET or POST request *************
  */

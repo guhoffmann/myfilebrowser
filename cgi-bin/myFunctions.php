@@ -30,11 +30,9 @@ function delete_files($target) {
 			}
 		}
 		rmdir($target);
-		// of is_dir($target)...*/
-	} else if (is_link($target) ) {
-		echo "Error: Link in your way!";
-	}
+	}// of is_dir($target)...*/	
 }
+
 /******************************************************************************
  ** Human readable filesize
  */

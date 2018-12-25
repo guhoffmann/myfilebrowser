@@ -1,6 +1,6 @@
 <?php
 
-include 'myfilebrowser_functions.php';
+include 'myFunctions.php';
 $filename = $_GET["filename"];
 $mimeType = mime_content_type($baseDir.$filename);
 

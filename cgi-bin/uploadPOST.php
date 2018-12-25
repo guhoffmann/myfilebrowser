@@ -13,7 +13,7 @@
 
 <?php 
 
-include 'myfilebrowser_functions.php';
+include 'myFunctions.php';
 
 $uploaddir = urldecode($baseDir.$_POST["uploadDir"]."/");
 
