@@ -18,23 +18,22 @@ $baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
 
 function delete_files($target) {
 
-/*
-			if (is_file($target)) {
-				unlink($target);
-			} else if (is_dir($target)) {
-				$i = new DirectoryIterator($target);
-				foreach($i as $f) {
-					if($f->isFile()) {
-						unlink($f->getRealPath());
-					} else if(!$f->isDot() && $f->isDir()) {
-						delete_files($f->getRealPath());
-					}
-				}
-				rmdir($target);
-			} // of is_dir($target)...*/
-	// dunno why everybody takes the complicated solution above??;)
-	// this one also works with soft links!
-	shell_exec("rm -r ".$target);
+	if (is_file($target) ) {
+		unlink($target);
+	} else if (is_dir($target)) {
+		$i = new DirectoryIterator($target);
+		foreach($i as $f) {
+			if( $f->isFile()  ) {
+				unlink($f->getRealPath());
+			} else if(!$f->isDot() && $f->isDir()) {
+				delete_files($f->getRealPath());
+			}
+		}
+		rmdir($target);
+		// of is_dir($target)...*/
+	} else if (is_link($target) ) {
+		echo "Error: Link in your way!";
+	}
 }
 /******************************************************************************
  ** Human readable filesize
