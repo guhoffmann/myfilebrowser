@@ -178,7 +178,9 @@ function uploadDialog(message) {
            
 		// trigger the upload form and execute uploadPOST.php!!!!
 		document.getElementById("upload").submit();
-		location.reload(true);
+
+		// Don't uncomment, uploads won't work on Chrome based browsers then!!!
+		//location.reload(true); // NEVER UNCOMMENT THIS!!!!
 	}
 
 } // of function uploadDialog(message, okFunction, closeFunction)
