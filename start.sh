@@ -18,7 +18,7 @@ then
 		if echo "$DOCS"|grep "(No such file or directory)"
 		then
 			echo "No link 'docs' found!"
-			echo "Please create link 'docs' in $PWD!"
+			echo "Please create link 'docs' in Web-Root!"
 			exit 1
 		fi
 		SERVERCMD="/usr/sbin/lighttpd"
@@ -32,7 +32,7 @@ then
 		if echo "$DOCS"|grep "(No such file or directory)"
 		then
 			echo "No link 'docs' found!"
-			echo "Please create link 'docs' in $PWD!"
+			echo "Please create link 'docs' in Web-Root!"
 			exit 1
 		fi
 		SERVERCMD="sudo /usr/sbin/lighttpd"

@@ -15,7 +15,8 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
 //=========== Now filter the actions and react as an event handler ============
 //=============================================================================
 
-/** Create a new folder in current directory **********************************
+/******************************************************************************
+ ** Create a new folder in current directory 
  */
 
 if ( $action == "createFolder" ) {
@@ -24,6 +25,66 @@ if ( $action == "createFolder" ) {
 	$pathname = urldecode($_GET["objectname"]);
 	//header("Content-type: text/plain");
 	mkdir($baseDir."/".$pathname);
+
+/******************************************************************************
+ * Zip files in folder zipfiles for later download
+ */
+
+} else if ( $action == "zipFiles" ) {
+
+	set_time_limit(0);
+
+	$dateStr = "_".date('y-m-d_H-i-s');
+	$postData = $_POST['postData'];
+	$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/".$_POST['filename'].$dateStr.".zip";
+	$command = "7z a \"".$zipFileName."\"";
+
+	//echo "\n*** zipFiles.php, before Loop!".PHP_EOL;
+
+	foreach($postData as $value) { //loop over values
+
+		$fileToAdd = $baseDir.$value;
+		$command .= " \"".$fileToAdd."\"";
+		//echo $fileToAdd.PHP_EOL;
+	
+	}
+
+	$response = shell_exec($command);
+	echo basename($zipFileName);
+
+/******************************************************************************
+ ** Download zipped file containig zipped files and folders from the
+ ** zipfiles folder (called from downloadFiles() in myGuiFunctions.js
+ ** after the zip files were created)!
+ */
+
+} elseif ( $action == "downloadZipAndDelete" ) {
+
+	// download zipped files from zipfiles die and delete them afterwards
+
+	$filename = substr($_GET["objectname"],1);
+
+	if( file_exists($baseDir.$filename) ) {
+		$downloadFile = $baseDir.$filename;
+	}  elseif( file_exists($_SERVER["DOCUMENT_ROOT"]."/".$filename) ) {
+		$downloadFile = $_SERVER["DOCUMENT_ROOT"]."/".$filename;
+	}  else {
+		die("FEHLER: Kann Datei ".$filename." nicht runterladen!");
+	}
+		
+	header('Content-Description: File Transfer');
+	header('Content-Type: application/force-download');
+	header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+	header('Content-Transfer-Encoding: binary');
+
+	header('Accept-Ranges: bytes');
+	ob_clean();
+	flush();
+	readfile($downloadFile);
+	fclose($downloadFile);
+
+	// delete the file after transmission
+	delete_files($downloadFile);
 
 /******************************************************************************
  * Make listing of the actual directory
@@ -42,9 +103,9 @@ if ( $action == "createFolder" ) {
 	}
 
 	if ( $relDir=="" OR $relDir=="/" ) {
-		 echo("<h4 class='padding-start'>Hauptordner</h4>\r\n<table>\r\n");
+		 echo("<h4 class='padding-start'><i class='material-icons'>home</i></h4>\r\n<table>\r\n");
 	} else {
-		 echo("<h4 class='padding-start'>".substr($relDir,2)."</h4>\r\n");
+		 echo("<h4 class='padding-start'><i class='material-icons'>home</i>&nbsp;/".substr($relDir,2)."</h4>\r\n");
 		 // create dirup entry if not in document root!
 		 echo("<table>\r\n<tr><td class='folder' colspan='4' style=\"width:2em\">".
 			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( Verzeichnis zur&uuml;ck )</a></td></tr>\r\n");
@@ -168,40 +229,6 @@ if ( $action == "createFolder" ) {
 
 	header("Content-type: text/html");
 	phpinfo();
-
-/******************************************************************************
- ** Download zipped file containig zipped files and folders from the
- ** zipfiles folder (called from downloadiles() in myGuiFunctions.js
- ** after the zip files were created)!
- */
-
-} elseif ( $action == "downloadZipAndDelete" ) {
-
-	// download zipped files from zipfiles die and delete them afterwards
-
-	$filename = substr($_GET["objectname"],1);
-
-	if( file_exists($baseDir.$filename) ) {
-		$downloadFile = $baseDir.$filename;
-	}  elseif( file_exists($_SERVER["DOCUMENT_ROOT"]."/".$filename) ) {
-		$downloadFile = $_SERVER["DOCUMENT_ROOT"]."/".$filename;
-	}  else {
-		die("FEHLER: Kann Datei ".$filename." nicht runterladen!");
-	}
-		
-	header('Content-Description: File Transfer');
-	header('Content-Type: application/force-download');
-	header('Content-Disposition: attachment; filename="'.basename($filename).'"');
-	header('Content-Transfer-Encoding: binary');
-
-	header('Accept-Ranges: bytes');
-	ob_clean();
-	flush();
-	readfile($downloadFile);
-	fclose($downloadFile);
-
-	// delete the file after transmission
-	delete_files($downloadFile);
 
 /******************************************************************************
  ** Copy marked files/folders to the clipboard (sqlite db)

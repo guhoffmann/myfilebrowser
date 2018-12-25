@@ -414,11 +414,11 @@ function downloadFiles() {
 
 	var zipFileName =  basename(filesData[0]);
 
-	messageWindow("Bitte warten...","<div class='info'>Erstelle Zip-Datei für Download...</div>");
+	messageWindow("Bitte warten...","<div class='info'>Erstelle zip für Download...</div>");
 	$.ajax({
 		type: "POST",
-		url: "cgi-bin/zipFiles.php",  // first zip files on server
-		data: { postData : filesData, filename: zipFileName },
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "zipFiles", postData : filesData, filename: zipFileName },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
