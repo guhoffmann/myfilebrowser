@@ -429,7 +429,7 @@ label {
 
 input[type="checkbox"]:checked + label span.checkbox::after {
 	color: #99ddff;
-	text-shadow: 0 0 5px #ffffff;
+	text-shadow: 0 0 10px #ffffff;
 }
 
 .hidden_checkbox {

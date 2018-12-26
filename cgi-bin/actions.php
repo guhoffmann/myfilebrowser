@@ -111,7 +111,7 @@ if ( $action == "createFolder" ) {
 			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( Verzeichnis zur&uuml;ck )</a></td></tr>\r\n");
 	}
 
-	echo "<section class='section1'>\r\n";
+	echo "<section class='section1'>\r\n"; // for the self styled checkbox!
 	$dirs = "";
 	$files = "";
 	$dirList = scandir( $baseDir.$relDir );
@@ -155,7 +155,7 @@ if ( $action == "createFolder" ) {
 
 //					"<input type='checkbox' name='fileaction' value='".$relDirAktFile."' />".
 					"</td><td class='direntry'>".
-					  "<a href='/cgi-bin/showFile.php?filename=".$relDirAktFile."'><span class='white'>".
+					  "<a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><span class='white'>".
 					$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >".
 					  "<a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons green'>cloud_download</i></a></td>\n";
 		}
@@ -163,7 +163,7 @@ if ( $action == "createFolder" ) {
 
 	echo($dirs);
 	echo($files);
-	echo "</section>";
+	echo "</section>";// for the self styled checkbox!
 
 /******************************************************************************
  * Download file with the green cloud link on the right
@@ -359,6 +359,71 @@ if ( $action == "createFolder" ) {
 	// all done, now go back to file listing!
 	echo "<h1><a href=\"/?".$_POST["uploadDir"]."#list\"><button>Zur&uuml;ck zur Dateiliste!</button></a></h1>";
 	echo "</body></html>";
+
+/******************************************************************************
+ ** Show a file corresponding to its mime type
+ */
+
+} elseif ( $action == "showFile" ) {
+
+	$filename = $_GET["filename"];
+	$mimeType = mime_content_type($baseDir.$filename);
+
+	if ($mimeType == "image/jpeg" || $mimeType == "image/png" || $mimeType == "image/gif" )  {
+		
+		 header('Content-Type: text/html');
+		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
+		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
+		
+	} elseif ($mimeType == "image/png") {
+		
+		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
+		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
+
+	} elseif ($mimeType == "application/pdf") {
+		
+		 if (file_exists($baseDir.$filename)) {
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: inline; filename="'.basename($filename).'"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+			ob_clean();
+			flush();
+			readfile($baseDir.$filename);
+			fclose($baseDir.$filename);
+		 }
+		 
+	} elseif ($mimeType == "text/html") {
+		
+		 if (file_exists($baseDir.$filename)) {
+			header('Content-Type: text/html');
+			ob_clean();
+			flush();
+			readfile($baseDir.$filename);
+			fclose($baseDir.$filename);
+		 }
+
+	} elseif ($mimeType == "video/mp4") {
+		
+		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
+		"</head><body><video controls><source src=\"/docs/".$filename."\" type=\"video/mp4\">".
+		"</video></body></html>\r\n");
+
+	} elseif ($mimeType == "text/plain") {
+		
+		 if (file_exists($baseDir.$filename)) {
+			header('Content-Type: text/plain');
+			ob_clean();
+			flush();
+			readfile($baseDir.$filename);
+			fclose($baseDir.$filename);
+		 }
+
+	} else {
+		
+		 echo("Datei ".$baseDir.$filename.": Weiss net...\n".$mimeType."???");
+		 
+	}
 
 /******************************************************************************
  ** This is it!
