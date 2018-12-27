@@ -1,8 +1,39 @@
+<?php
+
+/*                     - index.php -
+
+      Start file for MyFileBrowser http file explorer.
+   
+                   (C) guhoffmann 2018 -
+*/
+include('cgi-bin/myFunctions.php');
+
+$db = connect_db();
+$result = $db->query('SELECT name,value FROM strings WHERE language = '.$globalLanguage);
+
+while ($row = $result->fetch()) {
+	
+	switch($row[0]) {
+		case "actions": $actions = $row[1]; break;
+		case "progname": $progname = $row[1]; break;
+		case "create_folder": $create_folder = $row[1]; break;
+		case "upload_files": $upload_files = $row[1]; break;
+		case "download_as_zip": $download_as_zip = $row[1]; break;
+		case "delete_selected": $delete_selected = $row[1]; break;
+		case "add_to_clipboard": $add_to_clipboard = $row[1]; break;
+		case "paste_clipboard": $paste_clipboard = $row[1]; break;
+		case "clear_clipboard": $clear_clipboard = $row[1]; break;
+		case "show_clipboard": $show_clipboard = $row[1]; break;
+		case "show_infos": $show_infos = $row[1]; break;
+	}
+}
+
+echo '
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<title>Dateimanager</title>
+	<title>'.$progname.'</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -70,51 +101,51 @@
 		<!-- the dropdown main menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">build</span>&nbsp;Aktionen
+				<span class="material-icons">build</span>&nbsp;'.$actions.'
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-				<div class="dropdown-item" onclick='createFolder()'>
+				<div class="dropdown-item" onclick="createFolder()">
 					<span class="material-icons">create_new_folder</span>
-					&nbsp;Neuen Ordner anlegen
+					&nbsp;'.$create_folder.'
 				</div>
-				<div class="dropdown-item" onclick="uploadDialog('Hochladen!')">
+				<div class="dropdown-item" onclick="uploadDialog("Hochladen!")">
 					<span class="material-icons">cloud_upload</span>
-					&nbsp;Datei(en) hochladen
+					&nbsp;'.$upload_files.'
 				</div>
 				<div class="dropdown-item" onclick="downloadFiles()">
 					<span class="material-icons">cloud_download</span>
-					&nbsp;Dateien als ZIP runterladen
+					&nbsp;'.$download_as_zip.'
 				</div>
 				<div class="dropdown-item" onclick="deleteFiles()">
 					<span class="material-icons">delete_forever</span>
-					&nbsp;Markierte Dateien l&ouml;schen
+					&nbsp;'.$delete_selected.'
 				</div>
 				<div class="dropdown-divider"></div>
 				<div class="dropdown-item" onclick="copyFiles()">
 					<span class="material-icons">library_add</span>
-					&nbsp;Zur Zwischenablage hinzuf&uuml;gen
+					&nbsp;'.$add_to_clipboard.'
 				</div>
 				<div class="dropdown-item" onclick="pasteFiles()">
 					<span class="material-icons">assignment_returned</span>
-					&nbsp;Zwischenablage hier einf&uuml;gen
+					&nbsp;'.$paste_clipboard.'
 				</div>
 				<div class="dropdown-item" onclick="clearClipboard()">
 					<span class="material-icons">delete_forever</span>
-					&nbsp;Zwischenablage leeren
+					&nbsp;'.$clear_clipboard.'
 				</div>
 				<div class="dropdown-item" onclick="showClipboard()">
 					<span class="material-icons">assignment</span>
-					&nbsp;Zwischenablage zeigen
+					&nbsp;'.$show_clipboard.'
 				</div>
 				<div class="dropdown-divider"></div>
 			<!--
-				<div class="dropdown-item" onclick="testAjaxPhp('Testausgabe!')">
+				<div class="dropdown-item" onclick="testAjaxPhp("Testausgabe!")">
 					<span class="material-icons">info</span>
 					&nbsp;testAjaxPhp!
 				</div> -->
 				<div class="dropdown-item" onclick="infoDialog()">
 					<span class="material-icons">info</span>
-					&nbsp; Info &uuml;ber Dateimanager
+					&nbsp; '.$show_infos.'
 				</div>
 				<!--
 				<div class="dropdown-item" onclick="phpInfo()">
@@ -125,7 +156,7 @@
 		</div> <!-- dropdown show -->
 		
 		<!-- Link to documents main folder -->
-		<a class="navbar-brand" href="/"><i class='material-icons'>home</i>&nbsp;Home</a>
+		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
 	</nav>
 
   	<!-- ******************************************************* -->
@@ -156,4 +187,6 @@
 	<script src="js/myFunctions.js"></script>
 
 </body>
-</html>
+</html>'
+
+?>

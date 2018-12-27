@@ -1,5 +1,12 @@
 <?php
 
+/*                          - actions.php -
+ 
+          'Event handler' for MyFileBrowser http file explorer.
+   
+                         (C) guhoffmann 2018 -
+*/
+
 include 'myFunctions.php';
 
 /** Get the action parameter from the calling GET or POST request *************
@@ -303,8 +310,7 @@ if ( $action == "createFolder" ) {
 	echo "Einfügen nach: ".$uploaddir."\n";
 
 
-	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-	
+	$db = db_connect();	
 	if (!$db) {
 		echo $db->lastErrorMsg();
 	} else {

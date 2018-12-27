@@ -7,10 +7,29 @@
                          (C) guhoffmann 2018 -
 */
 
-// $baseDir must be the symbolic link 'docs' to the file exchange directory!
-// If it doesn't exist, you must manually create the link in the
-// websites main directory.
+/* $baseDir must be the symbolic link 'docs' to the file exchange directory!
+   If it doesn't exist, you must manually create the link in the
+   websites main directory. */
 $baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
+
+/* Select the global language! Should be selectable in future.
+   At the moment we have:
+
+	1 - German
+	2 - English
+ */
+
+$globalLanguage = 1;
+
+/******************************************************************************
+ ** Return a connection to the sqlite database
+ */
+
+function connect_db() {
+
+	return new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
+
+}
 
 /******************************************************************************
  ** Remove path or files recursively

@@ -75,6 +75,13 @@ img, video {
 	vertical-align: top;
 }
 
+/* Limiting size of modal window and
+   allow scrolling after max-height!
+*/
+.modal-body {
+	max-height: 15em;
+	overflow: auto;
+}
 .center-buttons {
 	display: table;
 	background-color: #313975;
