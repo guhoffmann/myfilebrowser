@@ -243,22 +243,7 @@ if ( $action == "createFolder" ) {
  */
 
 } elseif ( $action == "copyToClipboard" ) {
-/*
-	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-	
-	if (!$db) {
-		echo $db->lastErrorMsg();
-	} else {
-		$postData = $_POST["objectname"];
-		$numResults=0;
-		foreach($postData as $value) { //loop over values
-			$db->exec("INSERT INTO clipboard VALUES ('".$value."');");
-			$numResults++;
-		}
-		$db = null;
-		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
-	}
-*/
+
 		$postData = $_POST["objectname"];
 		$numResults=0;
 		foreach($postData as $value) { //loop over values
@@ -268,49 +253,20 @@ if ( $action == "createFolder" ) {
 		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
 
 /******************************************************************************
- ** Clear the clipboard (sqlite db)
+ ** Clear the clipboard
  */
 
 } elseif ( $action == "clearClipboard" ) {
-/*
-	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-	
-	if (!$db) {
-		echo $db->lastErrorMsg();
-	} else {
-		echo "<div class='info'>Zwischenablage geleert!</div>";
-		$db->exec("DELETE FROM clipboard;");
-		$db = null;
-	}
-*/
+
 	echo "<div class='info'>Zwischenablage geleert!</div>";
 	$_SESSION["clipboard"] = array();
-;
+
 /******************************************************************************
- ** Show the contents of the clipboard (sqlite db)
+ ** Show the contents of the clipboard
  */
 
 } elseif ( $action == "showClipboard" ) {
-/*
-	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
-	
-	if (!$db) {
-		echo $db->lastErrorMsg();
-	} else {
-		$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
-		echo "<div class='info'>";
-		$numResults=0;
-		while ($row = $result->fetch()) {
-			echo $row[0]."</br>";
-			$numResults++;
-		}
-		if ( $numResults == 0 ) {
-			echo "Die Zwischenablage ist leer.";
-		}
-		$db = null;
-		echo "</div>";
-	}
-*/
+
 	echo "<div class='info'>";
 	foreach($_SESSION["clipboard"] as $key=>$data){
 		echo $key."</br>";
@@ -318,7 +274,7 @@ if ( $action == "createFolder" ) {
 	echo "</div>";
 
 /******************************************************************************
- ** Paste files from clipboard to current location (sqlite db)
+ ** Paste files from clipboard to current location
  */
 
 } elseif ( $action == "pasteFiles" ) {
@@ -327,23 +283,14 @@ if ( $action == "createFolder" ) {
 
 	echo "Einfügen nach: ".$uploaddir."\n";
 
-/*
-	$db = db_connect();	
-	if (!$db) {
-		echo $db->lastErrorMsg();
-	} else {
-		$result = $db->query("SELECT * FROM clipboard GROUP BY entry;");
-		while ($row = $result->fetch()) {
-			echo "kopiere ".$row[0]." -> ".$uploaddir."/".basename($row[0])."\n";
-			shell_exec("cp -r '".$baseDir.$row[0]."' '".$baseDir.$uploaddir."/".basename($row[0])."'" );
-		}
-		$db = null;
-	}
-*/
 	foreach($_SESSION["clipboard"] as $key=>$data){
 		echo "kopiere ".$key." -> ".$uploaddir."/".basename($key)."\n";
 		shell_exec("cp -r '".$baseDir.$key."' '".$baseDir.$uploaddir."/".basename($key)."'" );
    }
+
+/******************************************************************************
+ ** Upload files from clipboard to current location and give message!
+ */
 
 } elseif ( $action == "uploadPost" ) {
 

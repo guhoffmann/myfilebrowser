@@ -1,5 +1,4 @@
 <?php
-session_start();
 /*                  - myfilebrowser_functions.php -
  
    Global variables and functions for MyFileBrowser http file explorer.
@@ -11,15 +10,6 @@ session_start();
    If it doesn't exist, you must manually create the link in the
    websites main directory. */
 $baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
-
-/* Select the global language! Should be selectable in future.
-   At the moment we have:
-
-	1 - German
-	2 - English
- */
-
-$globalLanguage = 1;
 
 /******************************************************************************
  ** Return a connection to the sqlite database

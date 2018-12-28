@@ -12,16 +12,21 @@ session_start();
    main start page of the web app!
 */
 
+// Start with German language!
 $_SESSION["language"] = "1";
-// Necessary to keep clipboard alive!
+
+// Necessary to keep clipboard alive:
+// only clear if not existing!!!
 if ( !isset($_SESSION["clipboard"]) ) { 
 	$_SESSION["clipboard"] = array();
 }
 
 include('cgi-bin/myFunctions.php');
 
+// Now fetch all language dependent Strings!
+
 $db = connect_db();
-$result = $db->query('SELECT name,value FROM strings WHERE language = '.$globalLanguage);
+$result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSION["language"]);
 
 while ($row = $result->fetch()) {
 	
@@ -120,7 +125,7 @@ echo '
 					<span class="material-icons">create_new_folder</span>
 					&nbsp;'.$create_folder.'
 				</div>
-				<div class="dropdown-item" onclick="uploadDialog("Hochladen!")">
+				<div class="dropdown-item" onclick="uploadDialog(\'Hochladen\')">
 					<span class="material-icons">cloud_upload</span>
 					&nbsp;'.$upload_files.'
 				</div>
