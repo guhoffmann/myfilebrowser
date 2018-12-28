@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /*                          - actions.php -
  
@@ -108,7 +109,7 @@ if ( $action == "createFolder" ) {
 	if ( checkUrl($relDir) == 0 ) {
 		exit("Unzulässige URL!");
 	}
-
+	
 	if ( $relDir=="" OR $relDir=="/" ) {
 		 echo("<h4 class='padding-start'><i class='material-icons'>home</i></h4>\r\n<table>\r\n");
 	} else {
@@ -242,7 +243,7 @@ if ( $action == "createFolder" ) {
  */
 
 } elseif ( $action == "copyToClipboard" ) {
-
+/*
 	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
 	
 	if (!$db) {
@@ -257,13 +258,21 @@ if ( $action == "createFolder" ) {
 		$db = null;
 		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
 	}
+*/
+		$postData = $_POST["objectname"];
+		$numResults=0;
+		foreach($postData as $value) { //loop over values
+			array_push($_SESSION["clipboard"][$value],1);
+			$numResults++;
+		}
+		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
 
 /******************************************************************************
  ** Clear the clipboard (sqlite db)
  */
 
 } elseif ( $action == "clearClipboard" ) {
-
+/*
 	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
 	
 	if (!$db) {
@@ -273,13 +282,16 @@ if ( $action == "createFolder" ) {
 		$db->exec("DELETE FROM clipboard;");
 		$db = null;
 	}
-
+*/
+	echo "<div class='info'>Zwischenablage geleert!</div>";
+	$_SESSION["clipboard"] = array();
+;
 /******************************************************************************
  ** Show the contents of the clipboard (sqlite db)
  */
 
 } elseif ( $action == "showClipboard" ) {
-
+/*
 	$db = new PDO("sqlite:".$_SERVER["DOCUMENT_ROOT"]."/myfilebrowser.db");
 	
 	if (!$db) {
@@ -298,6 +310,12 @@ if ( $action == "createFolder" ) {
 		$db = null;
 		echo "</div>";
 	}
+*/
+	echo "<div class='info'>";
+	foreach($_SESSION["clipboard"] as $key=>$data){
+		echo $key."</br>";
+   }
+	echo "</div>";
 
 /******************************************************************************
  ** Paste files from clipboard to current location (sqlite db)
@@ -309,7 +327,7 @@ if ( $action == "createFolder" ) {
 
 	echo "Einfügen nach: ".$uploaddir."\n";
 
-
+/*
 	$db = db_connect();	
 	if (!$db) {
 		echo $db->lastErrorMsg();
@@ -321,6 +339,12 @@ if ( $action == "createFolder" ) {
 		}
 		$db = null;
 	}
+*/
+	foreach($_SESSION["clipboard"] as $key=>$data){
+		echo "kopiere ".$key." -> ".$uploaddir."/".basename($key)."\n";
+		shell_exec("cp -r '".$baseDir.$key."' '".$baseDir.$uploaddir."/".basename($key)."'" );
+   }
+
 } elseif ( $action == "uploadPost" ) {
 
 	echo '<!DOCTYPE html>

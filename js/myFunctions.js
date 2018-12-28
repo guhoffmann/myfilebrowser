@@ -77,6 +77,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 	$("#inputval").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
+	$("#ModalOk").removeClass("hidden");
 	$("#ModalContent").removeClass("hidden"); 
 	$("#ModalContent").html(message);
 	$("#ModalMessage").modal();
@@ -132,6 +133,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	$("#ModalTitle").html(message);
 	$("#inputval").removeClass("hidden");
 	$("#ModalClose").removeClass("hidden");
+	$("#ModalOk").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
 	$("#ModalMessage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!

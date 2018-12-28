@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /*                  - myfilebrowser_functions.php -
  
    Global variables and functions for MyFileBrowser http file explorer.

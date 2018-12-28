@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /*                     - index.php -
 
@@ -6,6 +7,17 @@
    
                    (C) guhoffmann 2018 -
 */
+
+/* Initialize session variables here as this is the
+   main start page of the web app!
+*/
+
+$_SESSION["language"] = "1";
+// Necessary to keep clipboard alive!
+if ( !isset($_SESSION["clipboard"]) ) { 
+	$_SESSION["clipboard"] = array();
+}
+
 include('cgi-bin/myFunctions.php');
 
 $db = connect_db();
@@ -147,11 +159,11 @@ echo '
 					<span class="material-icons">info</span>
 					&nbsp; '.$show_infos.'
 				</div>
-				<!--
+				
 				<div class="dropdown-item" onclick="phpInfo()">
 					<span class="material-icons">info</span>
 					&nbsp; PHP-Info
-				</div> -->
+				</div> 
 			</div>
 		</div> <!-- dropdown show -->
 		
