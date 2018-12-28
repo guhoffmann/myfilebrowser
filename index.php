@@ -13,7 +13,9 @@ session_start();
 */
 
 // Start with German language!
-$_SESSION["language"] = "1";
+if ( !isset($_SESSION["language"]) ) {
+	$_SESSION["language"] = "1";
+}
 
 // Necessary to keep clipboard alive:
 // only clear if not existing!!!
@@ -45,6 +47,9 @@ while ($row = $result->fetch()) {
 		case "select_language": $select_language = $row[1]; break;
 	}
 }
+
+// Fetch list of languages
+
 
 echo '
 <!DOCTYPE html>
@@ -165,31 +170,31 @@ echo '
 					<span class="material-icons">info</span>
 					&nbsp; '.$show_infos.'
 				</div>
-				
+			<!--	
 				<div class="dropdown-item" onclick="phpInfo()">
 					<span class="material-icons">info</span>
 					&nbsp; PHP-Info
-				</div> 
+				</div> -->
 			</div>
 		</div> <!-- dropdown show -->
 
 		<!-- Link to documents main folder -->
 		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
-
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">build</span>&nbsp;'.$actions.'
+				<span class="material-icons">language</span>&nbsp;'.$select_language.'
 			</a>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-				<div class="dropdown-item" onclick="createFolder()">
-					<span class="material-icons">create_new_folder</span>
-					&nbsp;'.$create_folder.'
-				</div>
-			</div>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
+
+$result = $db->query('SELECT * FROM languages');
+
+while ($row = $result->fetch()) {
+	echo '<div class="dropdown-item" onClick="changeLanguage('.$row[2].')">&nbsp;'.$row[0].'</div>';
+}
+
+echo '			</div>
 		</div> <!-- dropdown show/language menu -->
-
-
 	</nav>
 
   	<!-- ******************************************************* -->

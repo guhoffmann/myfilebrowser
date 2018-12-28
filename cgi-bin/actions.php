@@ -165,7 +165,7 @@ if ( $action == "createFolder" ) {
 					"</td><td class='direntry'>".
 					  "<a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><span class='white'>".
 					$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >".
-					  "<a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons green'>cloud_download</i></a></td>\n";
+					  "<a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
 		}
 	}
 
@@ -401,6 +401,14 @@ if ( $action == "createFolder" ) {
 		 echo("Datei ".$baseDir.$filename.": Weiss net...\n".$mimeType."???");
 		 
 	}
+
+/******************************************************************************
+ ** Change language
+ */
+
+} elseif ( $action == "changeLanguage" ) {
+
+	$_SESSION["language"] = $_GET["language"];
 
 /******************************************************************************
  ** This is it!

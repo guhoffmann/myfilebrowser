@@ -436,4 +436,25 @@ function downloadFiles() {
 
 } // of function downloadFiles() ...
 
+/******************************************************************************
+ ** Change language
+ */
+
+function changeLanguage(language) {
+
+	$.ajax({
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "changeLanguage", language: language },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		success: function(response) {
+			///messageWindow("Antwort", response);
+			location.reload(true);
+		},
+		error: function(response) {
+			alert("changeLanguage: Puh, Why this?\n"+response);
+		}
+	});
+
+} // of function showClipboard() ...
+
 
