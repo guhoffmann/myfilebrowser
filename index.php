@@ -42,6 +42,7 @@ while ($row = $result->fetch()) {
 		case "clear_clipboard": $clear_clipboard = $row[1]; break;
 		case "show_clipboard": $show_clipboard = $row[1]; break;
 		case "show_infos": $show_infos = $row[1]; break;
+		case "select_language": $select_language = $row[1]; break;
 	}
 }
 
@@ -171,9 +172,24 @@ echo '
 				</div> 
 			</div>
 		</div> <!-- dropdown show -->
-		
+
 		<!-- Link to documents main folder -->
 		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
+
+		<!-- the lanuage menu -->
+		<div class="dropdown show">
+			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="material-icons">build</span>&nbsp;'.$actions.'
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<div class="dropdown-item" onclick="createFolder()">
+					<span class="material-icons">create_new_folder</span>
+					&nbsp;'.$create_folder.'
+				</div>
+			</div>
+		</div> <!-- dropdown show/language menu -->
+
+
 	</nav>
 
   	<!-- ******************************************************* -->
