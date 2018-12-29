@@ -139,6 +139,16 @@ img, video {
 	text-shadow: 0 0 2px #000;
 }
 
+.folder a {
+	color: #8d93c0;
+}
+
+.folder:hover, .folder a:hover {
+	color: #fff;
+	background-color: #913959;
+	cursor: pointer;
+}
+
 .padding-start {
 	padding-top: 2rem;
 }
@@ -435,7 +445,7 @@ label {
 }
 
 input[type="checkbox"]:checked + label span.checkbox::after {
-	color: #99ddff;
+	color: #4f8;
 	text-shadow: 0 0 10px #ffffff;
 }
 

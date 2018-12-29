@@ -25,7 +25,7 @@ if ( !isset($_SESSION["clipboard"]) ) {
 
 include('cgi-bin/myFunctions.php');
 
-// Now fetch all language dependent Strings!
+// Now fetch all language dependent Strings for menu and main page!
 
 $db = connect_db();
 $result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSION["language"]);
@@ -33,18 +33,18 @@ $result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSIO
 while ($row = $result->fetch()) {
 	
 	switch($row[0]) {
-		case "actions": $actions = $row[1]; break;
-		case "progname": $progname = $row[1]; break;
-		case "create_folder": $create_folder = $row[1]; break;
-		case "upload_files": $upload_files = $row[1]; break;
-		case "download_as_zip": $download_as_zip = $row[1]; break;
-		case "delete_selected": $delete_selected = $row[1]; break;
-		case "add_to_clipboard": $add_to_clipboard = $row[1]; break;
-		case "paste_clipboard": $paste_clipboard = $row[1]; break;
-		case "clear_clipboard": $clear_clipboard = $row[1]; break;
-		case "show_clipboard": $show_clipboard = $row[1]; break;
-		case "show_infos": $show_infos = $row[1]; break;
-		case "select_language": $select_language = $row[1]; break;
+		case "actions": $_SESSION["actions"] = $row[1]; break;
+		case "progname": $_SESSION["progname"] = $row[1]; break;
+		case "create_folder": $_SESSION["create_folder"] = $row[1]; break;
+		case "upload_files": $_SESSION["upload_files"] = $row[1]; break;
+		case "download_as_zip": $_SESSION["download_as_zip"] = $row[1]; break;
+		case "delete_selected": $_SESSION["delete_selected"] = $row[1]; break;
+		case "add_to_clipboard": $_SESSION["add_to_clipboard"] = $row[1]; break;
+		case "paste_clipboard": $_SESSION["paste_clipboard"] = $row[1]; break;
+		case "clear_clipboard": $_SESSION["clear_clipboard"] = $row[1]; break;
+		case "show_clipboard": $_SESSION["show_clipboard"] = $row[1]; break;
+		case "show_infos": $_SESSION["show_infos"] = $row[1]; break;
+		case "select_language": $_SESSION["select_language"] = $row[1]; break;
 	}
 }
 
@@ -56,7 +56,7 @@ echo '
 <html lang="en">
 
 <head>
-	<title>'.$progname.'</title>
+	<title>'.$_SESSION["progname"].'</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -124,41 +124,41 @@ echo '
 		<!-- the dropdown main menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">build</span>&nbsp;'.$actions.'
+				<span class="material-icons">build</span>&nbsp;'.$_SESSION["actions"].'
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 				<div class="dropdown-item" onclick="createFolder()">
 					<span class="material-icons">create_new_folder</span>
-					&nbsp;'.$create_folder.'
+					&nbsp;'.$_SESSION["create_folder"].'
 				</div>
 				<div class="dropdown-item" onclick="uploadDialog(\'Hochladen\')">
 					<span class="material-icons">cloud_upload</span>
-					&nbsp;'.$upload_files.'
+					&nbsp;'.$_SESSION["upload_files"].'
 				</div>
 				<div class="dropdown-item" onclick="downloadFiles()">
 					<span class="material-icons">cloud_download</span>
-					&nbsp;'.$download_as_zip.'
+					&nbsp;'.$_SESSION["download_as_zip"].'
 				</div>
 				<div class="dropdown-item" onclick="deleteFiles()">
 					<span class="material-icons">delete_forever</span>
-					&nbsp;'.$delete_selected.'
+					&nbsp;'.$_SESSION["delete_selected"].'
 				</div>
 				<div class="dropdown-divider"></div>
 				<div class="dropdown-item" onclick="copyFiles()">
 					<span class="material-icons">library_add</span>
-					&nbsp;'.$add_to_clipboard.'
+					&nbsp;'.$_SESSION["add_to_clipboard"].'
 				</div>
 				<div class="dropdown-item" onclick="pasteFiles()">
 					<span class="material-icons">assignment_returned</span>
-					&nbsp;'.$paste_clipboard.'
+					&nbsp;'.$_SESSION["paste_clipboard"].'
 				</div>
 				<div class="dropdown-item" onclick="clearClipboard()">
 					<span class="material-icons">delete_forever</span>
-					&nbsp;'.$clear_clipboard.'
+					&nbsp;'.$_SESSION["clear_clipboard"].'
 				</div>
 				<div class="dropdown-item" onclick="showClipboard()">
 					<span class="material-icons">assignment</span>
-					&nbsp;'.$show_clipboard.'
+					&nbsp;'.$_SESSION["show_clipboard"].'
 				</div>
 				<div class="dropdown-divider"></div>
 			<!--
@@ -168,7 +168,7 @@ echo '
 				</div> -->
 				<div class="dropdown-item" onclick="infoDialog()">
 					<span class="material-icons">info</span>
-					&nbsp; '.$show_infos.'
+					&nbsp; '.$_SESSION["show_infos"].'
 				</div>
 			<!--	
 				<div class="dropdown-item" onclick="phpInfo()">
@@ -183,7 +183,7 @@ echo '
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">language</span>&nbsp;'.$select_language.'
+				<span class="material-icons">language</span>&nbsp;'.$_SESSION["select_language"].'
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
 

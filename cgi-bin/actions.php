@@ -137,11 +137,11 @@ if ( $action == "createFolder" ) {
 			
 			$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
 					// For the new self styled checkbox
-					"<span class='checkcontainer'>".
-			      "<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>".
-					"<label for='checkbox-".$i."'><span class='checkbox'></span></label>".
-					"</span>".
-
+					"<span class='checkcontainer'>
+			      <input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+					<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+					</span>".
+					// The link with the folder name
 					"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
 						$relDirAktFile."#list'><i class='material-icons'>folder</i>\r\n".
 					 $dirList[$i]."</a></td>\n";
@@ -156,16 +156,15 @@ if ( $action == "createFolder" ) {
 			$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
 
 					// For the new self styled checkbox
-					"<span class='checkcontainer'>".
-			      "<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>".
-					"<label for='checkbox-".$i."'><span class='checkbox'></span></label>".
-					"</span>".
-
-//					"<input type='checkbox' name='fileaction' value='".$relDirAktFile."' />".
-					"</td><td class='direntry'>".
-					  "<a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><span class='white'>".
-					$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >".
-					  "<a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
+					"<span class='checkcontainer'>
+			      <input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+					<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+					</span>".
+					// Now for the rest
+					"</td><td class='direntry'>
+					  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><span class='white'>
+					".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >
+					  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
 		}
 	}
 
@@ -217,15 +216,21 @@ if ( $action == "createFolder" ) {
 
 	// return some program infos
 
-		header("Content-type: text/html");
+	$db = connect_db();
+	$result = $db->query('SELECT value FROM strings
+								 WHERE language = '.$_SESSION["language"].
+								' AND name = "prog_description"');
+	$row = $result->fetch();
+	header("Content-type: application/json");
 
-		$clientIp = $_SERVER['REMOTE_ADDR'];
-		echo("<table><tr><td colspan='2' class='info'>Einfache Dateiverwaltung f&uuml;r entfernte Daten.</br></br></td></tr>");
-		echo("<tr><td class='right info'>Server-Software:</td><td class='left info'>".$_SERVER['SERVER_SOFTWARE']."</td></tr>");
-		echo("<tr><td class='right info'>Server-Name/-IP:</td><td class='left info'>".$_SERVER['SERVER_NAME']."</br>".$_SERVER['SERVER_ADDR']."</td></tr>");
-		echo("<tr><td class='right info'>Port:</td><td class='left info'>".$_SERVER['SERVER_PORT']."</td></tr>" );
-		echo("<tr><td class='right info'>Client-IP:</td><td class='left info'>".$_SERVER['REMOTE_ADDR']."</td></tr>");
-		echo("<tr><td colspan='2' class='info'></br>(C) Gert-Uwe Hoffmann 2018</td></tr></table>");
+	$clientIp = $_SERVER['REMOTE_ADDR'];
+	$retStr= "<p class='info'>".$row[0]."</p>
+				<p class='info'>".$_SERVER['SERVER_SOFTWARE']."</br>
+				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['SERVER_ADDR']."</br>
+				Port: ".$_SERVER['SERVER_PORT']."</br>
+				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
+				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
+	echo json_encode( array($_SESSION["progname"],$retStr) );
 
 /******************************************************************************
  ** Show php info pages
