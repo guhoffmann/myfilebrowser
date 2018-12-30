@@ -6,7 +6,29 @@
  
 var globalAktMediaPath = "/"; 
 var input = document.getElementById("inputval");
-initFileSelector();
+var languageStrings = {};
+
+/** Function for doing all global init stuff!!! *******************************
+ */
+
+( function() {
+
+	initFileSelector();
+
+	$.ajax({
+		url: "cgi-bin/actions.php",
+		data: { action: "getStrings" },
+		dataType: "json", // NOT!!! text/html to get response correctly!!!!
+		
+		success: function(response){
+			console.log(response["progname"]+" ; "+typeof(response) );
+			alert(response);
+			languageStrings = response;
+			//messageWindow("<span class='material-icons'>info</span>&nbsp;"+response[0], response[1]);
+		}
+	});
+
+} ) ();
 
 // just some functions for convenience... ;)
 
@@ -222,10 +244,9 @@ function infoDialog() {
 	$.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "info" },
-		dataType: "json", // NOT!!! text/html to get response correctly!!!!
-		
+		dataType: "text/html", // NOT!!! text/html to get response correctly!!!!
 		success: function(response){
-			messageWindow("<span class='material-icons'>info</span>&nbsp;"+response[0], response[1]);
+			messageWindow("<span class='material-icons'>info</span>&nbsp;" , response);
 		}
 	});
 
@@ -240,7 +261,7 @@ function phpInfo() {
     $.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "phpinfo" },
-		dataType: "text", // must be sent for browser to get response correctly!
+		dataType: "text/html", // must be sent for browser to get response correctly!
 		success: function(data){
 			document.getElementById("app").innerHTML = data;
 			//location.reload(true);
@@ -310,7 +331,7 @@ function copyFiles() {
 		dataType: "text",  // must be sent for browser to get response correctly!
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
-			messageWindow("<span class='material-icons'>assignment</span>&nbsp;Zwischenablage", response);
+			messageWindow("<span class='material-icons'>assignment</span>&nbsp;"+languageStrings["clipboard"], response);
 			//location.reload(true);
 		},
 		error: function(response) {
@@ -353,7 +374,7 @@ function showClipboard() {
 		data: { action: "showClipboard" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
-			messageWindow("<span class='material-icons'>assignment</span>&nbsp;Zwischenablage", response);
+			messageWindow("<span class='material-icons'>assignment</span>&nbsp;"+languageStrings["clipboard"], response);
 			//location.reload(true);
 		},
 		error: function(response) {

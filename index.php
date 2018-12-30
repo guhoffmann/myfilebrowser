@@ -8,9 +8,7 @@ session_start();
                    (C) guhoffmann 2018 -
 */
 
-/* Initialize session variables here as this is the
-   main start page of the web app!
-*/
+// Initialize all session variables here
 
 // Start with German language!
 if ( !isset($_SESSION["language"]) ) {

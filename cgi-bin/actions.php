@@ -215,14 +215,13 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "info" ) {
 
 	// return some program infos
-
+/*
 	$db = connect_db();
 	$result = $db->query('SELECT value FROM strings
 								 WHERE language = '.$_SESSION["language"].
 								' AND name = "prog_description"');
 	$row = $result->fetch();
-	header("Content-type: application/json");
-
+	header("Content-type: text/html");
 	$clientIp = $_SERVER['REMOTE_ADDR'];
 	$retStr= "<p class='info'>".$row[0]."</p>
 				<p class='info'>".$_SERVER['SERVER_SOFTWARE']."</br>
@@ -230,8 +229,9 @@ if ( $action == "createFolder" ) {
 				Port: ".$_SERVER['SERVER_PORT']."</br>
 				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
 				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
-	echo json_encode( array($_SESSION["progname"],$retStr) );
-
+	echo $retStr;
+*/
+echo "Test!";
 /******************************************************************************
  ** Show php info pages
  */
@@ -414,6 +414,25 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "changeLanguage" ) {
 
 	$_SESSION["language"] = $_GET["language"];
+
+/******************************************************************************
+ ** Change language
+ */
+
+} elseif ( $action == "getStrings" ) {
+
+	// return some program infos
+
+	$db = connect_db();
+	$result = $db->query('SELECT name,value FROM strings
+								 WHERE language = '.$_SESSION["language"]);
+	$retArray = array();
+
+	while ($row = $result->fetch()) {
+		$retArray[$row[0]] = $row[1];
+	}
+	header("Content-type: application/json");
+	echo json_encode( $retArray );
 
 /******************************************************************************
  ** This is it!
