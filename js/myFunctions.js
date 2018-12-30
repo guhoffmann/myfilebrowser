@@ -9,22 +9,22 @@ var input = document.getElementById("inputval");
 var languageStrings = {};
 
 /** Function for doing all global init stuff!!! *******************************
+ ** (calls itself after declaration!)
  */
 
 ( function() {
 
 	initFileSelector();
 
+	// read all language strings from database into JavaScript object!
+
 	$.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "getStrings" },
-		dataType: "json", // NOT!!! text/html to get response correctly!!!!
+		dataType: "json",
 		
 		success: function(response){
-			console.log(response["progname"]+" ; "+typeof(response) );
-			alert(response);
 			languageStrings = response;
-			//messageWindow("<span class='material-icons'>info</span>&nbsp;"+response[0], response[1]);
 		}
 	});
 
@@ -222,9 +222,7 @@ function createFolder() {
 			$.ajax({
 				url: "cgi-bin/actions.php",
 				data: { objectname: folder, action: "createFolder" },
-				//dataType: "text", // must be sent for browser to get response correctly!
 				success: function(){
-					//alert("Success creating Folder!");
 					location.reload(true); // call it here and not in button click event to work with Firefox!!!
 				},
 				error: function (response) {
@@ -244,9 +242,9 @@ function infoDialog() {
 	$.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "info" },
-		dataType: "text/html", // NOT!!! text/html to get response correctly!!!!
+		dataType: "html", // NOT BOTH(!!!) text/html, but only text or html to get response correctly!!!!
 		success: function(response){
-			messageWindow("<span class='material-icons'>info</span>&nbsp;" , response);
+			messageWindow("<span class='material-icons'>info</span>&nbsp;"+languageStrings["progname"], response);
 		}
 	});
 
@@ -261,7 +259,7 @@ function phpInfo() {
     $.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "phpinfo" },
-		dataType: "text/html", // must be sent for browser to get response correctly!
+		dataType: "html",
 		success: function(data){
 			document.getElementById("app").innerHTML = data;
 			//location.reload(true);
@@ -291,14 +289,11 @@ function deleteFiles() {
 					data: { objectname: filename, action: "deleteFile" },
 					dataType: "text", // must be sent for browser to get response correctly!
 					success: function(response) {
-						//alert("deleteFiles:"+response);
 						location.reload(true);
-						console.log(response);
 					},
 					error: function(response) {
-						alert("deleteFiles ERROR, warum? Noch Unterverzeichnisse drin?");
+						alert("deleteFiles ERROR, warum? Noch Unterverzeichnisse drin? Rechte fehlerhaft?");
 						location.reload(true);
-						console.log(response);
 					}
 
 				}); // of $.ajax(...
@@ -318,12 +313,10 @@ function copyFiles() {
 
 	var filesData = [];
 
-	//alert(filesData);
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
 		filesData.push(filename);
 	});
-	//alert(filesData);
 	$.ajax({
 		type: "POST",
 		url: "cgi-bin/actions.php",  // first zip files on server
@@ -332,7 +325,6 @@ function copyFiles() {
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
 			messageWindow("<span class='material-icons'>assignment</span>&nbsp;"+languageStrings["clipboard"], response);
-			//location.reload(true);
 		},
 		error: function(response) {
 			alert("copyToClipboard: Puh, Why this?\n"+response);

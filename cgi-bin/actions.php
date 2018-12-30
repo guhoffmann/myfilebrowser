@@ -116,7 +116,7 @@ if ( $action == "createFolder" ) {
 		 echo("<h4 class='padding-start'><i class='material-icons'>home</i>&nbsp;/".substr($relDir,2)."</h4>\r\n");
 		 // create dirup entry if not in document root!
 		 echo("<table>\r\n<tr><td class='folder' colspan='4' style=\"width:2em\">".
-			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( Verzeichnis zur&uuml;ck )</a></td></tr>\r\n");
+			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( ".$_SESSION["directory_up"]." )</a></td></tr>\r\n");
 	}
 
 	echo "<section class='section1'>\r\n"; // for the self styled checkbox!
@@ -215,7 +215,7 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "info" ) {
 
 	// return some program infos
-/*
+
 	$db = connect_db();
 	$result = $db->query('SELECT value FROM strings
 								 WHERE language = '.$_SESSION["language"].
@@ -230,8 +230,7 @@ if ( $action == "createFolder" ) {
 				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
 				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
 	echo $retStr;
-*/
-echo "Test!";
+
 /******************************************************************************
  ** Show php info pages
  */

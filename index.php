@@ -30,20 +30,8 @@ $result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSIO
 
 while ($row = $result->fetch()) {
 	
-	switch($row[0]) {
-		case "actions": $_SESSION["actions"] = $row[1]; break;
-		case "progname": $_SESSION["progname"] = $row[1]; break;
-		case "create_folder": $_SESSION["create_folder"] = $row[1]; break;
-		case "upload_files": $_SESSION["upload_files"] = $row[1]; break;
-		case "download_as_zip": $_SESSION["download_as_zip"] = $row[1]; break;
-		case "delete_selected": $_SESSION["delete_selected"] = $row[1]; break;
-		case "add_to_clipboard": $_SESSION["add_to_clipboard"] = $row[1]; break;
-		case "paste_clipboard": $_SESSION["paste_clipboard"] = $row[1]; break;
-		case "clear_clipboard": $_SESSION["clear_clipboard"] = $row[1]; break;
-		case "show_clipboard": $_SESSION["show_clipboard"] = $row[1]; break;
-		case "show_infos": $_SESSION["show_infos"] = $row[1]; break;
-		case "select_language": $_SESSION["select_language"] = $row[1]; break;
-	}
+	$_SESSION[$row[0]] = $row[1];
+
 }
 
 // Fetch list of languages
