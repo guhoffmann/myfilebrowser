@@ -224,10 +224,12 @@ if ( $action == "createFolder" ) {
 	header("Content-type: text/html");
 	$clientIp = $_SERVER['REMOTE_ADDR'];
 	$retStr= "<p class='info'>".$row[0]."</p>
-				<p class='info'>".$_SERVER['SERVER_SOFTWARE']."</br>
+				<p class='info'>".shell_exec("uname -a").
+				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
 				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['SERVER_ADDR']."</br>
 				Port: ".$_SERVER['SERVER_PORT']."</br>
 				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
+				<p class='info'>docs: ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</p>
 				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
 	echo $retStr;
 
