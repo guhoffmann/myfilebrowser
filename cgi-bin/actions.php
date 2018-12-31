@@ -251,7 +251,7 @@ if ( $action == "createFolder" ) {
 		$postData = $_POST["objectname"];
 		$numResults=0;
 		foreach($postData as $value) { //loop over values
-			array_push($_SESSION["clipboard"][$value],1);
+			array_push($_SESSION["memory"][$value],1);
 			$numResults++;
 		}
 		echo "<div class='info'>".$numResults." Dateien/Ordner eingefügt!</div>";
@@ -263,7 +263,7 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "clearClipboard" ) {
 
 	echo "<div class='info'>Zwischenablage geleert!</div>";
-	$_SESSION["clipboard"] = array();
+	$_SESSION["memory"] = array();
 
 /******************************************************************************
  ** Show the contents of the clipboard
@@ -272,7 +272,7 @@ if ( $action == "createFolder" ) {
 } elseif ( $action == "showClipboard" ) {
 
 	echo "<div class='info'>";
-	foreach($_SESSION["clipboard"] as $key=>$data){
+	foreach($_SESSION["memory"] as $key=>$data){
 		echo $key."</br>";
    }
 	echo "</div>";
@@ -287,13 +287,13 @@ if ( $action == "createFolder" ) {
 
 	echo "Einfügen nach: ".$uploaddir."\n";
 
-	foreach($_SESSION["clipboard"] as $key=>$data){
+	foreach($_SESSION["memory"] as $key=>$data){
 		echo "kopiere ".$key." -> ".$uploaddir."/".basename($key)."\n";
 		shell_exec("cp -r '".$baseDir.$key."' '".$baseDir.$uploaddir."/".basename($key)."'" );
    }
 
 /******************************************************************************
- ** Upload files from clipboard to current location and give message!
+ ** Upload files to current location and give message!
  */
 
 } elseif ( $action == "uploadPost" ) {

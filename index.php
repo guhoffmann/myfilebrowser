@@ -17,8 +17,10 @@ if ( !isset($_SESSION["language"]) ) {
 
 // Necessary to keep clipboard alive:
 // only clear if not existing!!!
-if ( !isset($_SESSION["clipboard"]) ) { 
-	$_SESSION["clipboard"] = array();
+// 'clipboard' must be named 'memory' to not be confounded
+// with the language string 'clipboard'!!!
+if ( !isset($_SESSION["memory"]) ) { 
+	$_SESSION["memory"] = array();
 }
 
 include('cgi-bin/myFunctions.php');
