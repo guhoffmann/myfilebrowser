@@ -155,6 +155,7 @@ img, video {
 
 .my-nav-bg {
 	background-color: #182058;
+	border-bottom: 1px solid black;
 }
 
 /***********************************************************************/
