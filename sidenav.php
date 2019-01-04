@@ -9,7 +9,7 @@ session_start();
 
 <div id="mySidenav" class="sidenav">
 	<div class="sidenavbartop">
-		<span class="sidenavtitle">Themen</span>
+		<span class="sidenavtitle"><i class="material-icons">build</i>&nbsp;<?php echo $_SESSION["actions"]; ?></span>
 		<button type="button" class="btn btn-primary closebtn" onclick="closeNav()"><i class="material-icons">close</i></button>
 	</div>
 	<div class="scrolldiv">
