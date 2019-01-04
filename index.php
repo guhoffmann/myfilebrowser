@@ -36,9 +36,6 @@ while ($row = $result->fetch()) {
 
 }
 
-// Fetch list of languages
-
-
 echo '
 <!DOCTYPE html>
 <html lang="en">

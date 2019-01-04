@@ -116,7 +116,7 @@ if ( $action == "createFolder" ) {
 		 echo("<h4 class='padding-start'><i class='material-icons'>home</i>&nbsp;/".substr($relDir,2)."</h4>\r\n");
 		 // create dirup entry if not in document root!
 		 echo("<table>\r\n<tr><td class='folder' colspan='4' style=\"width:2em\">".
-			  "<a href='?".dirname($relDir)."#list'><i class='material-icons'>arrow_upward</i> .. ( ".$_SESSION["directory_up"]." )</a></td></tr>\r\n");
+			  "<a href='?".dirname($relDir)."#list'><div><i class='material-icons'>arrow_upward</i> .. ( ".$_SESSION["directory_up"]." )</div></a></td></tr>\r\n");
 	}
 
 	echo "<section class='section1'>\r\n"; // for the self styled checkbox!
@@ -143,8 +143,8 @@ if ( $action == "createFolder" ) {
 					</span>".
 					// The link with the folder name
 					"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
-						$relDirAktFile."#list'><i class='material-icons'>folder</i>\r\n".
-					 $dirList[$i]."</a></td>\n";
+						$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
+					 $dirList[$i]."</div></a></td>\n";
 					 
 		} elseif ( is_file( $absDirAktFile ) ) {
 			
@@ -162,8 +162,8 @@ if ( $action == "createFolder" ) {
 					</span>".
 					// Now for the rest
 					"</td><td class='direntry'>
-					  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><span class='white'>
-					".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></a><td class='direntry' style='width:3em; text-align: center;' >
+					  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+					".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
 					  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
 		}
 	}
