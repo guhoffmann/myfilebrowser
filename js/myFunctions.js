@@ -454,4 +454,27 @@ function changeLanguage(language) {
 
 } // of function showClipboard() ...
 
+/** Open/close navbar at side (=sidenav)
+ *  by changing width of object
+ */
+function openNav() {
+    var obj = document.getElementById("mySidenav");
+    obj.style.width = "23em";
+    obj.className = "sidenav sidenav_rand";
+}
+
+function closeNav() {
+    var obj = document.getElementById("mySidenav");
+    obj.style.width = "0";
+    obj.className = "sidenav";
+}
+
+/** Add animated scroll functionality for the PageUp button
+ */
+function pageUp() {
+   var scrollVal = window.pageYOffset*0.2;
+   //console.log(scrollVal);
+   $('html,body').animate({scrollTop:0}, scrollVal);
+}
+
 

@@ -105,65 +105,13 @@ echo '
 	<!--          The navbar for the whole HTML app              -->
 
 	<nav class="navbar navbar-dark fixed-top my-nav-bg">
+		<!-- Neuer Menüknopp -->
+		<button type="button" class="btn btn-primary" onclick="openNav()"><i class="material-icons">menu</i></button>';
 
-		<!-- the dropdown main menu -->
-		<div class="dropdown show">
-			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">build</span>&nbsp;'.$_SESSION["actions"].'
-			</a>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-				<div class="dropdown-item" onclick="createFolder()">
-					<span class="material-icons">create_new_folder</span>
-					&nbsp;'.$_SESSION["create_folder"].'
-				</div>
-				<div class="dropdown-item" onclick="uploadDialog(\'Hochladen\')">
-					<span class="material-icons">cloud_upload</span>
-					&nbsp;'.$_SESSION["upload_files"].'
-				</div>
-				<div class="dropdown-item" onclick="downloadFiles()">
-					<span class="material-icons">cloud_download</span>
-					&nbsp;'.$_SESSION["download_as_zip"].'
-				</div>
-				<div class="dropdown-item" onclick="deleteFiles()">
-					<span class="material-icons">delete_forever</span>
-					&nbsp;'.$_SESSION["delete_selected"].'
-				</div>
-				<div class="dropdown-divider"></div>
-				<div class="dropdown-item" onclick="copyFiles()">
-					<span class="material-icons">library_add</span>
-					&nbsp;'.$_SESSION["add_to_clipboard"].'
-				</div>
-				<div class="dropdown-item" onclick="pasteFiles()">
-					<span class="material-icons">assignment_returned</span>
-					&nbsp;'.$_SESSION["paste_clipboard"].'
-				</div>
-				<div class="dropdown-item" onclick="clearClipboard()">
-					<span class="material-icons">delete_forever</span>
-					&nbsp;'.$_SESSION["clear_clipboard"].'
-				</div>
-				<div class="dropdown-item" onclick="showClipboard()">
-					<span class="material-icons">assignment</span>
-					&nbsp;'.$_SESSION["show_clipboard"].'
-				</div>
-				<div class="dropdown-divider"></div>
-			<!--
-				<div class="dropdown-item" onclick="testAjaxPhp("Testausgabe!")">
-					<span class="material-icons">info</span>
-					&nbsp;testAjaxPhp!
-				</div> -->
-				<div class="dropdown-item" onclick="infoDialog()">
-					<span class="material-icons">info</span>
-					&nbsp; '.$_SESSION["show_infos"].'
-				</div>
-			<!--	
-				<div class="dropdown-item" onclick="phpInfo()">
-					<span class="material-icons">info</span>
-					&nbsp; PHP-Info
-				</div> -->
-			</div>
-		</div> <!-- dropdown show -->
+// include navbar on the left!
+include 'sidenav.php';
 
-		<!-- Link to documents main folder -->
+echo '		<!-- Link to documents main folder -->
 		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
@@ -188,7 +136,7 @@ echo '			</div>
 	<div class="container">
 	  <div class="row">
 		<div class="col-sm-12">
-			<div id="app">
+			<div id="app" onclick="closeNav()">
 			</div>
 		</div>
 	  </div>
