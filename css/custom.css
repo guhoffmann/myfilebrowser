@@ -64,6 +64,9 @@ hr {
   margin-right: auto;
   border-style: inset;
   border-width: 1px;
+	border: 1px solid #535a92;
+	border-top: 1px solid #000;
+
 }
 
 table {
