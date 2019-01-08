@@ -30,26 +30,8 @@ while ($row = $result->fetch()) {
 	$_SESSION[$row[0]] = $row[1];
 }
 
-echo '
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<title>'.$_SESSION["progname"].'</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/custom.css">
-	<!-- Insert the icons -->
-	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-	<link rel="manifest" href="/site.webmanifest">
-	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-	<meta name="msapplication-TileColor" content="#da532c">
-	<meta name="theme-color" content="#ffffff">
-</head>
-<body>';
+include 'header.php';
+echo '<body>';
 
 // include windows section
 include 'modalWindow.php';
@@ -61,7 +43,7 @@ echo '
 
 	<nav class="navbar navbar-dark fixed-top my-nav-bg">
 		<!-- Neuer Menüknopp -->
-		<button type="button" class="btn btn-primary" onclick="openNav()"><i class="material-icons">menu</i></button>';
+		<button type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
 
 // include navbar on the left!
 include 'sidenav.php';
@@ -70,8 +52,8 @@ echo '		<!-- Link to documents main folder -->
 		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
-			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="material-icons">language</span>&nbsp;'.$_SESSION["select_language"].'
+			<a class="btn btn-primary dropdown-toggle material-icons" role="button" id="dropdownMenuLink"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&nbsp;language&nbsp;
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
 
@@ -81,8 +63,9 @@ while ($row = $result->fetch()) {
 	echo '<div class="dropdown-item" onClick="changeLanguage('.$row[2].')">&nbsp;'.$row[0].'</div>';
 }
 
-echo '			</div>
+echo '			</div>&nbsp;
 		</div> <!-- dropdown show/language menu -->
+		
 	</nav>
 
   	<!-- ******************************************************* -->
