@@ -82,7 +82,8 @@ echo '			</div>&nbsp;
 
 	<!-- the footer -->
 	
-	<footer class="footer">
+	<footer class="footer hidden">
+		File-Upload:&nbsp;
 		<progress id="progress" value="0" max="100"></progress>
 	</footer>
 
