@@ -201,7 +201,52 @@ function uploadDialog(message) {
 		document.getElementById("uploadDir").value=globalAktMediaPath;
            
 		// trigger the upload form and execute uploadPOST.php!!!!
-		document.getElementById("upload").submit();
+		//document.getElementById("upload").submit();
+// inserted
+
+		var formData = new FormData(document.getElementById("upload"));
+
+    $.ajax({
+        // Your server script to process the upload
+        url: 'cgi-bin/actions.php',
+        type: 'POST',
+
+        // Form data
+        data: formData,
+
+        // Tell jQuery not to process data or worry about content-type
+        // You *must* include these options!
+        cache: false,
+        contentType: false,
+        processData: false,
+
+        // Custom XMLHttpRequest
+        xhr: function() {
+            var myXhr = $.ajaxSettings.xhr();
+            if (myXhr.upload) {
+                // For handling the progress of the upload
+                myXhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+						
+                        $('progress').attr({
+                            value: e.loaded,
+                            max: e.total,
+                        });
+							
+                    }
+                } , false);
+					 myXhr.upload.addEventListener('load', function(e) {
+					 	confirmDialog("Message","Upload finished!",
+							function() {
+								location.reload(true);
+						});
+					 });
+            }
+            return myXhr;
+        }
+    }); // of $.ajax({...
+
+// end of insert
 
 		// Don't uncomment, uploads won't work on Chrome based browsers then!!!
 		//location.reload(true); // NEVER UNCOMMENT THIS!!!!

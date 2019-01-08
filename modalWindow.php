@@ -23,7 +23,6 @@
 				<!-- hidden value for upload directory -->
 				<input id="uploadDir" type="hidden" value="path to upload" name="uploadDir" />
 				<input id="action" type="hidden" value="uploadPost" name="action" />
-
 			</form>
 
 			<!-- section for modal window content -->

@@ -81,13 +81,10 @@ echo '			</div>&nbsp;
 	</div>
 
 	<!-- the footer -->
-	<!--
+	
 	<footer class="footer">
-		<div id="footer" class="container" style="margin-bottom:0">
-    		- (C) Gert-Uwe Hoffmann 2018 -
-    	</div>
+		<progress id="progress" value="0" max="100"></progress>
 	</footer>
--->
 
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
