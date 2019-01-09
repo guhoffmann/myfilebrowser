@@ -49,7 +49,7 @@ echo '
 include 'sidenav.php';
 
 echo '		<!-- Link to documents main folder -->
-		<a class="navbar-brand" href="/"><i class="material-icons">home</i>&nbsp;Home</a>
+		<a href="/"><div class="btn btn-primary material-icons">home</div></a>
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle material-icons" role="button" id="dropdownMenuLink"
@@ -83,8 +83,9 @@ echo '			</div>&nbsp;
 	<!-- the footer -->
 	
 	<footer class="footer hidden">
-		File-Upload:&nbsp;
-		<progress id="progress" value="0" max="100"></progress>
+		<div class="progress">
+			<div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
 	</footer>
 
 	<script src="js/jquery-3.3.1.min.js"></script>

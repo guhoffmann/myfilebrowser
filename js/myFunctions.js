@@ -233,14 +233,13 @@ function uploadDialog(message) {
 					 // For handling the progress of the upload
 					 myXhr.upload.addEventListener('progress', function(e) {
 						  if (e.lengthComputable) {
-								$('progress').attr({
-									 value: e.loaded,
-									 max: e.total,
-								});
+								value = Math.round(e.loaded/e.total*100); 
+								$("#progress-bar").text("Upload " + value + "% complete");
+								$("#progress-bar").css("width", value +"%");
 						  }
 					 } , false);
 					 myXhr.upload.addEventListener('load', function(e) {
-						confirmDialog("Message","Upload finished!",
+						confirmDialog("Message","<div class='info'>Upload finished!</div>",
 							function() {
 								location.reload(true);
 								$("footer").addClass("hidden");

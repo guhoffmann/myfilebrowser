@@ -555,3 +555,7 @@ input[type="checkbox"]:checked + label span.checkbox::after {
     animation: einblenden 1.3s;
 }
 
+.progress {
+  margin: 0.5em;
+  height: 1em;
+}
