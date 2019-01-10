@@ -237,9 +237,14 @@ function uploadDialog(message) {
 					 // For handling the progress of the upload
 					 myXhr.upload.addEventListener('progress', function(e) {
 						  if (e.lengthComputable) {
-								value = Math.round(e.loaded/e.total*100); 
-								$("#progress-bar").text("Upload " + value + "% complete");
-								$("#progress-bar").css("width", value +"%");
+						  value = Math.round(e.loaded/e.total*1000)/10;
+								if (value < 100 ) {
+									$("#progress-bar").text(value + "%");
+									$("#progress-bar").css("width", value + "%");
+								} else {
+									$("#progress-bar").text(languageStrings["upload_completed_wait"] +  value + "%");
+									$("#progress-bar").css("width", value + "%");
+								}
 						  }
 					 } , false);
 					 myXhr.upload.addEventListener('load', function(e) {
