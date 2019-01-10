@@ -248,7 +248,10 @@ function uploadDialog(message) {
 						  }
 					 } , false);
 					 myXhr.upload.addEventListener('load', function(e) {
-						confirmDialog("Message","<div class='info'>Upload finished!</div>",
+						confirmDialog("<span class='material-icons'>cloud_done</span>&nbsp;"
+											+ languageStrings["message"],
+											"<div class='info'>" + languageStrings["upload_completed"]
+											+ "<span class='material-icons'>done_outline</span></div>",
 							function() {
 								location.reload(true);
 								$("footer").addClass("hidden");

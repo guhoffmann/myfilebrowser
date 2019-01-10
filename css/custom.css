@@ -512,8 +512,9 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 
 .sidenaventry:hover {
 	background-color: #913059;
-    text-shadow: 3px 3px 3px #000;
+	text-shadow: 3px 3px 3px #000;
 	text-decoration: none;
+	cursor: pointer;
 	color: #fff;
 }
 

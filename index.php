@@ -52,8 +52,10 @@ echo '		<!-- Link to documents main folder -->
 		<a href="/"><div class="btn btn-primary material-icons">home</div></a>
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
-			<a class="btn btn-primary dropdown-toggle material-icons" role="button" id="dropdownMenuLink"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&nbsp;language&nbsp;
+			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="material-icons">&nbsp;language&nbsp;</i>
+				<span></span>
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
 
