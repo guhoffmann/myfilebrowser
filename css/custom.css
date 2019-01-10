@@ -556,6 +556,11 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 }
 
 .progress {
-  margin: 0.5em;
-  height: 1em;
+	height: 1.8em;
+	font-size: 1em;
 }
+
+.progress-bar {
+	text-align: right;
+}
+
