@@ -202,8 +202,7 @@ function uploadDialog(message) {
 		document.getElementById("uploadDir").value=globalAktMediaPath;
            
 		/* trigger the upload form and execute uploadPOST.php!!!!
-		  The command below is the old fallback if the
-		  ajax version doesn't work satisfactory!
+		  Below the old fallback if the ajax version doesn't work satisfactory!
 
 		  document.getElementById("upload").submit();*/
 		//===========================================
@@ -225,7 +224,12 @@ function uploadDialog(message) {
 		  cache: false,
 		  contentType: false,
 		  processData: false,
-
+	/*		beforeSend: window.onbeforeunload = function(e) {
+				// Cancel the event
+				//e.preventDefault();
+				// Chrome requires returnValue to be set
+				e.returnValue = 'Must not be empty';
+			},*/
 		  // Custom XMLHttpRequest
 		  xhr: function() {
 				var myXhr = $.ajaxSettings.xhr();
