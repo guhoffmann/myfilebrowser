@@ -342,6 +342,8 @@ if ( $action == "createFolder" ) {
 	// all done, now go back to file listing!
 	echo "<h1><a href=\"/?".$_POST["uploadDir"]."#list\"><button>Zur&uuml;ck zur Dateiliste!</button></a></h1>";
 	echo "</body></html>";
+	
+	sleep(1);
 
 /******************************************************************************
  ** Show a file corresponding to its mime type
