@@ -198,10 +198,68 @@ function uploadDialog(message) {
 	$("#ModalMessage").modal();
 
 	document.getElementById("ModalOk").onclick = function () {
+
 		document.getElementById("uploadDir").value=globalAktMediaPath;
            
-		// trigger the upload form and execute uploadPOST.php!!!!
-		document.getElementById("upload").submit();
+		/* trigger the upload form and execute uploadPOST.php!!!!
+		  Below the old fallback if the ajax version doesn't work satisfactory!
+
+		  document.getElementById("upload").submit();*/
+		//===========================================
+
+		// here the new inserted ajax version!
+
+		var formData = new FormData(document.getElementById("upload"));
+		$("footer").removeClass("hidden");
+		$('progress').attr({
+			value: 0,
+			max: 100,
+		});
+
+		$.ajax({
+		  url: 'cgi-bin/actions.php',
+		  type: 'POST',
+		  data: formData,
+		  // jQuery MUST NOT process cache, contentType, processData!
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+	/*		beforeSend: window.onbeforeunload = function(e) {
+				// Cancel the event
+				//e.preventDefault();
+				// Chrome requires returnValue to be set
+				e.returnValue = 'Must not be empty';
+			},*/
+		  // Custom XMLHttpRequest
+		  xhr: function() {
+				var myXhr = $.ajaxSettings.xhr();
+				if (myXhr.upload) {
+					 // For handling the progress of the upload
+					 myXhr.upload.addEventListener('progress', function(e) {
+						  if (e.lengthComputable) {
+						  value = Math.round(e.loaded/e.total*1000)/10;
+								if (value < 100 ) {
+									$("#progress-bar").text(value + "%");
+									$("#progress-bar").css("width", value + "%");
+								} else {
+									$("#progress-bar").text(languageStrings["upload_completed_wait"] +  value + "%");
+									$("#progress-bar").css("width", value + "%");
+								}
+						  }
+					 } , false);
+					 myXhr.upload.addEventListener('load', function(e) {
+						confirmDialog("Message","<div class='info'>Upload finished!</div>",
+							function() {
+								location.reload(true);
+								$("footer").addClass("hidden");
+						});
+					 });
+				}
+				return myXhr;
+		  }
+		}); // of $.ajax({...
+
+		// end of inserted ajax version.
 
 		// Don't uncomment, uploads won't work on Chrome based browsers then!!!
 		//location.reload(true); // NEVER UNCOMMENT THIS!!!!
