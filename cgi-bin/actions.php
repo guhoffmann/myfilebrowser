@@ -226,7 +226,7 @@ if ( $action == "createFolder" ) {
 	$retStr= "<p class='info'>".$row[0]."</p>
 				<p class='info'>".shell_exec("uname -a").
 				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
-				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['SERVER_ADDR']."</br>
+				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
 				Port: ".$_SERVER['SERVER_PORT']."</br>
 				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
 				<p class='info'>docs: ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</p>
