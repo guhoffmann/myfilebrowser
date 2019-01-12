@@ -30,7 +30,7 @@ session_start();
 		<div class="sidenaventry" onclick="closeNav();copyFiles()">
 			<?php	echo '<span class="material-icons">library_add</span>&nbsp;'.$_SESSION["add_to_clipboard"]; ?>
 		</div>
-		<div class="sidenaventry" onclick="closeNav();paste_files()">
+		<div class="sidenaventry" onclick="closeNav();pasteFiles()">
 			<?php	echo '<span class="material-icons">assignment_returned</span>&nbsp;'.$_SESSION["paste_clipboard"]; ?>
 		</div>
 		<div class="sidenaventry" onclick="closeNav();clearClipboard()">
