@@ -119,6 +119,7 @@ img, video {
 
 .navbar {
 	padding: 0;
+	box-shadow: 0px 5px 25px #000; 
 }
 
 .navbar-brand {
@@ -495,6 +496,8 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 	overflow-y: hidden;
     transition: width 0.5s;
     padding-top: 3em;
+	box-shadow: 5px 0px 25px #000; 
+
 }
 
 .sidenav_rand {
