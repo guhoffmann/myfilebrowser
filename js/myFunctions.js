@@ -202,7 +202,7 @@ function uploadDialog(message) {
 		document.getElementById("uploadDir").value=globalAktMediaPath;
            
 		/* trigger the upload form and execute uploadPOST.php!!!!
-		  Below the old fallback if the ajax version doesn't work satisfactory!
+		  Below the old fallback if the new ajax version doesn't work satisfactory!
 
 		  document.getElementById("upload").submit();*/
 		//===========================================
@@ -215,7 +215,7 @@ function uploadDialog(message) {
 			value: 0,
 			max: 100,
 		});
-
+		
 		$.ajax({
 		  url: 'cgi-bin/actions.php',
 		  type: 'POST',
@@ -234,6 +234,14 @@ function uploadDialog(message) {
 		  xhr: function() {
 				var myXhr = $.ajaxSettings.xhr();
 				if (myXhr.upload) {
+
+					 myXhr.upload.addEventListener('load', function(e) {
+						console.log("Upload finished!");
+						// Inserting a message dialog into dom at this place didn't work in Chrome for short uploads
+						// but for Firefox only. So a dumb reload must do...
+						location.reload(true);
+					 }); // of myXhr.upload.addEventListener('load', function(e) 
+
 					 // For handling the progress of the upload
 					 myXhr.upload.addEventListener('progress', function(e) {
 						  if (e.lengthComputable) {
@@ -247,17 +255,8 @@ function uploadDialog(message) {
 								}
 						  }
 					 } , false);
-					 myXhr.upload.addEventListener('load', function(e) {
-						confirmDialog("<span class='material-icons'>cloud_done</span>&nbsp;"
-											+ languageStrings["message"],
-											"<div class='info'>" + languageStrings["upload_completed"]
-											+ "<span class='material-icons'>done_outline</span></div>",
-							function() {
-								location.reload(true);
-								$("footer").addClass("hidden");
-						});
-					 });
-				}
+				} // of if (myXhr.upload)...
+
 				return myXhr;
 		  }
 		}); // of $.ajax({...

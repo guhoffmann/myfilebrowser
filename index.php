@@ -16,7 +16,7 @@ if ( !isset($_SESSION["language"]) ) {
 }
 
 /* Necessary to keep clipboard alive: only clear if not existing!!!
- 'clipboard' is named 'memory' to not be confused with language string 'clipboard'! */
+ 'clipboard' is named 'memory' not to be confused with language string 'clipboard'! */
 if ( !isset($_SESSION["memory"]) ) { 
 	$_SESSION["memory"] = array();
 }
@@ -29,6 +29,10 @@ $result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSIO
 while ($row = $result->fetch()) {
 	$_SESSION[$row[0]] = $row[1];
 }
+
+// Now fetch the languages clear name:
+$result = $db->query('SELECT name FROM languages WHERE value = '.$_SESSION["language"]);
+$_SESSION["language_string"] = $result->fetch()[0];
 
 include 'header.php';
 echo '<body>';
@@ -50,11 +54,13 @@ include 'sidenav.php';
 
 echo '		<!-- Link to documents main folder -->
 		<a href="/"><div class="btn btn-primary material-icons">home</div></a>
+
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="material-icons">&nbsp;language&nbsp;</i>
+				'.$_SESSION["language_string"].'
 				<span></span>
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
@@ -65,7 +71,9 @@ while ($row = $result->fetch()) {
 	echo '<div class="dropdown-item" onClick="changeLanguage('.$row[2].')">&nbsp;'.$row[0].'</div>';
 }
 
-echo '			</div>&nbsp;
+?>
+
+		</div>&nbsp;
 		</div> <!-- dropdown show/language menu -->
 		
 	</nav>
@@ -97,6 +105,5 @@ echo '			</div>&nbsp;
 	<script src="js/myFunctions.js"></script>
 
 </body>
-</html>'
+</html>
 
-?>
