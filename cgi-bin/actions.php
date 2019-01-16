@@ -212,7 +212,7 @@ if ( $action == "createFolder" ) {
  ** Show short page with some infos 'bout the server
  */
 
-} elseif ( $action == "info" ) {
+} elseif ( $action == "showInfo" ) {
 
 	// return some program infos
 
@@ -235,6 +235,23 @@ if ( $action == "createFolder" ) {
 				.$_SESSION["dirs"].": ".shell_exec("find -L ../docs -type d|wc -l")."</p>
 				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
 	echo $retStr;
+
+/******************************************************************************
+ ** Show short help page
+ */
+
+} elseif ( $action == "showHelp" ) {
+
+	// return some program infos
+
+	$db = connect_db();
+	$result = $db->query('SELECT value FROM strings
+								 WHERE language = '.$_SESSION["language"].
+								' AND name = "prog_help"');
+	$row = $result->fetch();
+	header("Content-type: text/html");
+	echo $row[0];
+
 
 /******************************************************************************
  ** Show php info pages

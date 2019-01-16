@@ -301,7 +301,7 @@ function infoDialog() {
 
 	$.ajax({
 		url: "cgi-bin/actions.php",
-		data: { action: "info" },
+		data: { action: "showInfo" },
 		dataType: "html", // NOT BOTH(!!!) text/html, but only text or html to get response correctly!!!!
 		success: function(response){
 			messageWindow("<span class='material-icons'>info</span>&nbsp;"+languageStrings["progname"], response);

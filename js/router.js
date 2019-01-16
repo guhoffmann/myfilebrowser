@@ -86,5 +86,18 @@ myrouter.addRoute('*', function () {
 		}
 	});
 
+}); // of myrouter.addRoute('*'...
+
+myrouter.addRoute('help', function () {
+ 
+	$.ajax({
+		url: "cgi-bin/actions.php",
+		data: { action: "showHelp" },
+		dataType: "html", // NOT BOTH(!!!) text/html, but only text or html to get response correctly!!!!
+		success: function(response){
+			startingPoint.innerHTML = response;
+		}
+	});
+  
 }); // of myrouter.addRoute
 
