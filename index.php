@@ -47,7 +47,7 @@ echo '
 
 	<nav class="navbar navbar-dark fixed-top my-nav-bg">
 		<!-- Neuer Menüknopp -->
-		<button type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
+		<button id="menubutton" type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
 
 // include navbar on the left!
 include 'sidenav.php';

@@ -95,6 +95,10 @@ myrouter.addRoute('help', function () {
 		data: { action: "showHelp" },
 		dataType: "html", // NOT BOTH(!!!) text/html, but only text or html to get response correctly!!!!
 		success: function(response){
+			// Hide menu button on help page 'cause it would otherwise be possible
+			// to start file actions while reading help page!
+			document.getElementById('menubutton').style.visibility = 'hidden';
+			// Then Show Help page!
 			startingPoint.innerHTML = response;
 		}
 	});
