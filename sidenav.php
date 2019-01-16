@@ -43,9 +43,9 @@ session_start();
 		<div class="sidenaventry" onclick="closeNav();infoDialog()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_infos"]; ?>
 		</div>
-		<div class="sidenaventry" onclick="closeNav();phpInfo()">
+<!--		<div class="sidenaventry" onclick="closeNav();phpInfo()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;PHP-Info'; ?>
-		</div>
+		</div> -->
 
 
 	</div><!-- scrolldiv -->

@@ -172,8 +172,7 @@ if ( $action == "createFolder" ) {
 	echo($files);
 	echo "</section>";// for the self styled checkbox!
 
-/*******************************************************************<p class='info'>docs: ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</p>
-***********
+/******************************************************************************
  * Download file with the green cloud link on the right
  */
 
@@ -230,7 +229,7 @@ if ( $action == "createFolder" ) {
 				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
 				Port: ".$_SERVER['SERVER_PORT']."</br>
 				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
-				<p class='info'>".$_SESSION["data_details"].":</br>"
+				<p class='info'><b>".$_SESSION["data_details"].":</b></br>"
 				.$_SESSION["size"].": ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</br>"
 				.$_SESSION["files"].": ".shell_exec("find -L ../docs -type f|wc -l")."</br>"
 				.$_SESSION["dirs"].": ".shell_exec("find -L ../docs -type d|wc -l")."</p>
