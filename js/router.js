@@ -79,10 +79,12 @@ myrouter.addRoute('list', function () {
 
 myrouter.addRoute('*', function () {
 
-	// Make shure there's a #list hash in url!
-	// It's necessary to ensure #list route is called after back button
-	// is pressed, for restoring menu button in #list event handler!
+	// Make shure there's a #list hash and query string in url!
+	// It's necessary to ensure #list route with search string is called after back button
+	// is pressed, e.g. for restoring menu button in the #list event handler above!
+	// (sounds crude, eyh?)
 	location.hash = "list";
+	location.search ="/";
 
 	$.ajax({
 		url: "cgi-bin/actions.php",
