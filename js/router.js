@@ -63,6 +63,8 @@ myrouter.addRoute('list', function () {
    
 	path = window.location.search.substr(1);
 	globalAktMediaPath = path;
+	// Restore menu button if it's been hidden by another route (e.g. help page)
+	document.getElementById('menubutton').style.visibility = 'visible';
 
 	$.ajax({
 				url: "cgi-bin/actions.php",
@@ -76,7 +78,12 @@ myrouter.addRoute('list', function () {
 }); // of myrouter.addRoute('list'...
 
 myrouter.addRoute('*', function () {
-   
+
+	// Make shure there's a #list hash in url!
+	// It's necessary to ensure #list route is called after back button
+	// is pressed, for restoring menu button in #list event handler!
+	location.hash = "list";
+
 	$.ajax({
 		url: "cgi-bin/actions.php",
 		data: { action: "dirlist", pathname: '/' },
