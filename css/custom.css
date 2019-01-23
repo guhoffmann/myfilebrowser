@@ -568,3 +568,9 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 	text-align: right;
 }
 
+/* Uuuh, very crooked solution to get language menu button
+   same height as main menu button */
+.dropdown-toggle {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
