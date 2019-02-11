@@ -228,7 +228,7 @@ if ( $action == "createFolder" ) {
 				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
 				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
 				Port: ".$_SERVER['SERVER_PORT']."</br>
-				Client-IP: ".$_SERVER['REMOTE_ADDR']."</p>
+				Client-IP: ".getClientIp()."</p>
 				<p class='info'><b>".$_SESSION["data_details"].":</b></br>"
 				.$_SESSION["size"].": ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</br>"
 				.$_SESSION["files"].": ".shell_exec("find -L ../docs -type f|wc -l")."</br>"

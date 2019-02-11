@@ -8,6 +8,19 @@ var globalAktMediaPath = "/";
 var input = document.getElementById("inputval");
 var languageStrings = {};
 
+jQuery(document).ready(function($) {
+
+  if (window.history && window.history.pushState) {
+
+    //window.history.pushState('forward', null, globalAktMediaPath);
+
+    $(window).on('popstate', function() {
+      //alert('Back button was pressed.');
+    });
+
+  }
+});
+
 /** Function for doing all global init stuff!!! *******************************
  ** (calls itself after declaration!)
  */

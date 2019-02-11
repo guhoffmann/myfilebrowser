@@ -67,4 +67,26 @@ function checkUrl($url): int {
 	}
 }
 
+/******************************************************************************
+ ** Get clients IP!
+ */
+
+function getClientIp() {
+    $retVal = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $retVal = $_SERVER['HTTP_CLIENT_IP'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $retVal = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        $retVal = $_SERVER['HTTP_X_FORWARDED'];
+    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $retVal = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_FORWARDED']))
+        $retVal = $_SERVER['HTTP_FORWARDED'];
+    else if(isset($_SERVER['REMOTE_ADDR']))
+        $retVal = $_SERVER['REMOTE_ADDR'];
+    else
+        $retVal = 'UNKNOWN';
+    return $retVal;
+}
 ?>
