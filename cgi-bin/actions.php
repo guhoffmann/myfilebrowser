@@ -122,54 +122,57 @@ if ( $action == "createFolder" ) {
 	echo "<section class='section1'>\r\n"; // for the self styled checkbox!
 	$dirs = "";
 	$files = "";
+	$relDir .= "/";
 	$dirList = scandir( $baseDir.$relDir );
 
-	$relDir .= "/";
+	if ($dirList != FALSE) {
+		for ( $i = 0; $i < count($dirList); $i++ ) {
 
-	for ( $i = 0; $i < count($dirList); $i++ ) {
+			$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
+			$relDirAktFile = $relDir.$dirList[$i]; 
 
-		$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
-		$relDirAktFile = $relDir.$dirList[$i]; 
+			if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
+				
+				// Now when it's a folder, do this...
+				
+				$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
+						// For the new self styled checkbox
+						"<span class='checkcontainer'>
+						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+						</span>".
+						// The link with the folder name
+						"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
+							$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
+						 $dirList[$i]."</div></a></td>\n";
+						 
+			} elseif ( is_file( $absDirAktFile ) ) {
+				
+				// Aaah, we found it's a file, so...
 
-		if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
-			
-			// Now when it's a folder, do this...
-			
-			$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
-					// For the new self styled checkbox
-					"<span class='checkcontainer'>
-			      <input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-					<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-					</span>".
-					// The link with the folder name
-					"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
-						$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
-					 $dirList[$i]."</div></a></td>\n";
-					 
-		} elseif ( is_file( $absDirAktFile ) ) {
-			
-			// Aaah, we found it's a file, so...
+				$fileSize = formatSize(filesize($absDirAktFile));
+							 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
+				
+				$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
 
-			$fileSize = formatSize(filesize($absDirAktFile));
-						 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
-			
-			$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
+						// For the new self styled checkbox
+						"<span class='checkcontainer'>
+						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+						</span>".
+						// Now for the rest
+						"</td><td class='direntry'>
+						  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+						".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
+						  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
+			}
+		} // of for ( $i = 0; $i < count($dirList); $i++ ) {...
+		echo($dirs);
+		echo($files);
 
-					// For the new self styled checkbox
-					"<span class='checkcontainer'>
-			      <input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-					<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-					</span>".
-					// Now for the rest
-					"</td><td class='direntry'>
-					  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
-					".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
-					  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
-		}
-	}
-
-	echo($dirs);
-	echo($files);
+	} else {
+		echo "<h3>Error!</h3><p>No directory content found, please check if your docs directory exists!</p>";
+	} //of if ($dirlist)...
 	echo "</section>";// for the self styled checkbox!
 
 /******************************************************************************
