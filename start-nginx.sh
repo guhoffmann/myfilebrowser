@@ -6,6 +6,6 @@
 # Please notice: nginx is started as user www-data normally!
 # So the root directory of your docs folder should have
 # read/write access for this user!
-sudo systemctl start php7.0-fpm.service
-sudo /usr/sbin/nginx -c $(pwd)/conf/nginx.conf
+sudo service php7.3-fpm start
+/usr/sbin/nginx -c $(pwd)/conf/nginx.conf
 
