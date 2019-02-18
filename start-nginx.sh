@@ -7,5 +7,5 @@
 # So the root directory of your docs folder should have
 # read/write access for this user!
 sudo service php7.3-fpm start
-/usr/sbin/nginx -c $(pwd)/conf/nginx.conf
+/usr/sbin/nginx -c $(pwd)/conf/nginx-https.conf
 
