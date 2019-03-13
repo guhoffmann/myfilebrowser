@@ -1,4 +1,4 @@
 myfilebrowser.pid
 error.log
 docs
-
+conf/*.conf
