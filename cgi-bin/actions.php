@@ -186,18 +186,31 @@ if ( $action == "createFolder" ) {
 	$filename = substr($_GET["objectname"],1);
 	if (file_exists($baseDir.$filename)) {
 
-			$size=filesize($baseDir.$filename);
-			header('Content-Description: File Transfer');
-			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
-			header('Content-Transfer-Encoding: binary');
-			header('Accept-Ranges: bytes');
- 
-			ob_clean();
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+		header('Content-Transfer-Encoding: binary');
+		header('Accept-Ranges: bytes');
+
+		/* old simple way with readfile
+		ob_clean();
+		flush();
+		readfile($baseDir.$filename); */
+
+		// chunked download
+		$chunkSize = 1024 * 1024;
+		$handle = fopen($baseDir.$filename, 'rb');
+		while (!feof($handle)) {
+			$buffer = fread($handle, $chunkSize);
+			echo $buffer;
+			ob_flush();
 			flush();
-			readfile($baseDir.$filename);
-			fclose($baseDir.$filename);
+		}
+		fclose($handle);
 	}
+	
+
+
 
 	exit; // MUST add this to prevent an x0a attached at the end of file!!!
 
