@@ -49,8 +49,7 @@ session_start();
 <!--		<div class="sidenaventry" onclick="closeNav();phpInfo()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;PHP-Info'; ?>
 		</div> -->
-
-
+		</br></br>
 	</div><!-- scrolldiv -->
 </div>
 
