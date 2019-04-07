@@ -7,13 +7,21 @@ HOSTNAME=$(uname -n)
 SYSTEM=$(uname -o)
 DOCS=$(file docs)
 
+# Start on a normal Linus OS
 if echo "$SYSTEM"|grep "GNU/Linux"; then
 
-	# if "s" parameter given start with https config
-	if [ $# -eq 1 ] && [ $1 = "s" ]; then
+	# if "-s" parameter given start with https config
+	if [ $# -eq 1 ] && [ $1 = "-s" ]; then
 		CONF="conf/lighttpd-https.conf"
-	else
+	elif [ $# -eq 1 ] && [ $1 = "-n" ]; then
 		CONF="conf/lighttpd.conf"
+	else
+		echo
+		echo "Syntax: start-lighttpd <Option>"
+		echo
+		echo "Options: -s   start with lighttpd-https.conf for ssl security"
+		echo "         -n   start with lighttpd.conf without extra security"
+	exit
 	fi
 	if echo "$DOCS"|grep "(No such file or directory)"; then
 		echo "No link 'docs' found!"
@@ -22,6 +30,7 @@ if echo "$SYSTEM"|grep "GNU/Linux"; then
 	fi
 	SERVERCMD="/usr/sbin/lighttpd"
 
+# Start on TERMUX
 elif echo "$SYSTEM"|grep "Android"; then	
 
 	CONF="conf/Android.conf"
