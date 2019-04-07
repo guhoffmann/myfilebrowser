@@ -49,6 +49,7 @@ session_start();
 				<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["show_clipboard"]; ?>
 			</div>
 		</div>
+		<hr>
 		<div class="sidenaventry" onclick="closeNav();infoDialog()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_infos"]; ?>
 		</div>
