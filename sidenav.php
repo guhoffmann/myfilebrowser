@@ -14,7 +14,7 @@ session_start();
 	</div>
 
 	<div class="scrolldiv">
-		<div data-toggle="collapse" data-target="#filesandfolders">
+		<div class="sidenavtopic" data-toggle="collapse" data-target="#filesandfolders">
 			Dateien und Ordner
 		</div>
 		<div id="filesandfolders" class="collapse">
@@ -32,7 +32,7 @@ session_start();
 			</div>
 		</div>
 
-		<div data-toggle="collapse" data-target="#clipboard">
+		<div class="sidenavtopic" data-toggle="collapse" data-target="#clipboard">
 			Zwischenablage
 		</div>
 		<div id="clipboard" class="collapse">
