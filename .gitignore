@@ -1,4 +1,5 @@
-myfilebrowser.pid
 error.log
+*.pid
+*.swp
 docs
 conf/*.conf
