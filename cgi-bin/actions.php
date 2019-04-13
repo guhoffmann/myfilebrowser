@@ -395,11 +395,6 @@ if ( $action == "createFolder" ) {
 		 header('Content-Type: text/html');
 		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
 		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
-		
-	} elseif ($mimeType == "image/png") {
-		
-		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
-		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
 
 	} elseif ($mimeType == "application/pdf") {
 		
@@ -430,7 +425,7 @@ if ( $action == "createFolder" ) {
 		"</head><body><video controls><source src=\"/docs/".$filename."\" type=\"video/mp4\">".
 		"</video></body></html>\r\n");
 
-	} elseif ($mimeType == "text/plain") {
+	} elseif ($mimeType == "text/plain" || $mimeType == "text/x-shellscript") {
 		
 		 if (file_exists($baseDir.$filename)) {
 			header('Content-Type: text/plain');
