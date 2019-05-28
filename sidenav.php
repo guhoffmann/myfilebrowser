@@ -15,7 +15,7 @@ session_start();
 
 	<div class="scrolldiv">
 		<div class="sidenavtopic" data-toggle="collapse" data-target="#filesandfolders">
-			Dateien und Ordner
+			<?php echo $_SESSION["files_and_folders"]; ?>
 		</div>
 		<div id="filesandfolders" class="collapse">
 			<div class="sidenaventry" onclick="closeNav();createFolder()">
@@ -33,7 +33,7 @@ session_start();
 		</div>
 
 		<div class="sidenavtopic" data-toggle="collapse" data-target="#clipboard">
-			Zwischenablage
+			<?php echo $_SESSION["clipboard"]; ?>
 		</div>
 		<div id="clipboard" class="collapse">
 			<div class="sidenaventry" onclick="closeNav();copyFiles()">
