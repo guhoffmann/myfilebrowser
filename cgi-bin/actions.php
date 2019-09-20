@@ -39,9 +39,28 @@ if ( $action == "createFolder" ) {
  */
  
 } else if ( $action == "readNotice" ) {
-	header("Content-type: text/html");
-	echo "This is the message!";
 	
+	$pathname = urldecode($_GET["objectname"]);
+	header("Content-type: text/html");
+	// open notizen.txt if found
+	if ( file_exists($baseDir.$pathname."/notizen.txt") ) {
+		$file = fopen($baseDir.$pathname."/notizen.txt", "r") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
+		echo fread($file,filesize($baseDir.$pathname."/notizen.txt"));
+		fclose($file);
+	}
+
+/******************************************************************************
+ ** Write content of edited notice to current directory 
+ */
+ 
+} else if ( $action == "saveNotice" ) {
+	
+	$pathname = urldecode($_GET["pathname"]);
+	$content = urldecode($_GET["content"]);
+	$file = fopen($baseDir.$pathname."/notizen.txt", "w") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
+	fwrite($file,$content);
+	fclose($file);
+		
 /******************************************************************************
  * Zip files in folder zipfiles for later download
  */

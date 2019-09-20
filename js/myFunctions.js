@@ -110,6 +110,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 
 	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
@@ -148,6 +149,7 @@ function messageWindow(title, message) {
 
 	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").addClass("hidden");
 	$("#ModalOk").addClass("hidden");
@@ -169,7 +171,6 @@ function textDialog(message, okFunction, closeFunction) {
 	$("#edittext").removeClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
-	//$("#edittext").val("Eingabetext");
 	$("#ModalMessage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!
 	$("#upload").addClass("hidden");
@@ -205,6 +206,7 @@ function inputDialog(message, okFunction, closeFunction) {
 
 	$("#ModalTitle").html(message);
 	$("#inputval").removeClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
@@ -242,6 +244,7 @@ function uploadDialog(message) {
 	document.getElementById("upload").classList.remove("hidden");
 	$("#ModalTitle").html("<span class='material-icons'>create_new_folder</span>&nbsp;" + message);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
 	$("#upload").removeClass("hidden");
@@ -323,34 +326,32 @@ function uploadDialog(message) {
 /******************************************************************************
  ** Edit notice
  */
- 
+
 function editNotice() {
-	
-	// first get content of actual notices
+
+	// first get content of actual notizen.txt
 	$.ajax({
 				url: "cgi-bin/actions.php",
 				data: { objectname: globalAktMediaPath, action: "readNotice" },
 				success: function(response){
 					$("textarea#edittext").val(response);
-					//location.reload(true); // call it here and not in button click event to work with Firefox!!!
 				},
 				error: function (response) {
 					$("textarea#edittext").val("Fehla!");
-					location.reload(true); // call it here and not in button click event to work with Firefox!!!
 			}
 	});
 	
-	textDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Notiz bearbeiten:",
+	textDialog("<span class='material-icons'>assignment</span>&nbsp;Notiz bearbeiten:",
 		function() {
-			var folder = globalAktMediaPath +"/" + $("textarea#edittext").val();
-			//alert("Before: " + folder);
+			var noticeText = $("textarea#edittext").val();
 			$.ajax({
 				url: "cgi-bin/actions.php",
-				data: { objectname: folder, action: "createFolder" },
+				data: { content: noticeText, pathname: globalAktMediaPath, action: "saveNotice" },
 				success: function(){
 					location.reload(true); // call it here and not in button click event to work with Firefox!!!
 				},
 				error: function (response) {
+					alert(response);
 			}
 			});
 		},

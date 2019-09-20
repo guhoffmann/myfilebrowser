@@ -14,7 +14,7 @@ session_start();
 	</div>
 
 	<div class="scrolldiv">
-		<div class="sidenavtopic" data-toggle="collapse" data-target="#filesandfolders">
+		<div class="sidenavtopic collapsed" data-toggle="collapse" data-target="#filesandfolders">
 			<?php echo $_SESSION["files_and_folders"]; ?>
 		</div>
 		<div id="filesandfolders" class="collapse">
@@ -30,12 +30,9 @@ session_start();
 			<div class="sidenaventry" onclick="closeNav();deleteFiles()">
 				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["delete_selected"]; ?>
 			</div>
-			<div class="sidenaventry" onclick="closeNav();editNotice()">
-				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
-			</div>
 		</div>
 
-		<div class="sidenavtopic" data-toggle="collapse" data-target="#clipboard">
+		<div class="sidenavtopic collapsed" data-toggle="collapse" data-target="#clipboard">
 			<?php echo $_SESSION["clipboard"]; ?>
 		</div>
 		<div id="clipboard" class="collapse">
@@ -53,6 +50,9 @@ session_start();
 			</div>
 		</div>
 		<hr>
+		<div class="sidenaventry" onclick="closeNav();editNotice()">
+			<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
+		</div>
 		<div class="sidenaventry" onclick="closeNav();infoDialog()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_infos"]; ?>
 		</div>
