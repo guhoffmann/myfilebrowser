@@ -30,6 +30,9 @@ session_start();
 			<div class="sidenaventry" onclick="closeNav();deleteFiles()">
 				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["delete_selected"]; ?>
 			</div>
+			<div class="sidenaventry" onclick="closeNav();editNotice()">
+				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
+			</div>
 		</div>
 
 		<div class="sidenavtopic" data-toggle="collapse" data-target="#clipboard">

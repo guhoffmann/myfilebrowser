@@ -158,6 +158,44 @@ function messageWindow(title, message) {
 } // of function messageWindow(title, message)
 
 /******************************************************************************
+ ** Simple text edit box
+ */
+ 
+function textDialog(message, okFunction, closeFunction) {
+
+	// Hide and show necessary window elements!
+
+	$("#ModalTitle").html(message);
+	$("#edittext").removeClass("hidden");
+	$("#ModalClose").removeClass("hidden");
+	$("#ModalOk").removeClass("hidden");
+	//$("#edittext").val("Eingabetext");
+	$("#ModalMessage").modal();
+	$("#ModalContent").addClass("hidden"); // erase old text content!
+	$("#upload").addClass("hidden");
+
+	document.getElementById("ModalOk").onclick = function () {
+		if (okFunction !== undefined) {
+			okFunction();
+		}
+		$("#edittext").addClass("hidden");
+		//location.reload(true);// should not be called here, but in okFunction to work with Firefox!!!!!!!
+	};
+
+	if (closeFunction !== undefined) {
+		document.getElementById("ModalClose").style.visibility = "visible";
+		document.getElementById("ModalClose").onclick = function () {
+			closeFunction();
+			$("#edittext").addClass("hidden");
+			location.reload(true);
+		};
+	} else {
+		//document.getElementById("ModalClose").style.visibility = "hidden";
+	}
+  
+} // of function textDialog(message, okFunction, closeFunction)
+					//location.reload(true);
+/******************************************************************************
  ** Simple input box
  */
  
@@ -281,6 +319,44 @@ function uploadDialog(message) {
 	}
 
 } // of function uploadDialog(message, okFunction, closeFunction)
+
+/******************************************************************************
+ ** Edit notice
+ */
+ 
+function editNotice() {
+	
+	// first get content of actual notices
+	$.ajax({
+				url: "cgi-bin/actions.php",
+				data: { objectname: globalAktMediaPath, action: "readNotice" },
+				success: function(response){
+					$("textarea#edittext").val(response);
+					//location.reload(true); // call it here and not in button click event to work with Firefox!!!
+				},
+				error: function (response) {
+					$("textarea#edittext").val("Fehla!");
+					location.reload(true); // call it here and not in button click event to work with Firefox!!!
+			}
+	});
+	
+	textDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Notiz bearbeiten:",
+		function() {
+			var folder = globalAktMediaPath +"/" + $("textarea#edittext").val();
+			//alert("Before: " + folder);
+			$.ajax({
+				url: "cgi-bin/actions.php",
+				data: { objectname: folder, action: "createFolder" },
+				success: function(){
+					location.reload(true); // call it here and not in button click event to work with Firefox!!!
+				},
+				error: function (response) {
+			}
+			});
+		},
+		function(){} // declared to see cancel button
+	);
+} // of function editNotice(path)
 
 /******************************************************************************
  ** Create folder

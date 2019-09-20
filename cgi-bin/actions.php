@@ -35,6 +35,14 @@ if ( $action == "createFolder" ) {
 	mkdir($baseDir."/".$pathname);
 
 /******************************************************************************
+ ** Read an edit notice in current directory 
+ */
+ 
+} else if ( $action == "readNotice" ) {
+	header("Content-type: text/html");
+	echo "This is the message!";
+	
+/******************************************************************************
  * Zip files in folder zipfiles for later download
  */
 
@@ -128,44 +136,48 @@ if ( $action == "createFolder" ) {
 	if ($dirList != FALSE) {
 		for ( $i = 0; $i < count($dirList); $i++ ) {
 
-			$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
-			$relDirAktFile = $relDir.$dirList[$i]; 
+			# show all except notizen.txt
+			if ( $dirList[$i] != "notizen.txt" ) {
+				
+				$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
+				$relDirAktFile = $relDir.$dirList[$i]; 
 
-			if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
-				
-				// Now when it's a folder, do this...
-				
-				$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
-						// For the new self styled checkbox
-						"<span class='checkcontainer'>
-						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-						</span>".
-						// The link with the folder name
-						"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
-							$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
-						 $dirList[$i]."</div></a></td>\n";
-						 
-			} elseif ( is_file( $absDirAktFile ) ) {
-				
-				// Aaah, we found it's a file, so...
+				if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
+					
+					// Now when it's a folder, do this...
+					
+					$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
+							// For the new self styled checkbox
+							"<span class='checkcontainer'>
+							<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+							<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+							</span>".
+							// The link with the folder name
+							"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
+								$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
+							 $dirList[$i]."</div></a></td>\n";
+							 
+				} elseif ( is_file( $absDirAktFile ) ) {
+					
+					// Aaah, we found it's a file, so...
 
-				$fileSize = formatSize(filesize($absDirAktFile));
-							 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
-				
-				$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
+					$fileSize = formatSize(filesize($absDirAktFile));
+								 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
+					
+					$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
 
-						// For the new self styled checkbox
-						"<span class='checkcontainer'>
-						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-						</span>".
-						// Now for the rest
-						"</td><td class='direntry'>
-						  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
-						".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
-						  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
-			}
+							// For the new self styled checkbox
+							"<span class='checkcontainer'>
+							<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+							<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+							</span>".
+							// Now for the rest
+							"</td><td class='direntry'>
+							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+							".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
+							  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
+				}
+			} // of if ( $dirList[i] != "notizen.txt" )...
 		} // of for ( $i = 0; $i < count($dirList); $i++ ) {...
 		echo($dirs);
 		echo($files);
@@ -212,7 +224,7 @@ if ( $action == "createFolder" ) {
 
 
 
-	exit; // MUST add this to prevent an x0a attached at the end of file!!!
+	exit; // MUST add this to prevent an x0a being attached at the end of file!!!
 
 /******************************************************************************
  ** Delete one file, calls delete_files() from myfilebrowser_functions.php!
@@ -223,6 +235,34 @@ if ( $action == "createFolder" ) {
 	// delete file or dir
 	$filename = urldecode($_GET["objectname"]);
 	delete_files($baseDir."/".$filename);
+
+/******************************************************************************
+ ** Get the notizen.txt of current path for display in edit view
+ */
+
+} elseif ( $action == "showInfo" ) {
+
+	// return some program infos
+
+	$db = connect_db();
+	$result = $db->query('SELECT value FROM strings
+								 WHERE language = '.$_SESSION["language"].
+								' AND name = "prog_description"');
+	$row = $result->fetch();
+	header("Content-type: text/html");
+	$clientIp = $_SERVER['REMOTE_ADDR'];
+	$retStr= "<p class='info'>".$row[0]."</p>
+				<p class='info'>".shell_exec("uname -a").
+				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
+				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
+				Port: ".$_SERVER['SERVER_PORT']."</br>
+				Client-IP: ".getClientIp()."</p>
+				<p class='info'><b>".$_SESSION["data_details"].":</b></br>"
+				.$_SESSION["size"].": ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</br>"
+				.$_SESSION["files"].": ".shell_exec("find -L ../docs -type f|wc -l")."</br>"
+				.$_SESSION["dirs"].": ".shell_exec("find -L ../docs -type d|wc -l")."</p>
+				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
+	echo $retStr;
 
 /******************************************************************************
  ** Show short page with some infos 'bout the server
