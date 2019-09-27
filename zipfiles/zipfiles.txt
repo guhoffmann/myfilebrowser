@@ -1,0 +1,2 @@
+This folder contains temporary zip files before they are sent to the calling client.
+From time to time you should check it for remaining zip data to keep it clean.
