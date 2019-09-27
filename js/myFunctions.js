@@ -534,7 +534,7 @@ function pasteFiles() {
 	
 	path = window.location.search.substr(1);
 	$.ajax({
-		url: "cgi-bin/actions.php",  // first zip files on server
+		url: "cgi-bin/actions.php", 
 		data: { uploadDir : globalAktMediaPath, action: "pasteFiles" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
@@ -556,12 +556,13 @@ function downloadFiles() {
 
 	var filesData = [];
 
+	// Get all checked files (=checked checkboxes with name 'fileaction') to filesData array
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
 		filesData.push(filename);
 	});
 
-	var zipFileName =  basename(filesData[0]);
+	var zipFileName =  basename(filesData[0]); // zip name is basename of first file
 
 	messageWindow("Bitte warten...","<div class='info'>Erstelle zip für Download...</div>");
 	$.ajax({
@@ -572,9 +573,11 @@ function downloadFiles() {
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
 			// after zipping hide the message div with 'click' on unvisible close button...
-			$("#ModalMessage .close").click();
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
 			// and start download script (which deletes zip file from server afterwards)
 			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
 		},
 		error: function(response) {
 			alert("zipFiles: Puh, Why this?\n"+response);
@@ -582,6 +585,33 @@ function downloadFiles() {
 	});
 
 } // of function downloadFiles() ...
+
+/******************************************************************************
+ ** Zip and download files from clipboard to local machine
+ */
+
+function downloadFilesFromClipboard() {
+
+	messageWindow("Bitte warten...","<div class='info'>Erstelle zip für Download...</div>");
+	$.ajax({
+		type: "POST",
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "zipClipboardFiles" },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		success: function(response) {
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
+			// and start download script (which deletes zip file from server afterwards)
+			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
+		},
+		error: function(response) {
+			alert("downloadClipboardFiles: Puh, Why this?\n"+response);
+		}
+	});
+
+} // of function downloadFilesFromClipboard() ...
 
 /******************************************************************************
  ** Change language
@@ -602,7 +632,7 @@ function changeLanguage(language) {
 		}
 	});
 
-} // of function showClipboard() ...
+} // of function changeLanguage(language) ...
 
 /** Open/close navbar at side (=sidenav)
  *  by changing width of object

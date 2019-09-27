@@ -45,6 +45,9 @@ session_start();
 			<div class="sidenaventry" onclick="closeNav();clearClipboard()">
 				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["clear_clipboard"]; ?>
 			</div>
+			<div class="sidenaventry" onclick="closeNav();downloadFilesFromClipboard()">
+				<?php	echo '<span class="material-icons">cloud_download</span>&nbsp;'.$_SESSION["download_clipboard_as_zip"]; ?>
+			</div>
 			<div class="sidenaventry" onclick="closeNav();showClipboard()">
 				<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["show_clipboard"]; ?>
 			</div>

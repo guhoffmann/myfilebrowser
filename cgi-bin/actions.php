@@ -3,7 +3,7 @@ session_start();
 
 /*                          - actions.php -
  
-          'Event handler' for MyFileBrowser http file explorer.
+          'Event handler' for MyFileBrowser http(s) file explorer.
    
                          (C) guhoffmann 2018 -
 */
@@ -20,7 +20,7 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
 }
 
 //=============================================================================
-//=========== Now filter the actions and react as an event handler ============
+//=========================== action handlers =================================
 //=============================================================================
 
 /******************************************************************************
@@ -50,7 +50,7 @@ if ( $action == "createFolder" ) {
 	}
 
 /******************************************************************************
- ** Write content of edited notice to current directory 
+ * Write content of edited notice to current directory 
  */
  
 } else if ( $action == "saveNotice" ) {
@@ -74,28 +74,43 @@ if ( $action == "createFolder" ) {
 	$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/".$_POST['filename'].$dateStr.".zip";
 	$command = "7z a \"".$zipFileName."\"";
 
-	//echo "\n*** zipFiles.php, before Loop!".PHP_EOL;
-
 	foreach($postData as $value) { //loop over values
-
 		$fileToAdd = $baseDir.$value;
 		$command .= " \"".$fileToAdd."\"";
 		//echo $fileToAdd.PHP_EOL;
-	
 	}
 
-	$response = shell_exec($command);
-	echo basename($zipFileName);
+	$response = shell_exec($command); // do zipping
+	echo basename($zipFileName); // return zip filename
 
 /******************************************************************************
- ** Download zipped file containig zipped files and folders from the
- ** zipfiles folder (called from downloadFiles() in myGuiFunctions.js
- ** after the zip files were created)!
+ * Zip clipboard files in folder zipfiles for later download
+ */
+
+} else if ( $action == "zipClipboardFiles" ) {
+
+	set_time_limit(0);
+
+	$dateStr = "_".date('y-m-d_H-i-s');
+	$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/clipBoard_".$dateStr.".zip";
+	$command = "7z a \"".$zipFileName."\"";
+	
+	foreach($_SESSION["memory"] as $key=>$data){
+		$fileToAdd = $baseDir.$key;
+		$command .= " \"".$fileToAdd."\"";
+	}
+	$response = shell_exec($command); // do zipping
+	echo basename($zipFileName); // return zip filename
+	
+/******************************************************************************
+ * Download zipped file containig zipped files and folders from the
+ * zipfiles folder (called from downloadFiles() in myGuiFunctions.js
+ * after the zip files were created)!
  */
 
 } elseif ( $action == "downloadZipAndDelete" ) {
 
-	// download zipped files from zipfiles die and delete them afterwards
+	// download zipped files from zipfiles dir and delete them afterwards
 
 	$filename = substr($_GET["objectname"],1);
 
@@ -536,4 +551,3 @@ if ( $action == "createFolder" ) {
 }
 
 ?>
-
