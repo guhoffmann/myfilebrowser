@@ -110,6 +110,7 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 
 	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
@@ -148,6 +149,7 @@ function messageWindow(title, message) {
 
 	$("#ModalTitle").html(title);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#upload").addClass("hidden");
 	$("#ModalClose").addClass("hidden");
 	$("#ModalOk").addClass("hidden");
@@ -158,6 +160,43 @@ function messageWindow(title, message) {
 } // of function messageWindow(title, message)
 
 /******************************************************************************
+ ** Simple text edit box
+ */
+ 
+function textDialog(message, okFunction, closeFunction) {
+
+	// Hide and show necessary window elements!
+
+	$("#ModalTitle").html(message);
+	$("#edittext").removeClass("hidden");
+	$("#ModalClose").removeClass("hidden");
+	$("#ModalOk").removeClass("hidden");
+	$("#ModalMessage").modal();
+	$("#ModalContent").addClass("hidden"); // erase old text content!
+	$("#upload").addClass("hidden");
+
+	document.getElementById("ModalOk").onclick = function () {
+		if (okFunction !== undefined) {
+			okFunction();
+		}
+		$("#edittext").addClass("hidden");
+		//location.reload(true);// should not be called here, but in okFunction to work with Firefox!!!!!!!
+	};
+
+	if (closeFunction !== undefined) {
+		document.getElementById("ModalClose").style.visibility = "visible";
+		document.getElementById("ModalClose").onclick = function () {
+			closeFunction();
+			$("#edittext").addClass("hidden");
+			location.reload(true);
+		};
+	} else {
+		//document.getElementById("ModalClose").style.visibility = "hidden";
+	}
+  
+} // of function textDialog(message, okFunction, closeFunction)
+					//location.reload(true);
+/******************************************************************************
  ** Simple input box
  */
  
@@ -167,6 +206,7 @@ function inputDialog(message, okFunction, closeFunction) {
 
 	$("#ModalTitle").html(message);
 	$("#inputval").removeClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
@@ -204,6 +244,7 @@ function uploadDialog(message) {
 	document.getElementById("upload").classList.remove("hidden");
 	$("#ModalTitle").html("<span class='material-icons'>create_new_folder</span>&nbsp;" + message);
 	$("#inputval").addClass("hidden");
+	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
 	$("#upload").removeClass("hidden");
@@ -281,6 +322,42 @@ function uploadDialog(message) {
 	}
 
 } // of function uploadDialog(message, okFunction, closeFunction)
+
+/******************************************************************************
+ ** Edit notice
+ */
+
+function editNotice() {
+
+	// first get content of actual notizen.txt
+	$.ajax({
+				url: "cgi-bin/actions.php",
+				data: { objectname: globalAktMediaPath, action: "readNotice" },
+				success: function(response){
+					$("textarea#edittext").val(response);
+				},
+				error: function (response) {
+					$("textarea#edittext").val("Fehla!");
+			}
+	});
+	
+	textDialog("<span class='material-icons'>assignment</span>&nbsp;Notiz bearbeiten:",
+		function() {
+			var noticeText = $("textarea#edittext").val();
+			$.ajax({
+				url: "cgi-bin/actions.php",
+				data: { content: noticeText, pathname: globalAktMediaPath, action: "saveNotice" },
+				success: function(){
+					location.reload(true); // call it here and not in button click event to work with Firefox!!!
+				},
+				error: function (response) {
+					alert(response);
+			}
+			});
+		},
+		function(){} // declared to see cancel button
+	);
+} // of function editNotice(path)
 
 /******************************************************************************
  ** Create folder
@@ -457,7 +534,7 @@ function pasteFiles() {
 	
 	path = window.location.search.substr(1);
 	$.ajax({
-		url: "cgi-bin/actions.php",  // first zip files on server
+		url: "cgi-bin/actions.php", 
 		data: { uploadDir : globalAktMediaPath, action: "pasteFiles" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
@@ -479,12 +556,13 @@ function downloadFiles() {
 
 	var filesData = [];
 
+	// Get all checked files (=checked checkboxes with name 'fileaction') to filesData array
 	$('input[name="fileaction"]:checked').each(function() {
 		var filename = this.value;
 		filesData.push(filename);
 	});
 
-	var zipFileName =  basename(filesData[0]);
+	var zipFileName =  basename(filesData[0]); // zip name is basename of first file
 
 	messageWindow("Bitte warten...","<div class='info'>Erstelle zip für Download...</div>");
 	$.ajax({
@@ -495,9 +573,11 @@ function downloadFiles() {
 		processData: true, // must be true to send JSON array!
 		success: function(response) {
 			// after zipping hide the message div with 'click' on unvisible close button...
-			$("#ModalMessage .close").click();
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
 			// and start download script (which deletes zip file from server afterwards)
 			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
 		},
 		error: function(response) {
 			alert("zipFiles: Puh, Why this?\n"+response);
@@ -505,6 +585,33 @@ function downloadFiles() {
 	});
 
 } // of function downloadFiles() ...
+
+/******************************************************************************
+ ** Zip and download files from clipboard to local machine
+ */
+
+function downloadFilesFromClipboard() {
+
+	messageWindow("Bitte warten...","<div class='info'>Erstelle zip für Download...</div>");
+	$.ajax({
+		type: "POST",
+		url: "cgi-bin/actions.php",  // first zip files on server
+		data: { action: "zipClipboardFiles" },
+		dataType: "text",  // must be sent for browser to get response correctly!
+		success: function(response) {
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
+			// and start download script (which deletes zip file from server afterwards)
+			window.location.href = "/cgi-bin/actions.php?objectname=/zipfiles/" + response + "&action=downloadZipAndDelete";
+			// after zipping hide the message div with 'click' on unvisible close button...
+			$("#ModalMessage .close").click(); // must do this 2 times to get it always working!
+		},
+		error: function(response) {
+			alert("downloadClipboardFiles: Puh, Why this?\n"+response);
+		}
+	});
+
+} // of function downloadFilesFromClipboard() ...
 
 /******************************************************************************
  ** Change language
@@ -525,7 +632,7 @@ function changeLanguage(language) {
 		}
 	});
 
-} // of function showClipboard() ...
+} // of function changeLanguage(language) ...
 
 /** Open/close navbar at side (=sidenav)
  *  by changing width of object

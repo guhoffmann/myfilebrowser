@@ -440,7 +440,7 @@ label {
 	border-top: 1px solid #7d83b0;
 }
 
-#inputval {
+#inputval,#edittext {
 	background-color: #535a92;
 	color: white;
 	margin: 1rem;
@@ -504,7 +504,23 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 .sidenav_rand {
     border-right: 1px solid #000;
 }
+.dropdown-toggle.collapsed {
+	background-color: red;
+}
+.sidenavtopic {
+	font-size: 1.2em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	margin-top: 0.1em;
+	padding-left: 1.5em;
+	margin-bottom: 0.1em;
+	background-color: #313975;
+}
+.sidenavtopic.collapsed::before {
 
+	content: ">";
+	color: white;
+}
 .sidenaventry {
     padding: 8px 8px 8px 8px;
     text-decoration: none;

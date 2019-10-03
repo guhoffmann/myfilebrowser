@@ -14,8 +14,8 @@ session_start();
 	</div>
 
 	<div class="scrolldiv">
-		<div data-toggle="collapse" data-target="#filesandfolders">
-			Dateien und Ordner
+		<div class="sidenavtopic collapsed" data-toggle="collapse" data-target="#filesandfolders">
+			<?php echo $_SESSION["files_and_folders"]; ?>
 		</div>
 		<div id="filesandfolders" class="collapse">
 			<div class="sidenaventry" onclick="closeNav();createFolder()">
@@ -32,8 +32,8 @@ session_start();
 			</div>
 		</div>
 
-		<div data-toggle="collapse" data-target="#clipboard">
-			Zwischenablage
+		<div class="sidenavtopic collapsed" data-toggle="collapse" data-target="#clipboard">
+			<?php echo $_SESSION["clipboard"]; ?>
 		</div>
 		<div id="clipboard" class="collapse">
 			<div class="sidenaventry" onclick="closeNav();copyFiles()">
@@ -45,9 +45,16 @@ session_start();
 			<div class="sidenaventry" onclick="closeNav();clearClipboard()">
 				<?php	echo '<span class="material-icons">delete_forever</span>&nbsp;'.$_SESSION["clear_clipboard"]; ?>
 			</div>
+			<div class="sidenaventry" onclick="closeNav();downloadFilesFromClipboard()">
+				<?php	echo '<span class="material-icons">cloud_download</span>&nbsp;'.$_SESSION["download_clipboard_as_zip"]; ?>
+			</div>
 			<div class="sidenaventry" onclick="closeNav();showClipboard()">
 				<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["show_clipboard"]; ?>
 			</div>
+		</div>
+		<hr>
+		<div class="sidenaventry" onclick="closeNav();editNotice()">
+			<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
 		</div>
 		<div class="sidenaventry" onclick="closeNav();infoDialog()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_infos"]; ?>

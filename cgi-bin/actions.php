@@ -3,7 +3,7 @@ session_start();
 
 /*                          - actions.php -
  
-          'Event handler' for MyFileBrowser http file explorer.
+          'Event handler' for MyFileBrowser http(s) file explorer.
    
                          (C) guhoffmann 2018 -
 */
@@ -20,7 +20,7 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
 }
 
 //=============================================================================
-//=========== Now filter the actions and react as an event handler ============
+//=========================== action handlers =================================
 //=============================================================================
 
 /******************************************************************************
@@ -35,6 +35,33 @@ if ( $action == "createFolder" ) {
 	mkdir($baseDir."/".$pathname);
 
 /******************************************************************************
+ ** Read an edit notice in current directory 
+ */
+ 
+} else if ( $action == "readNotice" ) {
+	
+	$pathname = urldecode($_GET["objectname"]);
+	header("Content-type: text/html");
+	// open notizen.txt if found
+	if ( file_exists($baseDir.$pathname."/notizen.txt") ) {
+		$file = fopen($baseDir.$pathname."/notizen.txt", "r") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
+		echo fread($file,filesize($baseDir.$pathname."/notizen.txt"));
+		fclose($file);
+	}
+
+/******************************************************************************
+ * Write content of edited notice to current directory 
+ */
+ 
+} else if ( $action == "saveNotice" ) {
+	
+	$pathname = urldecode($_GET["pathname"]);
+	$content = urldecode($_GET["content"]);
+	$file = fopen($baseDir.$pathname."/notizen.txt", "w") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
+	fwrite($file,$content);
+	fclose($file);
+		
+/******************************************************************************
  * Zip files in folder zipfiles for later download
  */
 
@@ -47,28 +74,43 @@ if ( $action == "createFolder" ) {
 	$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/".$_POST['filename'].$dateStr.".zip";
 	$command = "7z a \"".$zipFileName."\"";
 
-	//echo "\n*** zipFiles.php, before Loop!".PHP_EOL;
-
 	foreach($postData as $value) { //loop over values
-
 		$fileToAdd = $baseDir.$value;
 		$command .= " \"".$fileToAdd."\"";
 		//echo $fileToAdd.PHP_EOL;
-	
 	}
 
-	$response = shell_exec($command);
-	echo basename($zipFileName);
+	$response = shell_exec($command); // do zipping
+	echo basename($zipFileName); // return zip filename
 
 /******************************************************************************
- ** Download zipped file containig zipped files and folders from the
- ** zipfiles folder (called from downloadFiles() in myGuiFunctions.js
- ** after the zip files were created)!
+ * Zip clipboard files in folder zipfiles for later download
+ */
+
+} else if ( $action == "zipClipboardFiles" ) {
+
+	set_time_limit(0);
+
+	$dateStr = "_".date('y-m-d_H-i-s');
+	$zipFileName= $_SERVER["DOCUMENT_ROOT"]."/zipfiles/clipBoard_".$dateStr.".zip";
+	$command = "7z a \"".$zipFileName."\"";
+	
+	foreach($_SESSION["memory"] as $key=>$data){
+		$fileToAdd = $baseDir.$key;
+		$command .= " \"".$fileToAdd."\"";
+	}
+	$response = shell_exec($command); // do zipping
+	echo basename($zipFileName); // return zip filename
+	
+/******************************************************************************
+ * Download zipped file containig zipped files and folders from the
+ * zipfiles folder (called from downloadFiles() in myGuiFunctions.js
+ * after the zip files were created)!
  */
 
 } elseif ( $action == "downloadZipAndDelete" ) {
 
-	// download zipped files from zipfiles die and delete them afterwards
+	// download zipped files from zipfiles dir and delete them afterwards
 
 	$filename = substr($_GET["objectname"],1);
 
@@ -128,44 +170,48 @@ if ( $action == "createFolder" ) {
 	if ($dirList != FALSE) {
 		for ( $i = 0; $i < count($dirList); $i++ ) {
 
-			$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
-			$relDirAktFile = $relDir.$dirList[$i]; 
+			# show all except notizen.txt
+			if ( $dirList[$i] != "notizen.txt" ) {
+				
+				$absDirAktFile = $baseDir.$relDir.$dirList[$i]; 
+				$relDirAktFile = $relDir.$dirList[$i]; 
 
-			if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
-				
-				// Now when it's a folder, do this...
-				
-				$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
-						// For the new self styled checkbox
-						"<span class='checkcontainer'>
-						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-						</span>".
-						// The link with the folder name
-						"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
-							$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
-						 $dirList[$i]."</div></a></td>\n";
-						 
-			} elseif ( is_file( $absDirAktFile ) ) {
-				
-				// Aaah, we found it's a file, so...
+				if ( is_dir( $absDirAktFile ) AND $dirList[$i] != "." AND $dirList[$i] != ".." ) {
+					
+					// Now when it's a folder, do this...
+					
+					$dirs .= "<tr><td class='folder' style='width:2em; text-align: center;' valign='top'>\r\n".
+							// For the new self styled checkbox
+							"<span class='checkcontainer'>
+							<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+							<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+							</span>".
+							// The link with the folder name
+							"</td><td class='folder' colspan='3' style=\"width:2em\"><a href='?".
+								$relDirAktFile."#list'><div><i class='material-icons'>folder</i>\r\n".
+							 $dirList[$i]."</div></a></td>\n";
+							 
+				} elseif ( is_file( $absDirAktFile ) ) {
+					
+					// Aaah, we found it's a file, so...
 
-				$fileSize = formatSize(filesize($absDirAktFile));
-							 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
-				
-				$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
+					$fileSize = formatSize(filesize($absDirAktFile));
+								 $fileDate = date("d.m.Y  H:i:s", filemtime($absDirAktFile));
+					
+					$files .= "<tr><td class='direntry' style='width:2em; text-align: center;' valign='top'> \r\n".
 
-						// For the new self styled checkbox
-						"<span class='checkcontainer'>
-						<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
-						<label for='checkbox-".$i."'><span class='checkbox'></span></label>
-						</span>".
-						// Now for the rest
-						"</td><td class='direntry'>
-						  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
-						".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
-						  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
-			}
+							// For the new self styled checkbox
+							"<span class='checkcontainer'>
+							<input type='checkbox' name='fileaction' value='".$relDirAktFile."' id='checkbox-".$i."' class='hidden_checkbox'>
+							<label for='checkbox-".$i."'><span class='checkbox'></span></label>
+							</span>".
+							// Now for the rest
+							"</td><td class='direntry'>
+							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+							".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
+							  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
+				}
+			} // of if ( $dirList[i] != "notizen.txt" )...
 		} // of for ( $i = 0; $i < count($dirList); $i++ ) {...
 		echo($dirs);
 		echo($files);
@@ -212,7 +258,7 @@ if ( $action == "createFolder" ) {
 
 
 
-	exit; // MUST add this to prevent an x0a attached at the end of file!!!
+	exit; // MUST add this to prevent an x0a being attached at the end of file!!!
 
 /******************************************************************************
  ** Delete one file, calls delete_files() from myfilebrowser_functions.php!
@@ -223,6 +269,34 @@ if ( $action == "createFolder" ) {
 	// delete file or dir
 	$filename = urldecode($_GET["objectname"]);
 	delete_files($baseDir."/".$filename);
+
+/******************************************************************************
+ ** Get the notizen.txt of current path for display in edit view
+ */
+
+} elseif ( $action == "showInfo" ) {
+
+	// return some program infos
+
+	$db = connect_db();
+	$result = $db->query('SELECT value FROM strings
+								 WHERE language = '.$_SESSION["language"].
+								' AND name = "prog_description"');
+	$row = $result->fetch();
+	header("Content-type: text/html");
+	$clientIp = $_SERVER['REMOTE_ADDR'];
+	$retStr= "<p class='info'>".$row[0]."</p>
+				<p class='info'>".shell_exec("uname -a").
+				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
+				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
+				Port: ".$_SERVER['SERVER_PORT']."</br>
+				Client-IP: ".getClientIp()."</p>
+				<p class='info'><b>".$_SESSION["data_details"].":</b></br>"
+				.$_SESSION["size"].": ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</br>"
+				.$_SESSION["files"].": ".shell_exec("find -L ../docs -type f|wc -l")."</br>"
+				.$_SESSION["dirs"].": ".shell_exec("find -L ../docs -type d|wc -l")."</p>
+				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
+	echo $retStr;
 
 /******************************************************************************
  ** Show short page with some infos 'bout the server
@@ -395,11 +469,6 @@ if ( $action == "createFolder" ) {
 		 header('Content-Type: text/html');
 		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
 		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
-		
-	} elseif ($mimeType == "image/png") {
-		
-		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
-		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
 
 	} elseif ($mimeType == "application/pdf") {
 		
@@ -430,7 +499,7 @@ if ( $action == "createFolder" ) {
 		"</head><body><video controls><source src=\"/docs/".$filename."\" type=\"video/mp4\">".
 		"</video></body></html>\r\n");
 
-	} elseif ($mimeType == "text/plain") {
+	} elseif ($mimeType == "text/plain" || $mimeType == "text/x-shellscript") {
 		
 		 if (file_exists($baseDir.$filename)) {
 			header('Content-Type: text/plain');
@@ -482,4 +551,3 @@ if ( $action == "createFolder" ) {
 }
 
 ?>
-

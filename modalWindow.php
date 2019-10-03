@@ -14,7 +14,8 @@
 
 			<!-- section for value input -->
 			<input class="hidden" type="text" id="inputval" name="foldername" value="">
-
+			<!-- section for editable text -->
+			<textarea class="hidden" id="edittext" rows="5" name="edittext" value=""></textarea>
 			<!-- section for the upload -->
 			<form id="upload" action="cgi-bin/actions.php" method="post" enctype="multipart/form-data"> 
 				<input type="file" name="file[]" id="fileinput" class="inputfile" data-multiple-caption="{count} Dateien hochladen" multiple="multiple"/>
