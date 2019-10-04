@@ -9,7 +9,7 @@
 /* $baseDir must be the symbolic link 'docs' to the file exchange directory!
    If it doesn't exist, you must manually create the link in the
    websites main directory. */
-$baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs";
+$baseDir = $_SERVER["DOCUMENT_ROOT"]."/docs".$_SESSION["userdir"];
 
 /******************************************************************************
  ** Return a connection to the sqlite database
