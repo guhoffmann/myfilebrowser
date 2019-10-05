@@ -41,7 +41,7 @@ const myrouter = function () {
 		window.addEventListener('hashchange', handleRouting);
 		window.addEventListener('load', handleRouting);
 	}
-
+	
 	// return object containing adRoute, navigateToHashUrl
 
 	return {

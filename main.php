@@ -105,7 +105,14 @@ while ($row = $result->fetch()) {
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/router.js"></script>
 	<script src="js/myFunctions.js"></script>
-
+	<!-- disable back button -->
+	<script>
+		$(document).ready(function() {
+		function disableBack() { window.history.forward() }
+		window.onload = disableBack();
+		window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+		});
+	</script>
 </body>
 </html>
 
