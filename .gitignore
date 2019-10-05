@@ -2,4 +2,5 @@ error.log
 *.pid
 *.swp
 docs
+gitset
 conf/*.conf
