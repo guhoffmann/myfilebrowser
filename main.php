@@ -52,10 +52,11 @@ echo '
 // include navbar on the left!
 include 'sidenav.php';
 
-echo ' User:'.$_SESSION["username"].'
+echo 'User: '.$_SESSION["username"].'
 		<!-- Link to documents main folder -->
 		<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
-
+		<!-- Link to logout -->
+		<a href="/logout.php"><div class="btn btn-primary material-icons">cancel</div></a>
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"

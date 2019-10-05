@@ -26,7 +26,7 @@ if ( $result && password_verify($password ,$row[0]) ) {
 	$db = null;
 	$_SESSION["username"] = $uname;
 	$_SESSION["userdir"] = $row[1];
-	header('Location: main.php');;
+	header('Location: main.php');
 	
 } else {
 	echo '

@@ -47,7 +47,7 @@
 		</div>
 		<hr>
 		<div class="sidenaventry" onclick="closeNav();editNotice()">
-			<?php	echo '<span class="material-icons">assignment</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
+			<?php	echo '<span class="material-icons">edit</span>&nbsp;'.$_SESSION["edit_notice"]; ?>
 		</div>
 		<div class="sidenaventry" onclick="closeNav();infoDialog()">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_infos"]; ?>
