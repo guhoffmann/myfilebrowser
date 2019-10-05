@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 /*                     - index.php -
 
@@ -52,7 +52,7 @@ echo '
 // include navbar on the left!
 include 'sidenav.php';
 
-echo ' '.$_SESSION["username"].'
+echo ' User:'.$_SESSION["username"].'
 		<!-- Link to documents main folder -->
 		<a href="/"><div class="btn btn-primary material-icons">home</div></a>
 

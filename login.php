@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /*                           - login.php -
  
             Login worker for MyFileBrowser http(s) file explorer.
@@ -15,7 +15,7 @@ header("Content-type: text/html");
 
 include 'cgi-bin/myFunctions.php';
 
-// Now fetch all language dependent Strings for menu and main page!
+// fetch login infos from db
 $db = connect_db();
 $result = $db->query('SELECT password,homedir FROM users WHERE name ="'.$uname.'" ');
 $row = $result->fetch();
@@ -23,7 +23,7 @@ $row = $result->fetch();
 if ( $result && password_verify($password ,$row[0]) ) {
 
 	// start session and go to first page
-	session_start();
+	$db = null;
 	$_SESSION["username"] = $uname;
 	$_SESSION["userdir"] = $row[1];
 	header('Location: main.php');;
