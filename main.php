@@ -54,7 +54,7 @@ include 'sidenav.php';
 
 echo ' User:'.$_SESSION["username"].'
 		<!-- Link to documents main folder -->
-		<a href="/"><div class="btn btn-primary material-icons">home</div></a>
+		<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
 
 		<!-- the lanuage menu -->
 		<div class="dropdown show">
