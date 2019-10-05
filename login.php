@@ -20,7 +20,7 @@ $db = connect_db();
 $result = $db->query('SELECT password,homedir FROM users WHERE name ="'.$uname.'" ');
 $row = $result->fetch();
 
-if ( $result && $row[0] == $password ) {
+if ( $result && password_verify($password ,$row[0]) ) {
 
 	// start session and go to first page
 	session_start();

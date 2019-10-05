@@ -158,7 +158,7 @@ if ( $action == "createFolder" ) {
 		 echo("<h4 class='padding-start'><i class='material-icons'>home</i>&nbsp;/".substr($relDir,2)."</h4>\r\n");
 		 // create dirup entry if not in document root!
 		 echo("<table>\r\n<tr><td class='folder' colspan='4' style=\"width:2em\">".
-			  "<a href='?".dirname($relDir)."#list'><div><i class='material-icons'>arrow_upward</i> .. ( ".$_SESSION["directory_up"]." )</div></a></td></tr>\r\n");
+			  "<a href='?".dirname($relDir)."#list'><div><i class='material-icons'>arrow_upward</i> .. ".$_SESSION["directory_up"]." </div></a></td></tr>\r\n");
 	}
 
 	echo "<section class='section1'>\r\n"; // for the self styled checkbox!
