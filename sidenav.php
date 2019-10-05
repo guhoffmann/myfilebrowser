@@ -1,10 +1,3 @@
-<?php
-session_start();
-/*	This one includes the sidebar for navigation
-	on the left side of the document!
-*/
-?>
-
 <!-- Der Navbar links! -->
 
 <div id="mySidenav" class="sidenav">
