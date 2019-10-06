@@ -207,7 +207,7 @@ if ( $action == "createFolder" ) {
 							</span>".
 							// Now for the rest
 							"</td><td class='direntry'>
-							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."' target='_blank'><div><span class='white'>
 							".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
 							  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
 				}
