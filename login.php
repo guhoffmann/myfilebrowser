@@ -53,7 +53,7 @@ if ( $result && password_verify($password ,$row[0]) ) {
 				<table>
 				<th style="text-align:center" colspan="2"><h3>Login Error</h3></th>
 				<tr>
-					<td style="text-align:right"><b>Username</b></td>
+					<td style="text-align:right"><b>User</b></td>
 					<td><input type="text" placeholder="Enter Username" name="username" required></td>
 				</tr>
 				<tr>

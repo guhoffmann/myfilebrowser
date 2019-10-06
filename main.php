@@ -52,7 +52,7 @@ echo '
 // include navbar on the left!
 include 'sidenav.php';
 
-echo 'User: '.$_SESSION["username"].'
+echo $_SESSION["username"].'
 		<!-- Link to documents main folder -->
 		<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
 		<!-- Link to logout -->
@@ -61,9 +61,7 @@ echo 'User: '.$_SESSION["username"].'
 		<div class="dropdown show">
 			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="material-icons">&nbsp;language&nbsp;</i>
-				'.$_SESSION["language_string"].'
-				<span></span>
+				<i class="material-icons">&nbsp;language&nbsp;</i><span></span>
 			</a>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
 
