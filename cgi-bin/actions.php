@@ -468,7 +468,7 @@ if ( $action == "createFolder" ) {
 		
 		 header('Content-Type: text/html');
 		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
-		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
+		"</head><body><img src=\"/docs".$_SESSION["userdir"].$filename."\"></body></html>\r\n");
 
 	} elseif ($mimeType == "application/pdf") {
 		
