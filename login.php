@@ -11,13 +11,14 @@ session_start();
 
 $uname = $_POST['username'];
 $password = $_POST['password'];
+
 header("Content-type: text/html");
 
 include 'cgi-bin/myFunctions.php';
 
 // fetch login infos from db
 $db = connect_db();
-$result = $db->query('SELECT password,homedir FROM users WHERE name ="'.$uname.'" ');
+$result = $db->query('SELECT password,homedir,rights FROM users WHERE name ="'.$uname.'" ');
 $row = $result->fetch();
 
 if ( $result && password_verify($password ,$row[0]) ) {
@@ -26,6 +27,8 @@ if ( $result && password_verify($password ,$row[0]) ) {
 	$db = null;
 	$_SESSION["username"] = $uname;
 	$_SESSION["userdir"] = $row[1];
+	$_SESSION["userrights"] = $row[2];
+	$_SESSION["started"] = "started";  // control variable to see if session was destroyed (e.g. clearing history)!
 	header('Location: main.php');
 	
 } else {
@@ -50,18 +53,10 @@ if ( $result && password_verify($password ,$row[0]) ) {
 		<div class="row">
 			<div class="col-sm-12">
 				<form action="login.php" method="post">
-				<table>
-				<th style="text-align:center" colspan="2"><h3>Login Error</h3></th>
-				<tr>
-					<td style="text-align:right"><b>User</b></td>
-					<td><input type="text" placeholder="Enter Username" name="username" required></td>
-				</tr>
-				<tr>
-					<td style="text-align:right"><b>Password</b></td>
-					<td><input type="password" placeholder="Enter Password" name="password" required></td>
-				</tr>
-				<tr><td></td><td><button type="submit">Login</button></td></tr>
-				</table>
+				<h3><i class="material-icons">lock_open</i> Login Error!</h3>
+				<p><input type="text" placeholder="Enter Username" name="username" required></p>
+				<p><input type="password" placeholder="Enter Password" name="password" required></p>
+				<button type="submit"><i class="material-icons">touch_app</i> Enter</button>
 				</form>
 			</div>
 		</div>

@@ -266,9 +266,14 @@ if ( $action == "createFolder" ) {
  
 } elseif ( $action == "deleteFile" ) {
 
-	// delete file or dir
-	$filename = urldecode($_GET["objectname"]);
-	delete_files($baseDir."/".$filename);
+	// Delete if admin rights only
+	if ( $_SESSION["userrights"] == 1) {
+		// delete file or dir
+		$filename = urldecode($_GET["objectname"]);
+		delete_files($baseDir."/".$filename);
+	} else {
+		echo "error";
+	}
 
 /******************************************************************************
  ** Get the notizen.txt of current path for display in edit view

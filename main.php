@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-/*                     - index.php -
+/*                     - main.php -
 
       Start file for MyFileBrowser http file explorer.
    
                    (C) guhoffmann 2018 -
 */
 
-// Initialize all session variables here
+// Initialize session variables here
 
 // Start with German language!
 if ( !isset($_SESSION["language"]) ) {
@@ -40,55 +40,67 @@ echo '<body>';
 // include windows section
 include 'modalWindow.php';
 
-echo '
+if ( $_SESSION["started"] == "started" ) {
 
-	<!-- ******************************************************* -->
-	<!--          The navbar for the whole HTML app              -->
+	echo '
 
-	<nav class="navbar navbar-dark fixed-top my-nav-bg">
-		<!-- Neuer Menüknopp -->
-		<button id="menubutton" type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
+		<!-- ******************************************************* -->
+		<!--          The navbar for the whole HTML app              -->
 
-// include navbar on the left!
-include 'sidenav.php';
+		<nav class="navbar navbar-dark fixed-top my-nav-bg">
+			<!-- Neuer Menüknopp -->
+			<button id="menubutton" type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
 
-echo $_SESSION["username"].'
-		<!-- Link to documents main folder -->
-		<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
-		<!-- Link to logout -->
-		<a href="/logout.php"><div class="btn btn-primary material-icons">cancel</div></a>
-		<!-- the lanuage menu -->
-		<div class="dropdown show">
-			<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="material-icons">&nbsp;language&nbsp;</i><span></span>
-			</a>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
+	// include navbar on the left!
+	include 'sidenav.php';
 
-$result = $db->query('SELECT * FROM languages');
+	echo $_SESSION["username"].':'.$_SESSION["started"].'
+			<!-- Link to documents main folder -->
+			<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
+			<!-- Link to logout -->
+			<a href="/logout.php"><div class="btn btn-primary material-icons">cancel</div></a>
+			<!-- the lanuage menu -->
+			<div class="dropdown show">
+				<a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="material-icons">&nbsp;language&nbsp;</i><span></span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
 
-while ($row = $result->fetch()) {
-	echo '<div class="dropdown-item" onClick="changeLanguage('.$row[2].')">&nbsp;'.$row[0].'</div>';
-}
+	$result = $db->query('SELECT * FROM languages');
 
-?>
+	while ($row = $result->fetch()) {
+		echo '<div class="dropdown-item" onClick="changeLanguage('.$row[2].')">&nbsp;'.$row[0].'</div>';
+	}
 
-		</div>&nbsp;
-		</div> <!-- dropdown show/language menu -->
-		
-	</nav>
+	echo '	</div>&nbsp;
+			</div> <!-- dropdown show/language menu -->
+		</nav>
+		<!-- ******************************************************* -->
+		<!--       The app contents are rendered to div id="app"     -->
 
-  	<!-- ******************************************************* -->
-	<!--       The app contents are rendered to div id="app"     -->
-
-	<div class="container">
-	  <div class="row">
-		<div class="col-sm-12">
-			<div id="app" onclick="closeNav()">
+		<div class="container">
+		  <div class="row">
+			<div class="col-sm-12">
+				<div id="app" onclick="closeNav()">
+				</div>
+			</div>
+		  </div>
+		</div>';
+} else {
+	
+	echo '<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h3>Sorry!</h3>
+				<p>You\'ve destroyed Session data, maybe you cleared the history?!</p>
+				<p>No you must login again to use this site.</p>
+				<button onclick="location.href=\'index.php\'"><i class="material-icons">touch_app</i> Enter</button>
 			</div>
 		</div>
-	  </div>
-	</div>
+	</div>';
+}
+?>
 
 	<!-- the footer -->
 	
