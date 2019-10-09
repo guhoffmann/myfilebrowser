@@ -7,6 +7,7 @@ session_start();
    
                           (C) guhoffmann 2018
 
+*/
 
 include 'myFunctions.php';
 

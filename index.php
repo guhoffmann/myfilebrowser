@@ -21,9 +21,10 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<form action="login.php" method="post">
+					<h2><img src="favicon-32x32.png" /> MyFilebrowser</h2></br>
 					<h3><i class="material-icons">lock_open</i> Login</h3>
-					<p><input type="text" placeholder="Enter Username" name="username" required></p>
-					<p><input type="password" placeholder="Enter Password" name="password" required></p>
+					<p><input type="text" placeholder="name" name="username" required></p>
+					<p><input type="password" placeholder="password" name="password" required></p>
 					<button type="submit"><i class="material-icons">touch_app</i> Enter</button>
 				</form>
 			</div>

@@ -48,7 +48,7 @@ if ( isset($_SESSION["username"])) {
 		<!--          The navbar for the whole HTML app              -->
 
 		<nav class="navbar navbar-dark fixed-top my-nav-bg">
-			<!-- Neuer Menüknopp -->
+			<!-- Neuer Men&uuml;knopp -->
 			<button id="menubutton" type="button" class="btn btn-primary material-icons" onclick="openNav()">menu</button>';
 
 	// include navbar on the left!
@@ -99,10 +99,12 @@ if ( isset($_SESSION["username"])) {
 	echo '<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<h3>Sorry!</h3>
-				<p>You\'ve destroyed Session data, maybe you cleared the history?!</p>
-				<p>No you must login again to use this site.</p>
-				<button onclick="location.href=\'index.php\'"><i class="material-icons">touch_app</i> Enter</button>
+				<h3><i class="material-icons">report_problem</i>&nbsp;Sorry!</h3>
+				<p>Session data not found! Seems you have cleared the history/erased browser data?!</br>
+				Please login again to use this site.</p>
+				<p>Sitzungsdaten nicht mehr vohanden! Wahrscheinlich hast Du den Verlauf/Browserdaten gel&ouml;scht?!</br>
+				Bitte neu anmelden um diese Website weiter zu nutzen.</p>
+				<button onclick="location.href=\'index.php\'"><i class="material-icons">touch_app</i> Login</button>
 			</div>
 		</div>
 	</div>';
