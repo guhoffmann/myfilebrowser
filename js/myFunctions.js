@@ -423,7 +423,7 @@ function phpInfo() {
  */
 
 function deleteFiles() {
-
+	errorFlag = 0;
 	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 		"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
 		function() {
@@ -439,6 +439,9 @@ function deleteFiles() {
 					data: { objectname: filename, action: "deleteFile" },
 					dataType: "text", // must be sent for browser to get response correctly!
 					success: function(response) {
+						if (response == "error") {
+							alert("For admins only!");
+						}
 						location.reload(true);
 					},
 					error: function(response) {

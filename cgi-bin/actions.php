@@ -207,7 +207,7 @@ if ( $action == "createFolder" ) {
 							</span>".
 							// Now for the rest
 							"</td><td class='direntry'>
-							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."'><div><span class='white'>
+							  <a href='/cgi-bin/actions.php?action=showFile&filename=".$relDirAktFile."' target='_blank'><div><span class='white'>
 							".$dirList[$i]."</span></br><span class='blue5'>".$fileDate."&nbsp; ".$fileSize."</span></div></a><td class='direntry' style='width:3em; text-align: center;' >
 							  <a href='/cgi-bin/actions.php?objectname=".$relDirAktFile."&action=downloadFile'><i class='material-icons blue5'>cloud_download</i></a></td>\n";
 				}
@@ -266,9 +266,14 @@ if ( $action == "createFolder" ) {
  
 } elseif ( $action == "deleteFile" ) {
 
-	// delete file or dir
-	$filename = urldecode($_GET["objectname"]);
-	delete_files($baseDir."/".$filename);
+	// Delete if admin rights only
+	if ( $_SESSION["userrights"] == 1) {
+		// delete file or dir
+		$filename = urldecode($_GET["objectname"]);
+		delete_files($baseDir."/".$filename);
+	} else {
+		echo "error";
+	}
 
 /******************************************************************************
  ** Get the notizen.txt of current path for display in edit view
@@ -468,7 +473,7 @@ if ( $action == "createFolder" ) {
 		
 		 header('Content-Type: text/html');
 		 echo("<html><head><link rel=\"stylesheet\" href=\"/css/custom.css\">".
-		"</head><body><img src=\"/docs/".$filename."\"></body></html>\r\n");
+		"</head><body><img src=\"/docs".$_SESSION["userdir"].$filename."\"></body></html>\r\n");
 
 	} elseif ($mimeType == "application/pdf") {
 		
