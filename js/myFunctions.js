@@ -210,7 +210,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
-	$("#ModalMessage").modal();
+	$("#ModalMessuploadage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!
 	$("#upload").addClass("hidden");
 
@@ -423,6 +423,10 @@ function phpInfo() {
  */
 
 function deleteFiles() {
+	if ( (languageStrings["userrights"] & 1) == 0 ) {
+		confirmDialog("Message","<div class='info'>You have no user rights to delete files!</br>Keine Benutzerrechte zum löschen von Daten!</div>",function(){});
+		return;
+	}
 	errorFlag = 0;
 	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 		"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
@@ -440,7 +444,7 @@ function deleteFiles() {
 					dataType: "text", // must be sent for browser to get response correctly!
 					success: function(response) {
 						if (response == "error") {
-							alert("For admins only!");
+							alert("You have no user rights to delete files!\nKeine Benutzerrechte zum löschen von Daten!");
 						}
 						location.reload(true);
 					},
@@ -541,6 +545,9 @@ function pasteFiles() {
 		data: { uploadDir : globalAktMediaPath, action: "pasteFiles" },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
+			if (response == "error") {
+				alert("You have no user rights to paste files!\nKeine Benutzerrechte zum einfügen von Daten!");
+			}
 			//alert(response);
 			location.reload(true);
 		},

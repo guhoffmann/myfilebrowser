@@ -6,6 +6,20 @@ session_start();
           'Event handler' for MyFileBrowser http(s) file explorer.
    
                           (C) guhoffmann 2018
+                          
+ Note: for some actions the user rights are defined by a byte value in the
+ myfilebrowser.db database! It is defined as a byte value with the bits
+ 
+	1	delete files or folders
+	2	upload files
+	4	insert from clipboard
+	8	edit notices in folder
+	16	reserved
+	32	reserved
+	64	reserved
+	128	reserved
+
+ At the moment, a byte value of 1+2+4+8=15 defines full rights (=admin)!
 
 */
 
@@ -51,7 +65,7 @@ if ( $action == "createFolder" ) {
 	}
 
 /******************************************************************************
- * Write content of edited notice to current directory 
+ ** Write content of edited notice to current directory 
  */
  
 } else if ( $action == "saveNotice" ) {
@@ -63,7 +77,7 @@ if ( $action == "createFolder" ) {
 	fclose($file);
 		
 /******************************************************************************
- * Zip files in folder zipfiles for later download
+ ** Zip files in folder zipfiles for later download
  */
 
 } else if ( $action == "zipFiles" ) {
@@ -85,7 +99,7 @@ if ( $action == "createFolder" ) {
 	echo basename($zipFileName); // return zip filename
 
 /******************************************************************************
- * Zip clipboard files in folder zipfiles for later download
+ ** Zip clipboard files in folder zipfiles for later download
  */
 
 } else if ( $action == "zipClipboardFiles" ) {
@@ -104,9 +118,9 @@ if ( $action == "createFolder" ) {
 	echo basename($zipFileName); // return zip filename
 	
 /******************************************************************************
- * Download zipped file containig zipped files and folders from the
- * zipfiles folder (called from downloadFiles() in myGuiFunctions.js
- * after the zip files were created)!
+ ** Download zipped file containig zipped files and folders from the
+ ** zipfiles folder (called from downloadFiles() in myGuiFunctions.js
+ ** after the zip files were created)!
  */
 
 } elseif ( $action == "downloadZipAndDelete" ) {
@@ -138,7 +152,7 @@ if ( $action == "createFolder" ) {
 	delete_files($downloadFile);
 
 /******************************************************************************
- * Make listing of the actual directory
+ ** Make listing of the actual directory
  */
 
 } elseif ( $action == "dirlist" ) {
@@ -223,7 +237,7 @@ if ( $action == "createFolder" ) {
 	echo "</section>";// for the self styled checkbox!
 
 /******************************************************************************
- * Download file with the green cloud link on the right
+ ** Download file with the green cloud link on the right
  */
 
 } elseif ( $action == "downloadFile" ) {
@@ -267,8 +281,8 @@ if ( $action == "createFolder" ) {
  
 } elseif ( $action == "deleteFile" ) {
 
-	// Delete if admin rights only
-	if ( $_SESSION["userrights"] == 1) {
+	// delete if rights to do it...
+	if ( ($_SESSION["userrights"] & 1) != 0 ) {
 		// delete file or dir
 		$filename = urldecode($_GET["objectname"]);
 		delete_files($baseDir."/".$filename);
@@ -401,14 +415,19 @@ if ( $action == "createFolder" ) {
 
 } elseif ( $action == "pasteFiles" ) {
 
-	$uploaddir = urldecode($_GET["uploadDir"]);
+	// paste files if rights to do it...
+	if ( ($_SESSION["userrights"] & 4) != 0 ) {
+		$uploaddir = urldecode($_GET["uploadDir"]);
 
-	echo "Einfügen nach: ".$uploaddir."\n";
+		echo "Einfügen nach: ".$uploaddir."\n";
 
-	foreach($_SESSION["memory"] as $key=>$data){
-		echo "kopiere ".$key." -> ".$uploaddir."/".basename($key)."\n";
-		shell_exec("cp -r '".$baseDir.$key."' '".$baseDir.$uploaddir."/".basename($key)."'" );
-   }
+		foreach($_SESSION["memory"] as $key=>$data){
+			echo "kopiere ".$key." -> ".$uploaddir."/".basename($key)."\n";
+			shell_exec("cp -r '".$baseDir.$key."' '".$baseDir.$uploaddir."/".basename($key)."'" );
+		}
+	} else {
+		echo "error";
+	}
 
 /******************************************************************************
  ** Upload files to current location and give message!
@@ -416,50 +435,55 @@ if ( $action == "createFolder" ) {
 
 } elseif ( $action == "uploadPost" ) {
 
-	echo '<!DOCTYPE html>
-			<html lang="en">
-			<head>
-  				<title>File Browser</title>
-  				<meta charset="utf-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1">
-				<link rel="stylesheet" href="../css/bootstrap.min.css">
-				<link rel="stylesheet" href="../css/custom.css">
-			</head>
-			<h1>Datei(en) hochladen:</h1>';
+	// upload if rights to do it...
+	if ( ($_SESSION["userrights"] & 8) != 0 ) {
+		echo '<!DOCTYPE html>
+				<html lang="en">
+				<head>
+					<title>File Browser</title>
+					<meta charset="utf-8">
+					<meta name="viewport" content="width=device-width, initial-scale=1">
+					<link rel="stylesheet" href="../css/bootstrap.min.css">
+					<link rel="stylesheet" href="../css/custom.css">
+				</head>
+				<h1>Datei(en) hochladen:</h1>';
 
-	$uploaddir = urldecode($baseDir.$_POST["uploadDir"]."/");
+		$uploaddir = urldecode($baseDir.$_POST["uploadDir"]."/");
 
-	// loop over selected files:
-	if ( count($_FILES['file']['name']) > 0 ) {
+		// loop over selected files:
+		if ( count($_FILES['file']['name']) > 0 ) {
 
-		// loop over all selected files
-		for ( $i=0; $i<count($_FILES['file']['name']); $i++ ) {
-		
-			// get temp file
-			$tmpFile = $_FILES['file']['tmp_name'][$i];
+			// loop over all selected files
+			for ( $i=0; $i<count($_FILES['file']['name']); $i++ ) {
+			
+				// get temp file
+				$tmpFile = $_FILES['file']['tmp_name'][$i];
 
-			// if we could make tempfile...
-			if($tmpFile != ""){
+				// if we could make tempfile...
+				if($tmpFile != ""){
 
-				$uploadfile = $uploaddir.basename($_FILES['file']['name'][$i]);
-				// upload files to temp dir, move to target and check if successful!
-				if (move_uploaded_file($tmpFile, $uploadfile)) {
-					// first change attributes to allow deletion etc. later on
-					chmod($uploadfile, 0757);
-					echo("<h3>+ Datei ".$_FILES['file']['name'][$i]." hochgeladen.</h3>");
-				} else {
-					echo("<h3>--- Upload von ".$_FILES['file']['name'][$i]." fehlerhaft!</h3>");
+					$uploadfile = $uploaddir.basename($_FILES['file']['name'][$i]);
+					// upload files to temp dir, move to target and check if successful!
+					if (move_uploaded_file($tmpFile, $uploadfile)) {
+						// first change attributes to allow deletion etc. later on
+						chmod($uploadfile, 0757);
+						echo("<h3>+ Datei ".$_FILES['file']['name'][$i]." hochgeladen.</h3>");
+					} else {
+						echo("<h3>--- Upload von ".$_FILES['file']['name'][$i]." fehlerhaft!</h3>");
+					}
+
 				}
-
 			}
 		}
-	}
 
-	// all done, now go back to file listing!
-	echo "<h1><a href=\"/?".$_POST["uploadDir"]."#list\"><button>Zur&uuml;ck zur Dateiliste!</button></a></h1>";
-	echo "</body></html>";
-	
-	sleep(1);
+		// all done, now go back to file listing!
+		echo "<h1><a href=\"/?".$_POST["uploadDir"]."#list\"><button>Zur&uuml;ck zur Dateiliste!</button></a></h1>";
+		echo "</body></html>";
+		
+		sleep(1);
+	} else {
+		echo "error";
+	}
 
 /******************************************************************************
  ** Show a file corresponding to its mime type
@@ -538,13 +562,14 @@ if ( $action == "createFolder" ) {
 	// return some program infos
 
 	$db = connect_db();
+	// first read strings from table
 	$result = $db->query('SELECT name,value FROM strings
 								 WHERE language = '.$_SESSION["language"]);
 	$retArray = array();
-
 	while ($row = $result->fetch()) {
 		$retArray[$row[0]] = $row[1];
 	}
+	$retArray["userrights"]=$_SESSION["userrights"];
 	header("Content-type: application/json");
 	echo json_encode( $retArray );
 
