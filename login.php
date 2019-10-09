@@ -28,7 +28,6 @@ if ( $result && password_verify($password ,$row[0]) ) {
 	$_SESSION["username"] = $uname;
 	$_SESSION["userdir"] = $row[1];
 	$_SESSION["userrights"] = $row[2];
-	$_SESSION["started"] = "started";  // control variable to see if session was destroyed (e.g. clearing history)!
 	header('Location: main.php');
 	
 } else {

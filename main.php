@@ -40,7 +40,7 @@ echo '<body>';
 // include windows section
 include 'modalWindow.php';
 
-if ( $_SESSION["started"] == "started" ) {
+if ( isset($_SESSION["username"])) {
 
 	echo '
 
@@ -54,7 +54,14 @@ if ( $_SESSION["started"] == "started" ) {
 	// include navbar on the left!
 	include 'sidenav.php';
 
-	echo $_SESSION["username"].':'.$_SESSION["started"].'
+	echo $_SESSION["username"];
+	if ( $_SESSION["userrights"] == 1) {
+		echo " (admin)";
+	} else {
+		echo " (user)";
+	}
+
+	echo '
 			<!-- Link to documents main folder -->
 			<a href="/main.php?/#list"><div class="btn btn-primary material-icons">home</div></a>
 			<!-- Link to logout -->

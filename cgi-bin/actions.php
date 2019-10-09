@@ -6,7 +6,7 @@ session_start();
           'Event handler' for MyFileBrowser http(s) file explorer.
    
                           (C) guhoffmann 2018
-*/
+
 
 include 'myFunctions.php';
 
