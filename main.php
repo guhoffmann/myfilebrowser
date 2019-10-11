@@ -55,11 +55,7 @@ if ( isset($_SESSION["username"])) {
 	include 'sidenav.php';
 
 	echo $_SESSION["username"];
-	if ( $_SESSION["userrights"] == 1) {
-		echo " (admin)";
-	} else {
-		echo " (user)";
-	}
+	echo sprintf(" (%0b)", $_SESSION["userrights"]);
 
 	echo '
 			<!-- Link to documents main folder -->

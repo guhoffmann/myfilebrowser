@@ -240,6 +240,10 @@ function inputDialog(message, okFunction, closeFunction) {
  */
  
 function uploadDialog(message) {
+	if ( (languageStrings["userrights"] & 8) == 0 ) {
+		confirmDialog("Message","<div class='info'>You have no user rights to upload files!</br>Keine Benutzerrechte zum hochladen von Daten!</div>",function(){});
+		return;
+	}
 
 	document.getElementById("upload").classList.remove("hidden");
 	$("#ModalTitle").html("<span class='material-icons'>create_new_folder</span>&nbsp;" + message);
@@ -427,7 +431,6 @@ function deleteFiles() {
 		confirmDialog("Message","<div class='info'>You have no user rights to delete files!</br>Keine Benutzerrechte zum löschen von Daten!</div>",function(){});
 		return;
 	}
-	errorFlag = 0;
 	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
 		"<div class='info'>Datei(en) wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
 		function() {
@@ -538,7 +541,11 @@ function showClipboard() {
  */
 
 function pasteFiles() {
-	
+	if ( (languageStrings["userrights"] & 4) == 0 ) {
+		confirmDialog("Message","<div class='info'>You have no user rights to paste files!</br>Keine Benutzerrechte zum einfügen von Daten!</div>",function(){});
+		return;
+	}
+
 	path = window.location.search.substr(1);
 	$.ajax({
 		url: "cgi-bin/actions.php", 
@@ -552,6 +559,9 @@ function pasteFiles() {
 			location.reload(true);
 		},
 		error: function(response) {
+			if (response == "error") {
+							alert("You have no user rights to paste files!\nKeine Benutzerrechte zum einfügen von Daten!");
+			}
 			alert("pasteFiles: Puh, Why this?\n"+response);
 		}
 	});
