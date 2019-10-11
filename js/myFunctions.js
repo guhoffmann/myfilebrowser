@@ -123,7 +123,6 @@ function confirmDialog(title, message, okFunction, closeFunction) {
 		if (okFunction !== undefined) {
 			okFunction();
 			//location.reload(true);// should not be called here, but in okFunction to work with Firefox!!!!!!!
-
 		}
 	};
 	// make ModalClose visible if a function is defined and assign it!
@@ -240,6 +239,7 @@ function inputDialog(message, okFunction, closeFunction) {
  */
  
 function uploadDialog(message) {
+
 	if ( (languageStrings["userrights"] & 8) == 0 ) {
 		confirmDialog("Message","<div class='info'>You have no user rights to upload files!</br>Keine Benutzerrechte zum hochladen von Daten!</div>",function(){});
 		return;
@@ -344,23 +344,31 @@ function editNotice() {
 					$("textarea#edittext").val("Fehla!");
 			}
 	});
-	
-	textDialog("<span class='material-icons'>assignment</span>&nbsp;Notiz bearbeiten:",
-		function() {
-			var noticeText = $("textarea#edittext").val();
-			$.ajax({
-				url: "cgi-bin/actions.php",
-				data: { content: noticeText, pathname: globalAktMediaPath, action: "saveNotice" },
-				success: function(){
-					location.reload(true); // call it here and not in button click event to work with Firefox!!!
-				},
-				error: function (response) {
-					alert(response);
-			}
-			});
-		},
-		function(){} // declared to see cancel button
-	);
+
+	if ( (languageStrings["userrights"] & 8) == 0 ) {
+		textDialog("<span class='material-icons'>assignment</span>&nbsp;Notiz einsehen:",
+			function() {}	
+		);
+
+	} else {
+		textDialog("<span class='material-icons'>assignment</span>&nbsp;Notiz bearbeiten:",
+			function() {
+				var noticeText = $("textarea#edittext").val();
+				$.ajax({
+					url: "cgi-bin/actions.php",
+					data: { content: noticeText, pathname: globalAktMediaPath, action: "saveNotice" },
+					success: function(){
+						location.reload(true); // call it here and not in button click event to work with Firefox!!!
+					},
+					error: function (response) {
+						alert(response);
+				}
+				});
+			},
+			function(){} // declared to see cancel button
+		);
+	} // of else...
+
 } // of function editNotice(path)
 
 /******************************************************************************
@@ -368,7 +376,12 @@ function editNotice() {
  */
  
 function createFolder() {
-	
+
+	if ( (languageStrings["userrights"] & 16) == 0 ) {
+		confirmDialog("Message","<div class='info'>You have no user rights to create folders!</br>Keine Benutzerrechte zum erstellen von Ordnern!</div>",function(){});
+		return;
+	}
+
 	inputDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Neuer Ordner:",
 		function() {
 			var folder = globalAktMediaPath +"/" + $("input#inputval").val();

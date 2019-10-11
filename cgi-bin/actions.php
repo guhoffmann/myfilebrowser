@@ -14,7 +14,7 @@ session_start();
 	2	upload files
 	4	insert from clipboard
 	8	edit notices in folder
-	16	reserved
+	16	create folders
 	32	reserved
 	64	reserved
 	128	reserved
@@ -44,10 +44,14 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
 
 if ( $action == "createFolder" ) {
 
-	// create new folder in current dir
-	$pathname = urldecode($_GET["objectname"]);
-	//header("Content-type: text/plain");
-	mkdir($baseDir."/".$pathname);
+	if ( ($_SESSION["userrights"] & 16) != 0 ) {
+		// create new folder in current dir
+		$pathname = urldecode($_GET["objectname"]);
+		//header("Content-type: text/plain");
+		mkdir($baseDir."/".$pathname);
+	} else {
+		echo "error";
+	}
 
 /******************************************************************************
  ** Read an edit notice in current directory 
@@ -69,12 +73,17 @@ if ( $action == "createFolder" ) {
  */
  
 } else if ( $action == "saveNotice" ) {
-	
-	$pathname = urldecode($_GET["pathname"]);
-	$content = urldecode($_GET["content"]);
-	$file = fopen($baseDir.$pathname."/notizen.txt", "w") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
-	fwrite($file,$content);
-	fclose($file);
+	if ( ($_SESSION["userrights"] & 8) != 0 ) {
+
+		$pathname = urldecode($_GET["pathname"]);
+		$content = urldecode($_GET["content"]);
+		$file = fopen($baseDir.$pathname."/notizen.txt", "w") or die("Unable to open ".$baseDir.$pathname."/notizen.txt!");
+		fwrite($file,$content);
+		fclose($file);
+
+	} else {
+		echo "error";
+	}
 		
 /******************************************************************************
  ** Zip files in folder zipfiles for later download
