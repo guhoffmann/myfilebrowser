@@ -209,7 +209,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
 	$("#inputval").val("Eingabetext");
-	$("#ModalMessuploadage").modal();
+	$("#ModalMessage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!
 	$("#upload").addClass("hidden");
 
@@ -233,7 +233,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	}
   
 } // of function inputDialog(message, okFunction, closeFunction)
-					//location.reload(true);
+					
 /******************************************************************************
  ** Upload dialog
  */
