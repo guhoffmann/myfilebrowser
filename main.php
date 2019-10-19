@@ -55,7 +55,7 @@ if ( isset($_SESSION["username"])) {
 	include 'sidenav.php';
 
 	echo $_SESSION["username"];
-	echo sprintf(" (%0b)", $_SESSION["userrights"]);
+	//echo sprintf(" (%0x)", $_SESSION["userrights"]); // print userright for debug reasons
 
 	echo '
 			<!-- Link to documents main folder -->
