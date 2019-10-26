@@ -30,6 +30,15 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<!-- disable back button -->
+	<script>
+		$(document).ready(function() {
+		function disableBack() { window.history.forward() }
+		window.onload = disableBack();
+		window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+		});
+	</script>
 </body>
 </html>
 

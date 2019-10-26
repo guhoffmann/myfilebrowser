@@ -46,6 +46,13 @@ if ( $result && password_verify($password ,$row[0]) ) {
 		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
+				<script>
+		$(document).ready(function() {
+		function disableBack() { window.history.forward() }
+		window.onload = disableBack();
+		window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+		});
+	</script>
 	</head>
 	<body>
 	<div class="container">
@@ -63,6 +70,15 @@ if ( $result && password_verify($password ,$row[0]) ) {
 			</div>
 		</div>
 	</div>
+		<script src="js/jquery-3.3.1.min.js"></script>
+	<!-- disable back button -->
+	<script>
+		$(document).ready(function() {
+		function disableBack() { window.history.forward() }
+		window.onload = disableBack();
+		window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+		});
+	</script>
 	</body>
 	</html>';
 
