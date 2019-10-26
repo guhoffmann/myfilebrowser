@@ -79,10 +79,6 @@ myrouter.addRoute('list', function () {
 
 myrouter.addRoute('*', function () {
 
-	// Make shure there's a #list hash and query string in url!
-	// It's necessary to ensure #list route with search string is called after back button
-	// is pressed, e.g. for restoring menu button in the #list event handler above!
-	// (sounds crude, eyh?)
 	location.hash = "list";
 	location.search ="/";
 

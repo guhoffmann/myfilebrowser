@@ -15,7 +15,7 @@ session_start();
 	4	insert from clipboard
 	8	edit notices in folder
 	16	create folders
-	32	reserved
+	32	site admin
 	64	reserved
 	128	reserved
 
@@ -53,6 +53,12 @@ if ( $action == "createFolder" ) {
 		echo "error";
 	}
 
+/******************************************************************************
+ ** Read an edit notice in current directory 
+ */
+ 
+} else if ( $action == "admin" ) {
+	
 /******************************************************************************
  ** Read an edit notice in current directory 
  */
