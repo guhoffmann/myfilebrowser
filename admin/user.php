@@ -1,31 +1,17 @@
 <?php
 
-/*                     - main.php -
+/*                     - user.php -
 
-  Start file for MyFileBrowser http file explorer admin page.
+  Managing a user as admin with MyFileBrowser http file explorer.
    
                    (C) guhoffmann 2018 -
 */
 
-// Initialize session variables here
-
-// Start with German language!
-if ( !isset($_SESSION["language"]) ) {
-	$_SESSION["language"] = "1";
-}
-
+$userid = $_GET['id'];
 include '../cgi-bin/myFunctions.php';
-
-// Now fetch all language dependent Strings for menu and main page!
 $db = connect_db();
-$result = $db->query('SELECT name,value FROM strings WHERE language = '.$_SESSION["language"]);
-while ($row = $result->fetch()) {
-	$_SESSION[$row[0]] = $row[1];
-}
-
-// Now fetch the languages clear name:
-$result = $db->query('SELECT name FROM languages WHERE value = '.$_SESSION["language"]);
-$_SESSION["language_string"] = $result->fetch()[0];
+$result = $db->query('SELECT * FROM users WHERE id = '.$userid);
+$row = $result->fetch();
 
 echo '<!DOCTYPE html>
 <html lang="en">
@@ -56,17 +42,22 @@ echo '
 	  <div class="row">
 		<div class="col-sm-12">
 			<div id="app">
-			<h2>Admin Page</h2>
-			<h3>User list</h3>';
-$result = $db->query('SELECT * FROM users');
-echo '<table><tr><td>ID</td><td>username:</td><td>homedir:</td><td>rights:</td></tr>';
-while ($row = $result->fetch()) {
-	echo '<tr class="direntry" onclick="location.href='.htmlentities("\"user.php?id=".$row[2]."\"").'"><td>'.$row[2].'</td><td>'.$row[0].'</td><td>'.$row[3].'</td><td>'.$row[4].'</td></tr>';
-}
+			<h3>Administration of user '.$row[2].'</h3>
+			<form action="submit.php" method="post">
+			<input type="hidden" name="id" value="'.$row[2].'" readonly></br>
+			<p>Name:</p>
+			<input type="text" name="username" value="'.$row[0].'" required></br></br>
+			<p>Homedir:</p>
+			<input type="text" name="homedir" value="'.$row[3].'" required></br></br>
+			<p>Rights:</p>
+			<input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></br></br>
+			<p>Password:</p>
+			<input type="text" name="password" value="'.$row[1].'" required></br></br>
+			<button type="submit"><i class="material-icons">check_circle</i>Submit</button>
+			<button type="button" onclick="location.href='.htmlentities("\"main.php\"").'"><i class="material-icons">clear</i>Cancel</button>
+			</form>';
 ?>
-				</table>
-				</br>
-				<button onclick="location.href='index.php'"><i class="material-icons">touch_app</i>Logout</button>
+
 			</div>
 		</div>
 	  </div>
