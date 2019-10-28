@@ -9,10 +9,11 @@
 
 $userid = $_GET['id'];
 include '../cgi-bin/myFunctions.php';
-$db = connect_db();
-$result = $db->query('SELECT * FROM users WHERE id = '.$userid);
-$row = $result->fetch();
-
+$chars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+$pwd = "";
+for ( $i = 0; $i < 9; $i++ ) {
+	$pwd = $pwd.$chars[rand(0,61)];
+}
 echo '<!DOCTYPE html>
 <html lang="en">
 
@@ -42,27 +43,26 @@ echo '
 	  <div class="row">
 		<div class="col-sm-12">
 			<div id="app">
-			<h3>Administration of user '.$row[2].'</h3>
-			<form action="submit.php" method="post">
-			<input type="hidden" name="id" value="'.$row[2].'" readonly></br>
+			<h3>Administration of new user</h3>
+			<form action="submitnew.php" method="post">
 			<table>
 				<col width="10%">
 				<col width="90%">
 				<tr>
 					<td>Name:</td>
-					<td><input type="text" name="username" value="'.$row[0].'" required></td>
+					<td><input type="text" name="username" required></td>
 				</tr>
 				<tr>
 					<td>Homedir:</td>
-					<td><input type="text" name="homedir" value="'.$row[3].'" required></td>
+					<td><input type="text" name="homedir" required></td>
 				</tr>
 				<tr>
 					<td>Rights:</td>
-					<td><input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></td>
+					<td><input type="number" min="0" max="63" step="1" name="rights" value="0" required></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="password" value="'.$row[1].'" required></td>
+					<td><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required> '.$pwd.'</td>
 				</tr>
 				<tr>
 					<td></rd>
