@@ -66,6 +66,7 @@ while ($row = $result->fetch()) {
 ?>
 				</table>
 				</br>
+				<button onclick="location.href='index.php'"><i class="material-icons">add_circle</i>New User</button>
 				<button onclick="location.href='index.php'"><i class="material-icons">touch_app</i>Logout</button>
 			</div>
 		</div>
