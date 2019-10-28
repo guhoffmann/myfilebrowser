@@ -45,16 +45,29 @@ echo '
 			<h3>Administration of user '.$row[2].'</h3>
 			<form action="submit.php" method="post">
 			<input type="hidden" name="id" value="'.$row[2].'" readonly></br>
-			<p>Name:</p>
-			<input type="text" name="username" value="'.$row[0].'" required></br></br>
-			<p>Homedir:</p>
-			<input type="text" name="homedir" value="'.$row[3].'" required></br></br>
-			<p>Rights:</p>
-			<input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></br></br>
-			<p>Password:</p>
-			<input type="text" name="password" value="'.$row[1].'" required></br></br>
-			<button type="submit"><i class="material-icons">check_circle</i>Submit</button>
-			<button type="button" onclick="location.href='.htmlentities("\"main.php\"").'"><i class="material-icons">clear</i>Cancel</button>
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><input type="text" name="username" value="'.$row[0].'" required></td>
+				</tr>
+				<tr>
+					<td>Homedir:</td>
+					<td><input type="text" name="homedir" value="'.$row[3].'" required></td>
+				</tr>
+				<tr>
+					<td>Rights:</td>
+					<td><input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="text" name="password" value="'.$row[1].'" required></td>
+				</tr>
+				<tr>
+					<td></rd>
+					<td><button type="submit"><i class="material-icons">check_circle</i>Submit</button>
+					<button type="button" onclick="location.href='.htmlentities("\"main.php\"").'"><i class="material-icons">clear</i>Cancel</button></td>
+				</tr>
+			</table>
 			</form>';
 ?>
 
