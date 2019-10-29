@@ -43,8 +43,9 @@ echo '
 		<div class="col-sm-12">
 			<div id="app">
 			<h3>Administration of user '.$row[2].'</h3>
-			<form action="submit.php" method="post">
-			<input type="hidden" name="id" value="'.$row[2].'" readonly></br>
+			<form action="actions.php" method="post">
+			<input type="hidden" name="id" value="'.$row[2].'" readonly>
+			<input type="hidden" name="action" value="submit" readonly>
 			<table>
 				<col width="10%">
 				<col width="90%">

@@ -44,7 +44,8 @@ echo '
 		<div class="col-sm-12">
 			<div id="app">
 			<h3>Administration of new user</h3>
-			<form action="submitnew.php" method="post">
+			<form action="actions.php" method="post">
+			<input type="hidden" name="action" value="submitnew" readonly>
 			<table>
 				<col width="10%">
 				<col width="90%">
