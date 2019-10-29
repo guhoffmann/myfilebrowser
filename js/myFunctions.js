@@ -436,6 +436,37 @@ function phpInfo() {
 } // of function phpInfo(path)
 
 /******************************************************************************
+ ** Delete user from list in admin menu
+ */
+
+function deleteUser(id) {
+
+	confirmDialog("<span class='material-icons'>report_problem</span>&nbsp;ACHTUNG!!!",
+		"<div class='info'>Benutzer wirklich löschen?</br><b>Es gibt keinen Papierkorb!</b></div>",
+		function() {
+			
+			// No matter what I do, can't erase last element in Firefox, strange...
+			// Chrome, Opera work without problem :(
+
+			$.ajax({
+					url: "actions.php",
+					data: { id: id, action: "deleteUser" },
+					dataType: "text", // must be sent for browser to get response correctly!
+					success: function(response) {
+						//location.reload(true);
+					},
+					error: function(response) {
+					}
+
+			}); // of $.ajax(...
+		}, // of function () ...
+		function(){} // declared to see cancel button
+	); // of confirmDialog(..
+
+} // of function deleteFiles() ...
+
+
+/******************************************************************************
  ** Delete marked files to from remote machine
  */
 

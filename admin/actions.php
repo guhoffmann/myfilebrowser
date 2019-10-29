@@ -60,5 +60,14 @@ if ( $action == "submit" ) {
 
 	// go back to main admin pagae
 	header('Location: main.php');
+
+} elseif  ( $action == "deleteUser" ) {
+
+	$userid = $_GET['id'];
+	$db = connect_db();
+	$db->exec('DELETE FROM users WHERE id = '.$userid.';');
+	echo "DELETE FROM users WHERE id = ".$userid;
+	// go back to main admin pagae
+	//header('Location: main.php');
 }
 ?>

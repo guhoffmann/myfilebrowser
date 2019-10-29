@@ -48,6 +48,9 @@ echo '<!DOCTYPE html>
 <body>
 ';
 
+// include windows section
+include '../modalWindow.php';
+
 echo '
 	<!-- ******************************************************* -->
 	<!--       The app contents are rendered to div id="app"     -->
@@ -59,10 +62,13 @@ echo '
 			<h2>Admin Page</h2>
 			<h3>User list</h3>';
 $result = $db->query('SELECT * FROM users ORDER BY name ASC');
-echo '<table><col width="10%"><col width="80%"><col width="10%">
+echo '<table><col width="10%"><col width="80%"><col width="5%"><col width="5%">
 		<tr><td>username:</td><td>homedir:</td><td>rights:</td></tr>';
 while ($row = $result->fetch()) {
-	echo '<tr class="direntry" onclick="location.href='.htmlentities("\"user.php?id=".$row[2]."\"").'"><td>'.$row[0].'</td><td>'.$row[3].'</td><td>'.$row[4].'</td></tr>';
+	echo '<tr class="direntry"><td>'.$row[0].'</td><td>'.$row[3].'</td><td>'.$row[4].
+	'</td><td onclick="deleteUser('.$row[2].')"><i class="material-icons blue5">delete_forever</i></td>
+	<td onclick="location.href='.
+	htmlentities("\"user.php?id=".$row[2]."\"").'"><i class="material-icons blue5">create</i></td></tr>';
 }
 ?>
 				</table>

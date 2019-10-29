@@ -47,7 +47,7 @@ if ( $result && password_verify($password ,$row[0]) && ($row[1] & 32) != 0  ) {
 		<div class="row">
 			<div class="col-sm-12">
 				<form action="index.php" method="post">
-				<h2><img src="../favicon-32x32.png" /> MyFilebrowser</h2></br>
+				<h2><i class="material-icons">supervisor_account</i> MyFilebrowser Administration</h2></br>
 	';
 	
 	if ( $uname == "" ) {
