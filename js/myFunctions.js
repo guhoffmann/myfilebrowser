@@ -684,7 +684,7 @@ function downloadFilesFromClipboard() {
 function changeLanguage(language) {
 
 	$.ajax({
-		url: "cgi-bin/actions.php",  // first zip files on server
+		url: "cgi-bin/actions.php", 
 		data: { action: "changeLanguage", language: language },
 		dataType: "text",  // must be sent for browser to get response correctly!
 		success: function(response) {
@@ -697,6 +697,44 @@ function changeLanguage(language) {
 	});
 
 } // of function changeLanguage(language) ...
+
+/******************************************************************************
+ ** Change password
+ */
+
+function changePassword() {
+	var password1, password2;
+	inputDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Neues Passwort:",
+		function() {
+			password1 = $("input#inputval").val();
+			setTimeout(function() {
+				inputDialog("<span class='material-icons'>create_new_folder</span>&nbsp;Passwort bestätigen:",
+					function() {
+						password2 = $("input#inputval").val();
+						if ( password1 == password2 ) { // set password with ajax
+							alert("Good!");
+							$.ajax({
+								url: "cgi-bin/actions.php", 
+								data: { action: "setPassword", password: password2 },
+								dataType: "text",  // must be sent for browser to get response correctly!
+								success: function(response) {
+									///messageWindow("Antwort", response);
+									location.reload(true);
+								},
+								error: function(response) {
+									alert("changeLanguage: Puh, Why this?\n"+response);
+								}
+							});
+						} // end of setting new password with ajax
+					},
+					function(){} // declared to see cancel button
+				);
+			},500);
+		},
+		function(){} // declared to see cancel button
+	);
+
+}
 
 /** Open/close navbar at side (=sidenav)
  *  by changing width of object

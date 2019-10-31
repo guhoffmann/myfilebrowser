@@ -307,9 +307,6 @@ if ( $action == "createFolder" ) {
 		}
 		fclose($handle);
 	}
-	
-
-
 
 	exit; // MUST add this to prevent an x0a being attached at the end of file!!!
 
@@ -329,35 +326,7 @@ if ( $action == "createFolder" ) {
 	}
 
 /******************************************************************************
- ** Get the notizen.txt of current path for display in edit view
- */
-
-} elseif ( $action == "showInfo" ) {
-
-	// return some program infos
-
-	$db = connect_db();
-	$result = $db->query('SELECT value FROM strings
-								 WHERE language = '.$_SESSION["language"].
-								' AND name = "prog_description"');
-	$row = $result->fetch();
-	header("Content-type: text/html");
-	$clientIp = $_SERVER['REMOTE_ADDR'];
-	$retStr= "<p class='info'>".$row[0]."</p>
-				<p class='info'>".shell_exec("uname -a").
-				"</br>HTTP-Server: ".$_SERVER['SERVER_SOFTWARE']."</br>
-				Server-Name/-IP: ".$_SERVER['SERVER_NAME']." ".$_SERVER['REMOTE_ADDR']."</br>
-				Port: ".$_SERVER['SERVER_PORT']."</br>
-				Client-IP: ".getClientIp()."</p>
-				<p class='info'><b>".$_SESSION["data_details"].":</b></br>"
-				.$_SESSION["size"].": ".shell_exec("du -Lchs ../docs|grep docs|awk '{print $1}'")."</br>"
-				.$_SESSION["files"].": ".shell_exec("find -L ../docs -type f|wc -l")."</br>"
-				.$_SESSION["dirs"].": ".shell_exec("find -L ../docs -type d|wc -l")."</p>
-				<p class='info'>(C) Gert-Uwe Hoffmann 2018</p>";
-	echo $retStr;
-
-/******************************************************************************
- ** Show short page with some infos 'bout the server
+ ** Show infos about the running app
  */
 
 } elseif ( $action == "showInfo" ) {
@@ -400,6 +369,19 @@ if ( $action == "createFolder" ) {
 	header("Content-type: text/html");
 	echo $row[0];
 
+/******************************************************************************
+ ** Set the new password
+ */
+
+} elseif ( $action == "setPassword" ) {
+
+	// return some program infos
+	$password = password_hash($_GET["password"],PASSWORD_DEFAULT);
+	$db = connect_db();
+	$db->exec('UPDATE users 
+				SET password = "'.$password.'"
+				WHERE name = "'.$_SESSION["username"].'"');
+//	header("Content-type: text/html");
 
 /******************************************************************************
  ** Show php info pages

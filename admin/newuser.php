@@ -66,7 +66,7 @@ echo '
 					<td><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required> '.$pwd.'</td>
 				</tr>
 				<tr>
-					<td></rd>
+					<td></td>
 					<td><button type="submit"><i class="material-icons">check_circle</i>Submit</button>
 					<button type="button" onclick="location.href='.htmlentities("\"main.php\"").'"><i class="material-icons">clear</i>Cancel</button></td>
 				</tr>
