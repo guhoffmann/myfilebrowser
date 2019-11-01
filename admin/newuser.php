@@ -55,7 +55,7 @@ echo '
 				</tr>
 				<tr>
 					<td>Homedir:</td>
-					<td><input type="text" name="homedir" required></td>
+					<td><input type="text" name="homedir" value="/" required></td>
 				</tr>
 				<tr>
 					<td>Rights:</td>
