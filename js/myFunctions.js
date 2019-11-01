@@ -453,7 +453,7 @@ function deleteUser(id) {
 					data: { id: id, action: "deleteUser" },
 					dataType: "text", // must be sent for browser to get response correctly!
 					success: function(response) {
-						//location.reload(true);
+						location.reload(true);
 					},
 					error: function(response) {
 					}
