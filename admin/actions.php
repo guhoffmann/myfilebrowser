@@ -4,6 +4,18 @@
             'Event handler' for MyFileBrowser admin pages.
    
                          (C) guhoffmann 2019 -
+
+ Note: for some actions the user rights are defined by a byte value in the
+ myfilebrowser.db database! It is defined as a byte value with the bits
+ 
+	1	delete files or folders
+	2	upload files
+	4	insert from clipboard
+	8	edit notices in folder
+	16	create folders
+	32	site admin
+	64	reserved
+	128	reserved
 */
 
 /** Get the action parameter from the calling GET or POST request *************
@@ -29,7 +41,9 @@ if ( $action == "submit" ) {
 
 	$username = $_POST['username'];
 	$homedir = $_POST['homedir'];
-	$rights = $_POST['rights'];
+	//$rights = $_POST['rights'];
+	$rights = $_POST['delete'] + $_POST['upload'] + $_POST['insert']
+			+ $_POST['editnotice'] + $_POST['createfolder'] + $_POST['siteadmin'];
 	$password = $_POST['password'];
 	$id = $_POST['id'];
 	$db = connect_db();
@@ -51,7 +65,9 @@ if ( $action == "submit" ) {
 
 	$username = $_POST['username'];
 	$homedir = $_POST['homedir'];
-	$rights = $_POST['rights'];
+	//$rights = $_POST['rights'];
+	$rights = $_POST['delete'] + $_POST['upload'] + $_POST['insert']
+			+ $_POST['editnotice'] + $_POST['createfolder'] + $_POST['siteadmin'];
 	$password = $_POST['password'];
 	//$id = $_POST['id'];
 	$db = connect_db();

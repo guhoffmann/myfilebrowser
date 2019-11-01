@@ -51,19 +51,39 @@ echo '
 				<col width="90%">
 				<tr>
 					<td>Name:</td>
-					<td><input type="text" name="username" required></td>
+					<td>
+					<input type="text" name="username" required></td>
 				</tr>
 				<tr>
 					<td>Homedir:</td>
 					<td><input type="text" name="homedir" value="/" required></td>
 				</tr>
-				<tr>
+				<tr valign="top">
 					<td>Rights:</td>
-					<td><input type="number" min="0" max="63" step="1" name="rights" value="0" required></td>
+					<td>
+					<!-- <input type="number" min="0" max="63" step="1" name="rights" value="0" required> -->
+					<label>
+						<input type="checkbox" name="delete" value="1">	delete files/folders
+					</label></br>
+					<label>
+						<input type="checkbox" name="upload" value="2">	upload files
+					</label></br>
+					<label>
+						<input type="checkbox" name="insert" value="4">	insert from clipboard
+					</label></br>
+					<label>
+						<input type="checkbox" name="editnotice" value="8"> edit notices
+					</label></br>
+					<label>
+						<input type="checkbox" name="createfolder" value="16"> create folders
+					</label></br>
+					<label>
+						<input type="checkbox" name="siteadmin" value="32"> site admin
+					</label></br></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required> '.$pwd.'</td>
+					<td><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required readonly> '.$pwd.'</td>
 				</tr>
 				<tr>
 					<td></td>

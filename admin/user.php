@@ -57,13 +57,45 @@ echo '
 					<td>Homedir:</td>
 					<td><input type="text" name="homedir" value="'.$row[3].'" required></td>
 				</tr>
-				<tr>
+				<tr valign="top">
 					<td>Rights:</td>
-					<td><input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></td>
+					<td>
+					<!-- <input type="number" min="0" max="63" step="1" name="rights" value="'.$row[4].'" required></br> -->
+					<label>
+						<input type="checkbox" name="delete" value="1"';
+						if  ($row[4] & 1) echo ' checked';
+						echo '>	delete files/folders
+					</label></br>
+					<label>
+						<input type="checkbox" name="upload" value="2"';
+						if  ($row[4] & 2) echo ' checked';
+						echo '>	upload files
+					</label></br>
+					<label>
+						<input type="checkbox" name="insert" value="4"';
+						if  ($row[4] & 4) echo ' checked';
+						echo '>	insert from clipboard
+					</label></br>
+					<label>
+						<input type="checkbox" name="editnotice" value="8"';
+						if  ($row[4] & 8) echo ' checked';
+						echo '> edit notices
+					</label></br>
+					<label>
+						<input type="checkbox" name="createfolder" value="16"';
+						if  ($row[4] & 16) echo ' checked';
+						echo '> create folders
+					</label></br>
+					<label>
+						<input type="checkbox" name="siteadmin" value="32"';
+						if  ($row[4] & 32) echo ' checked';
+						echo '> site admin
+					</label></br>
+					</td>
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="password" value="'.$row[1].'" required></td>
+					<td><input type="text" name="password" value="'.$row[1].'" required readonly></td>
 				</tr>
 				<tr>
 					<td></rd>
