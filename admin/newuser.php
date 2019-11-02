@@ -93,7 +93,6 @@ echo '
 			</table>
 			</form>';
 ?>
-
 			</div>
 		</div>
 	  </div>
