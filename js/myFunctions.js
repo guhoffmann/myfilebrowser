@@ -225,7 +225,7 @@ function inputDialog(message, okFunction, closeFunction) {
 	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
 	$("#ModalOk").removeClass("hidden");
-	$("#inputval").val("Eingabetext");
+	$("#inputval").val("");
 	$("#ModalMessage").modal();
 	$("#ModalContent").addClass("hidden"); // erase old text content!
 	$("#upload").addClass("hidden");
@@ -267,7 +267,7 @@ function uploadDialog(message) {
 	$("#inputval").addClass("hidden");
 	$("#edittext").addClass("hidden");
 	$("#ModalClose").removeClass("hidden");
-	$("#inputval").val("Eingabetext");
+	$("#inputval").val("");
 	$("#upload").removeClass("hidden");
 	$("#ModalContent").addClass("hidden"); // erase old text content!
 	$("#ModalMessage").modal();

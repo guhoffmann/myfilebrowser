@@ -13,7 +13,7 @@
 			</div> <!-- modal-header -->
 
 			<!-- section for value input -->
-			<input class="hidden" type="text" id="inputval" name="foldername" value="">
+			<input class="hidden" type="text" id="inputval" name="foldername" placeholder="Eingabetext" value="">
 			<!-- section for editable text -->
 			<textarea class="hidden" id="edittext" rows="5" name="edittext" value=""></textarea>
 			<!-- section for the upload -->
