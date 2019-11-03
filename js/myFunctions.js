@@ -101,6 +101,23 @@ function initFileSelector() {
 } // of function initFileSelector()
 
 /******************************************************************************
+ ** Set new password in user admin page
+ */
+ 
+ function newPassword() {
+
+	 $.ajax({
+		url: "actions.php",
+		data: { action: "newPassword" },
+		dataType: "html",
+		success: function(data){
+			document.getElementById("password").innerHTML = data;
+			//location.reload(true);
+		}
+	}); 
+}
+
+/******************************************************************************
  ** Simple message box
  */
  
@@ -712,7 +729,6 @@ function changePassword() {
 					function() {
 						password2 = $("input#inputval").val();
 						if ( password1 == password2 ) { // set password with ajax
-							alert("Good!");
 							$.ajax({
 								url: "cgi-bin/actions.php", 
 								data: { action: "setPassword", password: password2 },
@@ -758,5 +774,3 @@ function pageUp() {
    //console.log(scrollVal);
    $('html,body').animate({scrollTop:0}, scrollVal);
 }
-
-

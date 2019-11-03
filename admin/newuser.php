@@ -83,7 +83,7 @@ echo '
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required readonly> '.$pwd.'</td>
+					<td id="password"><input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required readonly> '.$pwd.'</td>
 				</tr>
 				<tr>
 					<td></td>

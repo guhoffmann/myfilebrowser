@@ -121,6 +121,23 @@ if ( $action == "submit" ) {
 		header('Location: main.php');
 	}
 
+/******************************************************************************
+ ** create new user password
+ */
+ 
+} elseif ( $action == "newPassword" ) {
+	$chars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	$pwd = "";
+	for ( $i = 0; $i < 9; $i++ ) {
+		$pwd = $pwd.$chars[rand(0,61)];
+	}
+	header("Content-type: text/html");
+	echo '<input type="text" name="password" value="'.password_hash($pwd,PASSWORD_DEFAULT).'" required readonly> '.$pwd;
+ 
+/******************************************************************************
+ ** delete user from list
+ */
+ 
 } elseif  ( $action == "deleteUser" ) {
 
 	$userid = $_GET['id'];

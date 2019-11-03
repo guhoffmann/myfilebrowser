@@ -95,11 +95,11 @@ echo '
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="password" value="'.$row[1].'" required readonly></td>
+					<td id="password"><input type="text" name="password" value="'.$row[1].'" required readonly></td>
 				</tr>
 				<tr>
-					<td></rd>
-					<td><button type="submit"><i class="material-icons">check_circle</i>Submit</button>
+					<td></td>
+					<td><button type="button" onclick="newPassword()">new password</button></br></br><button type="submit"><i class="material-icons">check_circle</i>Submit</button>
 					<button type="button" onclick="location.href='.htmlentities("\"main.php\"").'"><i class="material-icons">clear</i>Cancel</button></td>
 				</tr>
 			</table>
