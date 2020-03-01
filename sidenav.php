@@ -58,9 +58,9 @@
 		<div class="sidenaventry" onclick="closeNav();location.href = '#help' ">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;'.$_SESSION["show_help"]; ?>
 		</div>
-<!--		<div class="sidenaventry" onclick="closeNav();phpInfo()">
+		<div class="sidenaventry" onclick="closeNav();location.href = '#phpinfo'">
 			<?php	echo '<span class="material-icons">info</span>&nbsp;PHP-Info'; ?>
-		</div> -->
+		</div>
 		</br></br>
 	</div><!-- scrolldiv -->
 </div>

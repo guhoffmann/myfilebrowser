@@ -435,24 +435,6 @@ function infoDialog() {
 } // of function infoDialog(path)
 
 /******************************************************************************
- ** Show PHP info dialog
- */
- 
-function phpInfo() {
-
-    $.ajax({
-		url: "cgi-bin/actions.php",
-		data: { action: "phpinfo" },
-		dataType: "html",
-		success: function(data){
-			document.getElementById("app").innerHTML = data;
-			//location.reload(true);
-		}
-	}); 
-
-} // of function phpInfo(path)
-
-/******************************************************************************
  ** Delete user from list in admin menu
  */
 

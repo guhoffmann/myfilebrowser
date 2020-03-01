@@ -110,3 +110,19 @@ myrouter.addRoute('help', function () {
   
 }); // of myrouter.addRoute
 
+myrouter.addRoute('phpinfo', function () {
+ 
+	$.ajax({
+		url: "cgi-bin/actions.php",
+		data: { action: "phpinfo" },
+		dataType: "html", // NOT BOTH(!!!) text/html, but only text or html to get response correctly!!!!
+		success: function(response){
+			// Hide menu button on help page 'cause it would otherwise be possible
+			// to start file actions while reading help page!
+			document.getElementById('menubutton').style.visibility = 'hidden';
+			// Then Show Help page!
+			startingPoint.innerHTML = response;
+		}
+	});
+  
+}); // of myrouter.addRoute
