@@ -516,9 +516,14 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 	margin-bottom: 0.1em;
 	background-color: #313975;
 }
+
+.sidenavtopic::before {
+	content: "⇓";
+}
+
 .sidenavtopic.collapsed::before {
 
-	content: ">";
+	content: "⇒";
 	color: white;
 }
 .sidenaventry {
