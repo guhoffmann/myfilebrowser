@@ -556,7 +556,7 @@ input[type="checkbox"]:checked + label span.checkbox::after {
     border: none;
     cursor: pointer;
     top: 0px;
-    right: 0px;
+    left: 0px;
 	height: 2.4em;
 }
 
@@ -565,7 +565,7 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 	font-size: 1.2em;
 	text-shadow: 3px 3px 3px #000;
 	top: 0.25em;
-	left: 2em;
+	left: 4em;
 }
 
 .sidenav .scrolldiv {
