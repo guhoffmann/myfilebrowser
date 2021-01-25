@@ -68,6 +68,27 @@ function checkUrl($url): int {
 }
 
 /******************************************************************************
+ ** Clean text input to avoid SQL injection
+ */
+ 
+ function cleanInput($input) {
+	$par = $input;
+	$forbidden = array(
+		" "=>"",
+		"update"=>"",
+		"where"=>"",
+		"insert"=>"",
+		"select"=>"",
+		"into"=>"",
+		"="=>""
+	);
+	foreach ($forbidden as $key => $value) {
+		$par = str_ireplace($key,$value,$par);
+	}
+	return $par;
+}
+
+/******************************************************************************
  ** Get clients IP!
  */
 

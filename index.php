@@ -21,7 +21,7 @@ $db = connect_db();
 $result = $db->query('SELECT password,homedir,rights FROM users WHERE name ="'.$uname.'" ');
 $row = $result->fetch();
 
-if ( $result && password_verify($password ,$row[0]) ) {
+if ( $result && cleanInput( password_verify($password ,$row[0])) ) {
 
 	// start session and go to first page
 	$db = null;
