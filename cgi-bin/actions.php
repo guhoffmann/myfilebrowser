@@ -457,16 +457,6 @@ if ( $action == "createFolder" ) {
 
 	// upload if rights to do it...
 	if ( ($_SESSION["userrights"] & 8) != 0 ) {
-		echo '<!DOCTYPE html>
-				<html lang="en">
-				<head>
-					<title>File Browser</title>
-					<meta charset="utf-8">
-					<meta name="viewport" content="width=device-width, initial-scale=1">
-					<link rel="stylesheet" href="../css/bootstrap.min.css">
-					<link rel="stylesheet" href="../css/custom.css">
-				</head>
-				<h1>Datei(en) hochladen:</h1>';
 
 		$uploaddir = urldecode($baseDir.$_POST["uploadDir"]."/");
 
@@ -495,10 +485,6 @@ if ( $action == "createFolder" ) {
 				}
 			}
 		}
-
-		// all done, now go back to file listing!
-		echo "<h1><a href=\"/?".$_POST["uploadDir"]."#list\"><button>Zur&uuml;ck zur Dateiliste!</button></a></h1>";
-		echo "</body></html>";
 		
 		sleep(1);
 	} else {
