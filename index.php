@@ -18,7 +18,7 @@ include 'cgi-bin/myFunctions.php';
 
 // fetch login infos from db
 $db = connect_db();
-$result = $db->query('SELECT password,homedir,rights FROM users WHERE name ="'.$uname.'" ');
+$result = $db->query('SELECT password,homedir,rights FROM users WHERE name ="'.cleanInput($uname).'" ');
 $row = $result->fetch();
 
 if ( $result && cleanInput( password_verify($password ,$row[0])) ) {
